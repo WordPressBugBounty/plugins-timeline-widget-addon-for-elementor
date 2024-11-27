@@ -26,7 +26,7 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 
 		$js_common_dep = array( 'elementor-frontend' );
 
-		if ( ! \Elementor\Plugin::$instance->preview->is_preview_mode() && is_user_logged_in() ) {
+		if ( ! \Elementor\Plugin::$instance->preview->is_preview_mode() && is_user_logged_in() && function_exists('wp_script_is') && wp_script_is('elementor-common', 'registered')) {
 			$js_common_dep = array( 'elementor-common', 'elementor-frontend' );
 		}
 

@@ -3,13 +3,13 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.2
+ * Version:     1.6.3
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/
  * Domain Path: /languages
  * Text Domain: twae
- * Elementor tested up to: 3.24.4
- * Elementor Pro tested up to: 3.24.4
+ * Elementor tested up to: 3.25.7
+ * Elementor Pro tested up to: 3.25.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +20,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.2' );
+define( 'TWAE_VERSION', '1.6.3' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -70,8 +70,8 @@ final class Timeline_Widget_Addon {
 		// Load the plugin after Elementor (and other plugins) are loaded.
 		add_action( 'plugins_loaded', array( $this, 'twae_plugins_loaded' ) );
 		add_action( 'plugins_loaded', array( $this, 'twae_load_addon' ) );
+		add_action('init', array($this, 'twae_plugin_textdomain'));
 	}
-
 
 	/**
 	 * Code you want to run when all other plugins loaded.
@@ -83,8 +83,6 @@ final class Timeline_Widget_Addon {
 			add_action( 'admin_notices', array( $this, 'twae_fail_to_load' ) );
 			return;
 		}
-
-		load_plugin_textdomain( 'twae', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
 		// Require the main plugin file
 		// require( __DIR__ . '/includes/class-twae.php' );
@@ -104,6 +102,13 @@ final class Timeline_Widget_Addon {
 			add_action( 'admin_init', array( $this, 'twae_show_upgrade_notice' ) );
 		}
 	}   // end of ctla_loaded()
+
+	/**
+	 * Load the plugin text domain for translation.
+	 */
+	public function twae_plugin_textdomain() {
+		load_plugin_textdomain( 'twae', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	}
 
 
 	function twae_load_addon() {
