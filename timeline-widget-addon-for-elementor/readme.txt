@@ -5,7 +5,7 @@ Tags:timeline,elementor timeline,roadmap,history,horizontal timeline
 Requires at least:5.0
 Tested up to:6.7.1
 Requires PHP:7.2
-Stable tag:1.6.4
+Stable tag:1.6.5
 License:GPLv2 or later
 License URI:http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,14 +191,19 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+**Version 1.6.5 | 11 December 2024**
+- **Fixed:** JS errors.
+- **Tweaks:** Minor textual changes.
+
 **Version 1.6.4 | 04 December 2024**
 - **Added:** Form widget plugin notice.
-- **Tested up to:** Elementor 3.25.10
 - **Fixed:** Horizontal timeline JS error for logged in users.
+- **Tested up to:** Elementor 3.25.10
 
 **Version 1.6.3 | 27 November 2024**
-- **Tested up to:** Elementor 3.25.7 and WordPress 6.7.1
 - **Fixed:** JS assets loading issue for logged in users.
+- **Fixed:** Resolved an issue with the load_plugin_textdomain() function, ensuring correct localization.
+- **Tested up to:** Elementor 3.25.7 and WordPress 6.7.1
 
 **Version 1.6.2 | 27 September 2024**
 - **Removed:** Elementor caching system to fix assests loading issue.
@@ -227,8 +232,8 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - **Fixed:** Minor bug fixes
 
 **Version 1.5.4 | 31 January 2024**
-- **Fixed:** Minor vulnerability fixes
 - **Added:** Escaping function on attributes
+- **Fixed:** Minor vulnerability fixes
 - **Fixed:** Horizontal slides hidden issue
 - **Fixed:** PHP error if slideshow option selected in media
 - **Fixed:** PHP deprecated function issue
