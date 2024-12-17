@@ -28,7 +28,7 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 
 		wp_register_style( 'twae-common-styles', TWAE_URL . 'assets/css/twae-common-styles' . $ext, array(), TWAE_VERSION, 'all' );
 
-		wp_register_style( 'twae-horizontal-timeline', TWAE_URL . 'assets/css/twae-horizontal-timeline' . $ext, array(), TWAE_VERSION, 'all' );
+		wp_register_style( 'twae-horizontal-timeline', TWAE_URL . 'assets/css/twae-horizontal-timeline' . $ext, array('swiper'), TWAE_VERSION, 'all' );
 
 		wp_register_style( 'font-awesome-5-all', ELEMENTOR_ASSETS_URL . 'lib/font-awesome/css/all' . $ext, array(), TWAE_VERSION, 'all' );// load elementor fontawesome
 	}
