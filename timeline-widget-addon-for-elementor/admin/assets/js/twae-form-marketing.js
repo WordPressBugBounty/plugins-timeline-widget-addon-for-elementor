@@ -15,7 +15,7 @@ jQuery(document).ready(function($) {
 
         $.post(ajaxurl, {
 
-            action: 'twae_dismiss_notice',
+            action: 'twae_mkt_dismiss_notice',
             notice_type: noticeType,
             nonce: nonce
 

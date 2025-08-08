@@ -74,7 +74,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 			
 			add_action('wp_ajax_twae_install_plugin', [$this, 'twae_install_plugin']);
 
-          	add_action('wp_ajax_twae_dismiss_notice', [$this,'twae_dismiss_notice_callback']);
+          	add_action('wp_ajax_twae_mkt_dismiss_notice', [$this,'twae_dismiss_notice_callback']);
 			 
 		}
 		/**

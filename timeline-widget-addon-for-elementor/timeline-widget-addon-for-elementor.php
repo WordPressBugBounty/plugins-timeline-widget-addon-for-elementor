@@ -3,7 +3,7 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.9
+ * Version:     1.6.9.1
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=dashboard
  * Domain Path: /languages
@@ -20,7 +20,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.9' );
+define( 'TWAE_VERSION', '1.6.9.1' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -71,6 +71,8 @@ final class Timeline_Widget_Addon {
 		add_action( 'plugins_loaded', array( $this, 'twae_plugins_loaded' ) );
 		add_action( 'plugins_loaded', array( $this, 'twae_load_addon' ) );
 		add_action('init', array($this, 'twae_plugin_textdomain'));
+		 add_action( 'activated_plugin', array( $this, 'twae_plugin_redirection' ) );
+
 	    $this->cpfm_load_file();
 	}
 
@@ -127,7 +129,7 @@ final class Timeline_Widget_Addon {
 
 			$notice = [
 
-				'title' => __('Timeline Widget For Elementor by Cool Plugins', 'twae'),
+				'title' => __('Timeline Plugins by Cool Plugins', 'twae'),
 				'message' => __('Help us make this plugin more compatible with your site by sharing non-sensitive site data.', 'cool-plugins-feedback'),
 				'pages' => ['twae-welcome-page'],
 				'always_show_on' => ['twae-welcome-page'], // This enables auto-show
@@ -158,7 +160,19 @@ final class Timeline_Widget_Addon {
 	 */
 	public function twae_plugin_textdomain() {
 		load_plugin_textdomain( 'twae', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+		if (!get_option( 'twae_initial_save_version' ) ) {
+                add_option( 'twae_initial_save_version', TWAE_VERSION );
+            }
+            if(!get_option( 'twae-install-date' ) ) {
+                add_option( 'twae-install-date', gmdate('Y-m-d h:i:s') );
+            }
 	}
+
+		public function twae_plugin_redirection( $plugin ) {
+			if ( plugin_basename( __FILE__ ) === $plugin ) {
+				exit( wp_redirect( admin_url( 'admin.php?page=twae-welcome-page' ) ) );
+			}
+		}
 public function ctl_settings_link( $links ) {
 			
 			$links[] = '<a style="font-weight:bold; color:#852636;" href="https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" target="_blank">Get Pro</a>';
