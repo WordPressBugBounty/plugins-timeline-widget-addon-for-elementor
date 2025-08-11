@@ -3,13 +3,13 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.9.1
+ * Version:     1.6.10
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=dashboard
  * Domain Path: /languages
  * Text Domain: twae
- * Elementor tested up to: 3.28.0
- * Elementor Pro tested up to: 3.28.0
+ * Elementor tested up to: 3.31.2
+ * Elementor Pro tested up to: 3.31.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +20,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.9.1' );
+define( 'TWAE_VERSION', '1.6.10' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -71,7 +71,7 @@ final class Timeline_Widget_Addon {
 		add_action( 'plugins_loaded', array( $this, 'twae_plugins_loaded' ) );
 		add_action( 'plugins_loaded', array( $this, 'twae_load_addon' ) );
 		add_action('init', array($this, 'twae_plugin_textdomain'));
-		 add_action( 'activated_plugin', array( $this, 'twae_plugin_redirection' ) );
+		add_action( 'activated_plugin', array( $this, 'twae_plugin_redirection' ) );
 
 	    $this->cpfm_load_file();
 	}
@@ -82,10 +82,6 @@ final class Timeline_Widget_Addon {
             require_once __DIR__ . '/admin/feedback/cpfm-feedback-notice.php';
         }
         require_once __DIR__ . '/includes/cron/class-cron.php';
-
-		if (  is_plugin_active( 'elementor/elementor.php' )) {
-			require_once TWAE_PATH . '/admin/twae-marketing-common.php';
-		}
     }
 
 	/**
@@ -99,6 +95,9 @@ final class Timeline_Widget_Addon {
 			return;
 		}
 
+		if ( did_action( 'elementor/loaded' ) && class_exists( '\Elementor\Plugin' ) ) {
+			require_once TWAE_PATH . '/admin/twae-marketing-common.php';
+		}
 		// Require the main plugin file
 		// require( __DIR__ . '/includes/class-twae.php' );
 		if ( is_admin() ) {
@@ -168,11 +167,18 @@ final class Timeline_Widget_Addon {
             }
 	}
 
-		public function twae_plugin_redirection( $plugin ) {
-			if ( plugin_basename( __FILE__ ) === $plugin ) {
-				exit( wp_redirect( admin_url( 'admin.php?page=twae-welcome-page' ) ) );
+	function twae_plugin_redirection( $plugin ) {
+		if ( plugin_basename( __FILE__ ) === $plugin ) {
+
+			if ( ! function_exists( 'is_plugin_active' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+			if ( is_plugin_active( 'elementor/elementor.php' ) ) {
+				wp_safe_redirect( admin_url( 'admin.php?page=twae-welcome-page' ) );
+				exit;
 			}
 		}
+	}
 public function ctl_settings_link( $links ) {
 			
 			$links[] = '<a style="font-weight:bold; color:#852636;" href="https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" target="_blank">Get Pro</a>';
