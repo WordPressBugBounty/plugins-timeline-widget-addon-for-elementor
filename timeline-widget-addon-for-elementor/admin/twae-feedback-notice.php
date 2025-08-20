@@ -34,9 +34,11 @@ if (! class_exists('TWAEFeedbackNotice')) {
 				return;
 			}
 			$twae_review_css = '.cool-feedback-notice-wrapper.notice.notice-info.is-dismissible {
-            padding: 5px;
-            display: inline-block;
-            width: 100%;
+            padding: 4px;
+            display: block;
+            width: unset;
+			
+
         }
         .cool-feedback-notice-wrapper .logo_container {
             width:80px;
@@ -62,8 +64,7 @@ if (! class_exists('TWAEFeedbackNotice')) {
             clear:both;
         }';
 
-			_e('<style>' . $twae_review_css . '</style>');
-
+            echo '<style>' . wp_kses( $twae_review_css, array() ) . '</style>';
 			add_action(
 				'admin_print_footer_scripts',
 				function () {

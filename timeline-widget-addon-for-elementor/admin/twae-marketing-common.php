@@ -91,21 +91,15 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 			$type  = sanitize_text_field($_POST['notice_type'] ?? '');
            $nonce = isset($_POST['nonce']) ? $_POST['nonce'] : '';
+          
+		    if ( empty( $nonce ) || empty( $type ) || ! wp_verify_nonce( $nonce, "twae_dismiss_nonce_{$type}" ) ) {
+            wp_send_json_error([ 'message' => 'Invalid nonce' ]);
+         }
 			if ($type === 'cool_form') {
-
-				if (! wp_verify_nonce($nonce, 'twae_dismiss_nonce_cool_form')) {
-					wp_send_json_error(['message' => 'Invalid nonce']);
-				}
-
 				update_option('twae_marketing_dismissed', true);
 				wp_send_json_success();
 
 			} elseif ($type === 'tec_notice') {
-
-				if (! wp_verify_nonce($nonce, 'twae_dismiss_nonce_tec')) {
-					wp_send_json_error(['message' => 'Invalid nonce']);
-				}
-
 				update_option('twae_tec_notice_dismissed', true);
 				wp_send_json_success();
 			}
@@ -193,7 +187,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		
 				<div class="notice notice-info is-dismissible twae-tec-notice"
                      data-notice="tec_notice"
-                     data-nonce="<?php echo esc_attr( wp_create_nonce( 'twae_dismiss_nonce_tec' ) ); ?>">
+                     data-nonce="<?php echo esc_attr( wp_create_nonce( 'twae_dismiss_nonce_tec_notice' ) ); ?>">
      
                     <p class="ect-notice-widget">
                        <button class="button button-primary twae-install-plugin"

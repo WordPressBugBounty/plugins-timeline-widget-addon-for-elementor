@@ -359,9 +359,13 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 
 			$compatibility_styles .= $story_styles;
 
-		if ( ! empty( $compatibility_styles ) ) {
-			echo '<style type="text/css">' . $compatibility_styles . '</style>';
-		}
+	    if ( ! empty( $compatibility_styles ) ) {
+	          $allowed_html = array(
+		      'style' => array(), 
+	          );
+	         $safe_styles = wp_kses( $compatibility_styles, $allowed_html );
+	            echo '<style type="text/css">' . $safe_styles . '</style>';
+        }
 
 	}
 

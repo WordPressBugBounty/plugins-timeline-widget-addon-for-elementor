@@ -72,8 +72,7 @@ if (!class_exists('TWAE_cronjob')) {
 
             
             if (is_wp_error($response)) {
-
-                error_log('TWAE Feedback Send Failed: ' . $response->get_error_message());
+                                
                 return;
             }
             

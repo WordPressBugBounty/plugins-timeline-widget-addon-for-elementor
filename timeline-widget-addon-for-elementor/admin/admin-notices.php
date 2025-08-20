@@ -62,6 +62,7 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 			return self::$instance = new self();
 		}
 
+		
 		/**
 		 * add messages for admin notice
 		 *
@@ -120,6 +121,28 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 		public function twae_free_load_script() {
 			wp_register_style( 'twae-feedback-notice-styles', TWAE_URL . 'assets/css/twae-admin-feedback-notice.min.css', array(), TWAE_VERSION, 'all' );
 			wp_enqueue_style( 'twae-feedback-notice-styles' );
+		    wp_register_script( 'twae-admin-notice-js', TWAE_URL . 'admin/twae-admin-notice.js', array( 'jquery' ), TWAE_VERSION, true );
+            wp_enqueue_script( 'twae-admin-notice-js' );
+
+			    // Localize each message ID for JS
+    if (!empty($this->messages)) {
+        foreach ($this->messages as $id => $message) {
+            $nonce = $message['review']
+                ? wp_create_nonce($id . '_review_nonce')
+                : wp_create_nonce($id . '_notice_nonce');
+
+            $localized_data = array(
+                'id'          => $id,
+                'ajax_url'    => admin_url('admin-ajax.php'),
+                'wp_nonce'    => $nonce,
+                'plugin_slug' => $message['slug'] ?? $id, // fallback to $id if no slug
+                'review'      => $message['review'],
+                'ajax_callback' => $message['review'] ? 'twae_free_admin_review_notice_dismiss' : 'twae_free_admin_notice',
+            );
+
+            wp_localize_script('twae-admin-notice-js', 'TwaeNoticeData_' . $id, $localized_data);
+        }
+    }
 		}
 
 		/**
@@ -150,23 +173,9 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 			}
 
 			$classes = esc_attr( 'notice ' . trim( $message['type'] ) . ' is-dismissible ' . trim( $message['class'] ) );
-			$script  = '<script>
-            jQuery(document).ready(function ($) {
-                $(".' . $id . '_admin_notice .notice-dismiss").css("border","2px solid red");
-                $(document).on("click",".' . $id . '_admin_notice button.notice-dismiss", function (event) {
-                    var $this = $(this);
-                    var wrapper=$this.parents(".' . $id . '_admin_notice");
-                    var ajaxURL=wrapper.data("ajax-url");
-                    var id = wrapper.data("plugin-slug");
-                    var wp_nonce = wrapper.data("wp-nonce");
-                    $.post(ajaxURL, { "action":"twae_free_admin_notice","id":id,"_nonce":wp_nonce }, function( data ) {
-                        wrapper.slideUp("fast");
-                      }, "json");
-                });
-            });
-            </script>';
+	
 			$nonce   = wp_create_nonce( $id . '_notice_nonce' );
-			echo "<div class='" . esc_attr( $id ) . '_admin_notice ' . esc_attr( $classes ) . "' data-ajax-url='" . admin_url( 'admin-ajax.php' ) . "' data-wp-nonce='" . esc_attr( $nonce ) . "' data-plugin-slug='" . esc_attr( $id ) . "'><p>" . wp_kses_post( $message['message'] ) . '</p></div>' . $script;
+			echo "<div class='"  . esc_attr( $id ) . '_admin_notice ' . esc_attr( $classes ) . "' data-ajax-url='" . admin_url( 'admin-ajax.php' ) . "' data-wp-nonce='" . esc_attr( $nonce ) . "' data-plugin-slug='" . esc_attr( $id ) . "'><p>" . wp_kses_post( $message['message'] ) . '</p></div>';
 		}
 
 		/**
@@ -214,6 +223,8 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 		 **/
 		function twae_free_create_notice_content( $id, $messageObj ) {
 
+			
+
 			$ajax_url           = admin_url( 'admin-ajax.php' );
 			$ajax_callback      = 'twae_free_admin_review_notice_dismiss';
 			$wrap_cls           = 'notice notice-info is-dismissible';
@@ -245,24 +256,7 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
         </div>
         </div>
         </div>';
-			$script = '<script>
-        jQuery(document).ready(function ($) {
-            $(document).on("click", "#' . $id . ' .' . $slug . '_dismiss_notice", function (event) {
-                var $this = $(this);
-                var wrapper=$this.parents(".' . $slug . '-feedback-notice-wrapper");
-                var ajaxURL=wrapper.data("ajax-url");
-                var ajaxCallback=wrapper.data("ajax-callback");
-                var slug = wrapper.data("plugin-slug");
-                var id = wrapper.attr("id");
-                var wp_nonce = wrapper.data("wp-nonce");
-                $.post(ajaxURL, { "action":ajaxCallback,"slug":slug,"id":id,"_nonce":wp_nonce }, function( data ) {
-                    wrapper.slideUp("fast");
-                  })
-            });
-        });
-        </script>';
 
-			$html .= $script;
 
 			return sprintf(
 				$html,
@@ -288,8 +282,8 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 		 * This is called by a WordPress ajax hook
 		 */
 		public function twae_free_admin_review_notice_dismiss() {
-			$slug      = htmlspecialchars( $_REQUEST['slug'], ENT_QUOTES );
-			$id        = htmlspecialchars( $_REQUEST['id'], ENT_QUOTES );
+			$slug = isset($_REQUEST['slug']) ? sanitize_text_field($_REQUEST['slug']) : '';
+            $id   = isset($_REQUEST['id']) ? sanitize_text_field($_REQUEST['id']) : '';
 			$nonce_key = $id . '_review_nonce';
 
 			if ( check_ajax_referer( $nonce_key, '_nonce' ) && ! empty( $slug ) && ! empty( $id ) ) {
@@ -306,7 +300,7 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 		 * This is called by a WordPress ajax hook                  *
 		 ************************************************************/
 		public function twae_free_admin_notice_dismiss() {
-			$id       = htmlspecialchars( $_REQUEST['id'], ENT_QUOTES );
+			 $id = isset( $_REQUEST['id'] ) ? sanitize_key( wp_unslash( $_REQUEST['id'] ) ) : '';
 			$wp_nonce = $id . '_notice_nonce';
 			if ( check_ajax_referer( $wp_nonce, '_nonce' ) ) {
 				$us = update_option( $id . '_remove_notice', 'yes' );
@@ -325,7 +319,7 @@ if ( ! class_exists( 'twae_free_admin_notices' ) ) :
 			$er  = "<div style='text-align:center;margin-left:20px;padding:10px;background-color: #cc0000; color: #fce94f; font-size: x-large;'>";
 			$er .= 'Error: ' . $error_text;
 			$er .= '</div>';
-			echo wp_kese_post( $er );
+			echo wp_kses_post( $er );
 		}
 
 	}   // end of main class twae_free_admin_notices;

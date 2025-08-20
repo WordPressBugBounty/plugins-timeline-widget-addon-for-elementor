@@ -95,7 +95,7 @@ class cool_plugins_feedback {
 		);
 
 		?>
-		<div id="cool-plugins-deactivate-feedback-dialog-wrapper" class="hide-feedback-popup" data-slug="<?php echo $this->plugin_slug ?>" >
+		<div id="cool-plugins-deactivate-feedback-dialog-wrapper" class="hide-feedback-popup" data-slug="<?php echo esc_attr($this->plugin_slug) ?>" >
 						
 			<div class="cool-plugins-deactivation-response">
 			<div id="cool-plugins-deactivate-feedback-dialog-header">
@@ -220,10 +220,15 @@ class cool_plugins_feedback {
 
 
 	function submit_deactivation_response() {
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'error' => 'Unauthorized' ) );
+        }
+
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
-			$reason             = htmlspecialchars( $_POST['reason'], ENT_QUOTES );
+			$reason = isset( $_POST['reason'] ) ? sanitize_text_field( $_POST['reason'] ) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
 					'title'             => esc_html__( 'The plugin didn\'t work as expected', 'cool-plugins' ),
