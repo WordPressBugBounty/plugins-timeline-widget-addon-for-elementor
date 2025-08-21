@@ -5,7 +5,7 @@ Tags: timeline, elementor timeline, roadmap, history, horizontal timeline
 Requires at least:5.0
 Tested up to:6.8.2
 Requires PHP:7.2
-Stable tag:1.6.11
+Stable tag:1.6.12
 License:GPLv2 or later License URI:http://www.gnu.org/licenses/gpl-2.0.html
 Highlight your company’s history, milestones, and key events directly inside Elementor using stunning vertical and horizontal timelines.
 
@@ -68,7 +68,7 @@ Upgrading to the Timeline Widget Pro unlocks more advanced features like:
 * **Cool Timeline:** Display your company’s history, product roadmaps, personal stories, or key events using the built-in block or via simple shortcode. [View Demo](https://cooltimeline.com/demo/cool-timeline-free/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=ctl_free_demo)
 * **Timeline Block For Gutenberg:** Create interactive timelines directly within the WordPress Block Editor to display step-by-step tutorials, a company’s history, and a product roadmap. [View Demo](https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_free_demo)
 * **Timeline Builder:** Create a small timeline inside the Gutenberg block editor using a vertical or horizontal timeline. [View Demo](https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo)
-* **Timeline Module Pro For Divi:** Showcase your personal story or company history using stunning vertical or horizontal timelines directly inside the Divi Builder. [View Demo](https://cooltimeline.com/divi/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tmdivi_pro_demo)
+* **Timeline Module Pro For Divi:** Showcase your personal story or company history using stunning vertical or horizontal timelines directly inside the Divi Builder. [View Demo](https://cooltimeline.com/divi/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tmdivi_view_demo)
 
 == Installation ==
 
@@ -78,7 +78,7 @@ Upgrading to the Timeline Widget Pro unlocks more advanced features like:
 * Once your timeline is ready, publish it on your site to share your story with your visitors.
 
 
-== Screenshots ==
+== Screenshots == 
 1.  Timeline Widget Demo Preview
 2.  Timeline Widget Horizontal Timeline configuration 
 3.  Timeline Widget Vertical on both sides/ One-sided Layout Preview
@@ -129,6 +129,10 @@ Yes, using Timeline Widget Plugin, you can enhance your timeline slider with ima
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability](https://patchstack.com/database/vdp/template-events-calendar).
 
 == Changelog ==
+
+**Version 1.6.12 | 21 August 2025**
+- **Improved:**  UTM link updates.
+
 **Version 1.6.11 | 20 August 2025**
 - **Fixed:** Addressed security vulnerabilities.
 - **Improved:** Enhanced overall code quality.

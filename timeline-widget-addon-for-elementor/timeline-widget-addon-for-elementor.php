@@ -3,9 +3,9 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.11
+ * Version:     1.6.12
  * Author:      Cool Plugins
- * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=dashboard
+ * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
  * Domain Path: /languages
  * Text Domain: twae
  * Elementor tested up to: 3.31.2
@@ -20,14 +20,14 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.11' );
+define( 'TWAE_VERSION', '1.6.12' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
 define( 'TWAE_BUY_PRO_LINK', 'https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=get_pro' );
 define( 'TWAE_FEEDBACK_API', 'https://feedback.coolplugins.net/' );
 if ( ! defined( 'TWAE_DEMO_URL' ) ) {
-	define( 'TWAE_DEMO_URL', 'https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=twae-plugin&utm_medium=inside&utm_campaign=twae-free-dashboard' );
+	define( 'TWAE_DEMO_URL', 'https://cooltimeline.com/demo/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard' );
 }
 
 register_activation_hook( TWAE_FILE, array( 'Timeline_Widget_Addon', 'twae_activate' ) );
@@ -179,9 +179,9 @@ final class Timeline_Widget_Addon {
 			}
 		}
 	}
-public function ctl_settings_link( $links ) {
+    public function ctl_settings_link( $links ) {
 			
-			$links[] = '<a style="font-weight:bold; color:#852636;" href="https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" target="_blank">Get Pro</a>';
+			$links[] = '<a style="font-weight:bold; color:#852636;" href="https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugins_list#pricing" target="_blank">Get Pro</a>';
 
 			return $links;
 		}
