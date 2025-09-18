@@ -57,7 +57,8 @@ a#twae-cool-plugin-skipNdeactivate {
     margin-top: 10px;
 }
 
-.cool-plugins-deactivation-response input[type=radio] {
+.cool-plugins-deactivation-response input[type=radio],
+.cool-plugins-deactivation-response input[type=checkbox] {
     float: left;
     margin-right: 10px;
     margin-top: 0px;

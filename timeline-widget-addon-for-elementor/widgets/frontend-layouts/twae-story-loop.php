@@ -159,10 +159,21 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 			// Story description repeater attributes.
 			$description_attr = isset( $this->render_repeater_attr[ $description_key ] ) ? $this->render_repeater_attr[ $description_key ] : '';
 			// Story description content.
+			$allowed_tags = wp_kses_allowed_html('post');
+			$allowed_tags['iframe'] = array(
+				'src'             => true,
+				'width'           => true,
+				'height'          => true,
+				'frameborder'     => true,
+				'allow'           => true,
+				'allowfullscreen' => true,
+				'loading'         => true,
+				'referrerpolicy'  => true,
+			);
 			$desc_content = $this->story_data['twae_description'];
 			if ( ! empty( $desc_content ) ) {
 				$html .= '<!-- Story Description -->';
-				$html .= '<div ' . $description_attr . '>' . wp_kses_post( $desc_content ) . '</div>';
+				$html .= '<div ' . $description_attr . '>' . wp_kses($desc_content, $allowed_tags) . '</div>';
 			}
 			return $html;
 		}

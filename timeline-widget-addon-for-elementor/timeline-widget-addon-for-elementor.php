@@ -3,13 +3,13 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.12
+ * Version:     1.6.13
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
  * Domain Path: /languages
  * Text Domain: twae
- * Elementor tested up to: 3.31.2
- * Elementor Pro tested up to: 3.31.2
+ * Elementor tested up to: 3.32.1 
+ * Elementor Pro tested up to: 3.32.1 
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +20,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.12' );
+define( 'TWAE_VERSION', '1.6.13' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -96,18 +96,16 @@ final class Timeline_Widget_Addon {
 		}
 
 		if ( did_action( 'elementor/loaded' ) && class_exists( '\Elementor\Plugin' ) ) {
-			require_once TWAE_PATH . '/admin/twae-marketing-common.php';
+			require_once TWAE_PATH . '/admin/marketing/twae-marketing-common.php';
 		}
 		// Require the main plugin file
 		// require( __DIR__ . '/includes/class-twae.php' );
 		if ( is_admin() ) {
 			$pluginpath= plugin_basename( __FILE__ );
 			/*** Plugin review notice file */
-			require_once __DIR__ . '/admin/twae-feedback-notice.php';
+			require_once __DIR__ . '/admin/feedback-notice/twae-feedback-notice.php';
 			new TWAEFeedbackNotice();
 			require_once __DIR__ . '/admin/feedback/twae-admin-feedback-form.php';
-			require_once __DIR__ . '/admin/admin-notices.php';
-			require_once __DIR__ . '/admin/form-plugin-notice.php';
 
 			require_once TWAE_PATH . '/admin/timeline-addon-page/timeline-welcome-page.php';
 
@@ -117,7 +115,6 @@ final class Timeline_Widget_Addon {
 
 		if ( is_admin() ) {
 			add_action('admin_init', array($this,'twae_form_plugin_notice'));
-			add_action( 'admin_init', array( $this, 'twae_show_upgrade_notice' ) );
 		}
 
 		add_action('cpfm_register_notice', function () {
@@ -192,17 +189,6 @@ final class Timeline_Widget_Addon {
 		// Run the plugin
 		TWAE_Free_Main::instance();
 
-	}
-
-	public function twae_show_upgrade_notice() {
-		if ( get_option( 'twae-v' ) != false ) {
-			twae_free_create_admin_notice(
-				array(
-					'id'      => 'twae-upgrade-notices',
-					'message' => wp_kses_post( '<strong>Major Update Notice!</strong> Please update your timeline widget settings if you face any style issue after an update of <strong>Timeline Widget for Elementor</strong>.' ),
-				)
-			);
-		}
 	}
 
 	public function twae_form_plugin_notice() {
