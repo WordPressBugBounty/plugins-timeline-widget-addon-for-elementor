@@ -1,5 +1,5 @@
-jQuery(document).ready(function($) {
 
+(function($) {
     $(document).on('click', '.twae-dismiss-notice, .twae-dismiss-cross, .twae-tec-notice .notice-dismiss', function(e) {
 
         e.preventDefault();
@@ -33,17 +33,14 @@ jQuery(document).ready(function($) {
 
     });
 
-    $(document).on('click', '.twae-install-plugin', function(e) {
+    function installPlugin(btn, slugg) {
 
-        e.preventDefault();
-
-        var $form = $(this);
-        var $wrapper = $form.closest('.cool-form-wrp');
-        let button = $(this);
-        let plugin = button.data('plugin');
+        let button = $(btn);
+        var $wrapper = button.closest('.cool-form-wrp');
+        
         button.next('.twae-error-message').remove();
 
-        const slug = getPluginSlug(plugin);
+        const slug = getPluginSlug(slugg);
         const allowedSlugs = [
             'extensions-for-elementor-form',
             'conditional-fields-for-elementor-form',
@@ -121,7 +118,7 @@ jQuery(document).ready(function($) {
                     }
                 }
             });
-    });
+    }
 
     function getPluginSlug(plugin) {
 
@@ -185,5 +182,53 @@ jQuery(document).ready(function($) {
             }
         });
     }
+    if (typeof elementor !== 'undefined' && elementor) {
+        var twaeControlDone = false;
+        function runTwaeElementorInit() {
+            if (twaeControlDone) return;
+            if (!elementor.addControlView || !elementor.modules || !elementor.modules.controls) return;
+            twaeControlDone = true;
+            var callbackfunction = elementor.modules.controls.BaseData.extend({
+                onRender: function (data) {
+                    if (!data.el) return;
+                    var customNotice = data.el.querySelector('.cool-form-wrp');
+                    if (!customNotice) return;
+                    var installBtns = customNotice.querySelectorAll('button.twae-install-plugin');
+                    if (installBtns.length === 0) return;
+                    installBtns.forEach(function (btn) {
+                        var installSlug = btn.getAttribute('data-plugin') || btn.dataset.plugin;
+                        btn.addEventListener('click', function () {
+                            installPlugin(jQuery(btn), installSlug);
+                        });
+                    });
+                },
+            });
+            elementor.addControlView('raw_html', callbackfunction);
+        }
+        $(window).on('elementor:init', runTwaeElementorInit);
+        if (typeof window.addEventListener === 'function') {
+            window.addEventListener('elementor/init', runTwaeElementorInit);
+        }
+        if (elementor.addControlView && elementor.modules && elementor.modules.controls) {
+            setTimeout(runTwaeElementorInit, 0);
+        }
+    } else {
+        $(document).ready(function ($) {
+            const customNotice = $('.cool-form-wrp, .twae-tec-notice');
+            if(customNotice.length === 0) return;
+            const installBtns = customNotice.find('button.twae-install-plugin, a.twae-install-plugin');
+            if(installBtns.length === 0) return;  
+            
+            installBtns.each(function(){
+                const btn = this;
+                const installSlug = btn.dataset.plugin;
+                $(btn).on('click', function(){
+                    if(installSlug) {
+                        installPlugin($(btn), installSlug);
+                    } 
+                });
+            });
+        })
+    }
 
-});
+})(jQuery);

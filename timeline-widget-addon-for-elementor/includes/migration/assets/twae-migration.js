@@ -7,7 +7,6 @@ jQuery(function ($) {
                   $(this).closest(".twae-migration-notice").fadeOut(300);
                 var mig_val = 'twe';
             }
-            console.log("Nonce sent:", twae_migration_obj.hide_migration_nonce);
         $.post(twae_migration_obj.ajax_url, {
             action: "twae_hide_migration_notice",
             value:mig_val,
