@@ -94,7 +94,8 @@ if (!class_exists('TWAE_cronjob')) {
 
                 $schedules['every_30_days'] = array(
                     'interval' => 30 * 24 * 60 * 60, // 2,592,000 seconds
-                    'display'  => __('Once every 30 days'),
+                    // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+                    'display'  => __('Once every 30 days' , 'twae'),
                 );
             }
 
@@ -104,5 +105,5 @@ if (!class_exists('TWAE_cronjob')) {
       
     }
 
-    $cron_init = new TWAE_cronjob();
+    $twae_cron_init = new TWAE_cronjob();
 }

@@ -1,9 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 use Elementor\Modules\Promotions\Module as Promotions_Module;
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+
 // Do not use namespace to keep this on global space to keep the singleton initialization working
 if ( ! class_exists( 'twae_welcome_page' ) ) {
 
@@ -72,22 +74,23 @@ if ( ! class_exists( 'twae_welcome_page' ) ) {
 		 * All the HTML can be located in other template files.
 		 * Avoid using any HTML here or use nominal HTML tags inside this function.
 		 */
-		public function twae_welcome_page_content() {
-				require $this->addon_dir . '/includes/dashboard-header.php';
-				echo '<div class="cool-body-left">';
-				require $this->addon_dir . '/includes/twae-get-started-content.php';
-				echo $this->request_wp_plugins_data();
-				echo '</div>'; // end of .cool-body-left
-				require $this->addon_dir . '/includes/dashboard-sidebar.php';
-		}
+	public function twae_welcome_page_content() {
+			require $this->addon_dir . '/includes/dashboard-header.php';
+			echo '<div class="cool-body-left">';
+			require $this->addon_dir . '/includes/twae-get-started-content.php';
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is already escaped in request_wp_plugins_data() method
+			echo $this->request_wp_plugins_data();
+			echo '</div>'; // end of .cool-body-left
+			require $this->addon_dir . '/includes/dashboard-sidebar.php';
+	}
 
 		/**
 		 * Lets enqueue all the required CSS & JS
 		 */
-		public function enqueue_required_scripts() {
-			// A common CSS file will be enqueued for admin panel
-			wp_enqueue_style( 'cool-plugins-timeline-addon', plugin_dir_url( __FILE__ ) . 'assets/css/styles.css', null, null, 'all' );
-		}
+	public function enqueue_required_scripts() {
+		// A common CSS file will be enqueued for admin panel
+		wp_enqueue_style( 'cool-plugins-timeline-addon', plugin_dir_url( __FILE__ ) . 'assets/css/styles.css', array(), TWAE_VERSION, 'all' );
+	}
 
 		/**
 		 * Gather all the free plugin information from wordpress.org API

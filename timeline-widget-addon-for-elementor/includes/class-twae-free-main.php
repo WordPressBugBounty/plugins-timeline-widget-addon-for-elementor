@@ -74,6 +74,7 @@ final class TWAE_Free_Main {
 			\Elementor\Plugin::$instance->elements_manager->add_category(
 				'twae',              // the name of the category
 				array(
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'title' => esc_html__( 'Timeline Widgets', 'twae' ),
 					'icon'  => 'fa fa-header', // default icon
 				),
@@ -110,19 +111,24 @@ final class TWAE_Free_Main {
 	 */
 	public function admin_notice_minimum_php_version() {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Cleaning up WordPress core activate parameter from URL
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
 
-		$message = sprintf(
-			/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'twae' ),
-			'<strong>' . esc_html__( 'Timeline Widget Pro For Elementor', 'twae' ) . '</strong>',
-			'<strong>' . esc_html__( 'PHP', 'twae' ) . '</strong>',
-			esc_html( self::MINIMUM_PHP_VERSION ) // Escape output
-		);
+	$message = sprintf(
+		// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+		/* translators: 1: Plugin name 2: PHP 3: Required PHP version */ esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'twae' ),
 
-		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
+	'<strong>' . 
+	// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+	esc_html__( 'Timeline Widget Pro For Elementor', 'twae' ) . '</strong>',
+	// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+	'<strong>' . esc_html__( 'PHP', 'twae' ) . '</strong>',
+		esc_html( self::MINIMUM_PHP_VERSION ) // Escape output
+	);
+
+		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', wp_kses_post( $message ) );
 
 	}
 

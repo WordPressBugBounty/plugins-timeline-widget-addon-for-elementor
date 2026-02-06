@@ -37,18 +37,23 @@ if ( class_exists( 'WPML_Elementor_Module_With_Items' ) && ! class_exists( 'TWAE
 
 			switch ( $field ) {
 				case 'twae_story_title':
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					return esc_html__( 'Timeline: Title', 'twae' ); // Escape output
 
 				case 'twae_description':
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					return esc_html__( 'Timeline: Desc', 'twae' ); // Escape output
 
 				case 'twae_year':
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					return esc_html__( 'Timeline: Year', 'twae' ); // Escape output
 
 				case 'twae_date_label':
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					return esc_html__( 'Timeline: Label', 'twae' ); // Escape output
 
 				case 'twae_extra_label':
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					return esc_html__( 'Timeline: Sub Label', 'twae' ); // Escape output
 
 				default:

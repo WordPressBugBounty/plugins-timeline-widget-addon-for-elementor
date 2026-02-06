@@ -60,7 +60,8 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					'cool-formkit-for-elementor-forms/cool-formkit-for-elementor-forms.php',
 					'conditional-fields-for-elementor-form-pro/class-conditional-fields-for-elementor-form-pro.php',
 					'form-masks-for-elementor/form-masks-for-elementor.php',
-					'mask-form-elementor/index.php'
+					'mask-form-elementor/index.php',
+					'sb-elementor-contact-form-db/sb_elementor_contact_form_db.php',
 				];
 
 				if (empty(array_intersect($required_plugins, $active_plugins))) {
@@ -83,18 +84,18 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		 * Handles the dismissal of marketing notices via AJAX.
 		 */
 
-		function twae_dismiss_notice_callback() {
+	function twae_dismiss_notice_callback() {
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
                  wp_send_json_error([ 'message' => 'Permission denied' ]);
-			}
+		}
 
-			$type  = sanitize_text_field($_POST['notice_type'] ?? '');
-           $nonce = isset($_POST['nonce']) ? $_POST['nonce'] : '';
-          
-		    if ( empty( $nonce ) || empty( $type ) || ! wp_verify_nonce( $nonce, "twae_dismiss_nonce_{$type}" ) ) {
-            wp_send_json_error([ 'message' => 'Invalid nonce' ]);
-         }
+		$type  = isset($_POST['notice_type']) ? sanitize_text_field(wp_unslash($_POST['notice_type'])) : '';
+		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+         
+	    if ( empty( $nonce ) || empty( $type ) || ! wp_verify_nonce( $nonce, "twae_dismiss_nonce_{$type}" ) ) {
+           wp_send_json_error([ 'message' => 'Invalid nonce' ]);
+        }
 			if ($type === 'cool_form') {
 				update_option('twae_marketing_dismissed', true);
 				wp_send_json_success();
@@ -109,14 +110,26 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 			
 		public function twae_register_controls($element) {
+
+			// Get all controls registered on this element
+            $controls = $element->get_controls();
+            // Control ID you want to check
+            $control_id = 'lgefep_taxonomy_dropdown';
+            // If control already exists, stop
+            if ( isset( $controls[ $control_id ] ) ) {
+                return;
+            }
 			
 			$element->add_control(
 					'lgefep_taxonomy_dropdown',
 					[
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label' => __('Enable Smart Filters', 'loop-grid-extender-for-elementor-pro'),
 						'type' => \Elementor\Controls_Manager::SWITCHER,
 						'default' => 'no',
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_on' => __('Yes', 'loop-grid-extender-for-elementor-pro'),
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_off' => __('No', 'loop-grid-extender-for-elementor-pro'),
 						'return_value' => 'yes',
 						'condition' => [
@@ -177,10 +190,13 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					true
 			);
 
-			// Check if it's tribe_events post type or tec settings page
-			$get_page     = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
-			$get_posttype = isset( $_GET['post_type'] ) ? sanitize_key( $_GET['post_type'] ) : '';
-			$is_taxonomy  = isset( $_GET['taxonomy'] );
+		// Check if it's tribe_events post type or tec settings page
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context
+		$get_page     = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context
+		$get_posttype = isset( $_GET['post_type'] ) ? sanitize_key( $_GET['post_type'] ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context
+		$is_taxonomy  = isset( $_GET['taxonomy'] );
 			$blocked_pages = array('tribe-app-shop','tec-troubleshooting','first-time-setup','tec-events-help-hub','aggregator');
 			$on_tribe_events_list = ( $get_posttype === 'tribe_events' ) && ! $is_taxonomy; 
 			$on_tec_settings      = ( $get_page === 'tec-events-settings' );
@@ -230,15 +246,27 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 		public function twae_add_acf_repeater_mkt_query_controls($element) {
 
+			// Get all controls registered on this element
+            $controls = $element->get_controls();
+            // Control ID you want to check
+            $control_id = 'lgefep_mkt_country_notice';
+            // If control already exists, stop
+            if ( isset( $controls[ $control_id ] ) ) {
+                return;
+            }
+
 			$element->add_control(
 
 				'lgefep_mkt_country_notice',
 					array(
 						'name'            => 'ctwae_mkt_country_notice',
 						'type'            => \Elementor\Controls_Manager::SWITCHER,
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label'        => esc_html__('Use ACF Repeater', 'country-code-for-elementor-form-telephone-field'),
 						'type'         => \Elementor\Controls_Manager::SWITCHER,
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_on'     => esc_html__('Yes', 'country-code-for-elementor-form-telephone-field'),
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_off'    => esc_html__('No', 'country-code-for-elementor-form-telephone-field'),
 
 					),
@@ -305,10 +333,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		public function twae_install_plugin() {
 
 
-             if ( ! current_user_can( 'install_plugins' ) ) {
-				$status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.' );
+            if ( ! current_user_can( 'install_plugins' ) ) {
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+				$status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.', 'twae' );
 				wp_send_json_error( $status );
 			}
+			
 
 			check_ajax_referer('twae_install_nonce');
 
@@ -316,11 +346,30 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				wp_send_json_error( array(
 					'slug'         => '',
 					'errorCode'    => 'no_plugin_specified',
-					'errorMessage' => __( 'No plugin specified.' ),
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					'errorMessage' => __( 'No plugin specified.', 'twae' ),
 				));
 			}
      	
 		    $plugin_slug = sanitize_key( wp_unslash( $_POST['slug'] ) );
+
+			// Only allow installation of known marketing plugins (ignore client-manipulated slugs).
+			$allowed_slugs = array(
+				'extensions-for-elementor-form',
+				'conditional-fields-for-elementor-form',
+				'country-code-field-for-elementor-form',
+				'loop-grid-extender-for-elementor-pro',
+				'events-widgets-for-elementor-and-the-events-calendar',
+				'conditional-fields-for-elementor-form-pro',
+			);
+			if ( ! in_array( $plugin_slug, $allowed_slugs, true ) ) {
+				wp_send_json_error( array(
+					'slug'         => $plugin_slug,
+					'errorCode'    => 'plugin_not_allowed',
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					'errorMessage' => __( 'This plugin cannot be installed from here.', 'twae' ),
+				));
+			}
 
 
 			$status = array(
@@ -419,7 +468,8 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					global $wp_filesystem;
 
 					$status['errorCode']    = 'unable_to_connect_to_filesystem';
-					$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' , 'twae' );
 
 					if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
 						$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
@@ -484,9 +534,9 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 											<button class="elementor-control-notice-dismiss tooltip-target twae-dismiss-cross twae-dismiss-notice" data-notice="cool_form" data-nonce="' . esc_attr(wp_create_nonce('twae_dismiss_nonce_cool_form')) . '">
 												<i class="eicon eicon-close" aria-hidden="true"></i>
 											</button></div></div>',
-							'tab'          => 'content',
-							'inner_tab'    => 'form_fields_conditions_tab',
-							'tabs_wrapper' => 'form_fields_tabs',
+							// 'tab'          => 'content',
+							// 'inner_tab'    => 'form_fields_conditions_tab',
+							// 'tabs_wrapper' => 'form_fields_tabs',
 						]
 					);
 			}
@@ -499,11 +549,15 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				
 				'ctwae-mkt-country-conditions' => array(
 						'name'         => 'ctwae-mkt-country-conditions',
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label'        => esc_html__('Enable Country Code', 'country-code-for-elementor-form-telephone-field'),
 						'type'         => \Elementor\Controls_Manager::SWITCHER,
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_on'     => esc_html__('Yes', 'country-code-for-elementor-form-telephone-field'),
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_off'    => esc_html__('No', 'country-code-for-elementor-form-telephone-field'),
 						'condition'    => array(
+							// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 							'field_type' => array('tel', 'ehp-tel'),
 						),
 						'tab'          => 'content',
@@ -557,9 +611,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 					'ctwae-mkt-conditional-conditions' => array(
 						'name'         => 'ctwae-mkt-conditional-conditions',
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label'        => esc_html__('Enable Conditions', 'conditional-fields-for-elementor-form'),
 						'type'         => \Elementor\Controls_Manager::SWITCHER,
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_on'     => esc_html__('Yes', 'conditional-fields-for-elementor-form'),
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 						'label_off'    => esc_html__('No', 'conditional-fields-for-elementor-form'),
 						'condition'    => array(
 							'field_type' => array('text', 'email', 'textarea', 'number', 'select', 'radio', 'checkbox', 'tel'),

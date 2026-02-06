@@ -1,3 +1,10 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+?>
+
+
 <#
 	var widgetId=elementorCommon.helpers.getUniqueId();
 	var countItem = 1;

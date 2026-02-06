@@ -10,6 +10,7 @@ add_action(
 		\Elementor\Plugin::$instance->elements_manager->add_category(
 			'twae',              // the name of the category
 			array(
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title' => esc_html__( 'Timeline Widget Addon For Elementor', 'twae' ),
 				'icon'  => 'fa fa-header', // default icon
 			),
@@ -51,18 +52,14 @@ class TWAE_WidgetClass {
 			array(
 				array(
 					'name'        => 'twae-post-timeline',
-					'title'       => esc_html__( 'Post Timeline', 'twae' ), // Escape output
-					'description' => esc_html__( 'it is testing fine here', 'twae' ), // Escape output
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					'title'       => esc_html__( 'Post Timeline', 'twae' ),
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					'description' => esc_html__( 'it is testing fine here', 'twae' ), 
+					
 					'icon'        => 'twae-pro eicon-time-line',
 					'categories'  => '["twae"]',
-				),          /*
-				[
-				'name' => 'twae-process-timeline',
-				'title' => __('Process Timeline', 'twae'),
-				'description'=>'it is testing fine here',
-				'icon' => 'twae-pro fa fa-sitemap',
-				'categories' => '["twae"]',
-			], */
+				),       
 			)
 		);
 

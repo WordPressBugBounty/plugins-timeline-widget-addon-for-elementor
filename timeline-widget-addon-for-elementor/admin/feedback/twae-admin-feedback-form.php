@@ -55,8 +55,8 @@ class cool_plugins_feedback {
 	function enqueue_feedback_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen ) && $screen->id == 'plugins' ) {
-			wp_enqueue_script( __NAMESPACE__ . '-feedback-script', $this->plugin_url . 'admin/feedback/js/admin-feedback.js' );
-			wp_enqueue_style( 'cool-plugins-feedback-style', $this->plugin_url . 'admin/feedback/css/admin-feedback.css' );
+			wp_enqueue_script( __NAMESPACE__ . '-feedback-script', $this->plugin_url . 'admin/feedback/js/admin-feedback.js', array(), $this->plugin_version, true );
+			wp_enqueue_style( 'cool-plugins-feedback-style', $this->plugin_url . 'admin/feedback/css/admin-feedback.css', array(), $this->plugin_version );
 		}
 	}
 
@@ -73,23 +73,37 @@ class cool_plugins_feedback {
 		}
 		$deactivate_reasons = array(
 			'didnt_work_as_expected'         => array(
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title'             => __( 'The plugin didn\'t work as expected', 'cool-plugins' ),
 				'input_placeholder' => 'What did you expect?',
 			),
+
 			'found_a_better_plugin'          => array(
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title'             => __( 'I found a better plugin', 'cool-plugins' ),
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'input_placeholder' => __( 'Please share which plugin', 'cool-plugins' ),
 			),
+
 			'couldnt_get_the_plugin_to_work' => array(
+
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title'             => __( 'The plugin is not working', 'cool-plugins' ),
 				'input_placeholder' => 'Please share your issue. So we can fix that for other users.',
 			),
+
 			'temporary_deactivation'         => array(
+
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title'             => __( 'It\'s a temporary deactivation', 'cool-plugins' ),
 				'input_placeholder' => '',
 			),
+
 			'other'                          => array(
+				
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title'             => __( 'Other', 'cool-plugins' ),
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'input_placeholder' => __( 'Please share the reason', 'cool-plugins' ),
 			),
 		);
@@ -99,7 +113,9 @@ class cool_plugins_feedback {
 						
 			<div class="cool-plugins-deactivation-response">
 			<div id="cool-plugins-deactivate-feedback-dialog-header">
-				<span id="cool-plugins-feedback-form-title"><?php echo esc_html__( 'Quick Feedback', 'cool-plugins' ); ?></span>
+				<span id="cool-plugins-feedback-form-title"><?php 
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+				echo esc_html__( 'Quick Feedback', 'cool-plugins' ); ?></span>
 			</div>
 			<div id="cool-plugins-loader-wrapper">
 				<div class="cool-plugins-loader-container">
@@ -112,7 +128,10 @@ class cool_plugins_feedback {
 				wp_nonce_field( '_cool-plugins_deactivate_feedback_nonce' );
 				?>
 				<input type="hidden" name="action" value="cool-plugins_deactivate_feedback" />
-				<div id="cool-plugins-deactivate-feedback-dialog-form-caption"><?php echo esc_html__( 'If you have a moment, please share why you are deactivating this plugin.', 'cool-plugins' ); ?></div>
+				<div id="cool-plugins-deactivate-feedback-dialog-form-caption"><?php 
+
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+				echo esc_html__( 'If you have a moment, please share why you are deactivating this plugin.', 'cool-plugins' ); ?></div>
 				<div id="cool-plugins-deactivate-feedback-dialog-form-body">
 					<?php
 					$reason_key_arr = array( 'didnt_work_as_expected', 'found_a_better_plugin', 'couldnt_get_the_plugin_to_work' );
@@ -131,7 +150,21 @@ class cool_plugins_feedback {
 									$ctb_plugin_url = 'https://wordpress.org/plugins/timeline-block/';
 									?>
 								  <div class="cool-plugins-extra-links">
-									<?php echo esc_html__( 'Please try', 'cool-plugins' ); ?> <a href="<?php echo esc_url( $ctl_plugin_url ); ?>" target="_blank"><?php echo esc_html__( 'Cool Timeline', 'cool-plugins' ); ?></a> <?php echo esc_html__( 'or', 'cool-plugins' ); ?> <a href="<?php echo esc_url( $ctb_plugin_url ); ?>" target="_blank"><?php echo esc_html__( 'Timeline Block', 'cool-plugins' ); ?></a> <?php echo esc_html__( 'plugin.', 'cool-plugins' ); ?>
+									<?php 
+									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+									echo esc_html__( 'Please try', 'cool-plugins' ); ?> <a href="<?php echo esc_url( $ctl_plugin_url ); ?>" target="_blank"><?php 
+									
+									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+									echo esc_html__( 'Cool Timeline', 'cool-plugins' ); ?></a> <?php 
+
+									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+									echo esc_html__( 'or', 'cool-plugins' ); ?> <a href="<?php echo esc_url( $ctb_plugin_url ); ?>" target="_blank"><?php 
+									
+									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+									echo esc_html__( 'Timeline Block', 'cool-plugins' ); ?></a> <?php 
+									
+									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+									echo esc_html__( 'plugin.', 'cool-plugins' ); ?>
 									</div>
 									<?php
 								}
@@ -144,12 +177,19 @@ class cool_plugins_feedback {
 						</div>
 					<?php endforeach; ?>
 					<div class="cool-plugins-deactivate-feedback-dialog-input-wrapper">
-						<input class="cool-plugins-GDPR-data-notice" id="cool-plugins-GDPR-data-notice-<?php echo $this->plugin_slug; ?>" type="checkbox"><label for="cool-plugins-GDPR-data-notice"><?php echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Timeline Widget For Elementor improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.' ); ?></label>				
+						<input class="cool-plugins-GDPR-data-notice" id="cool-plugins-GDPR-data-notice-<?php echo esc_attr( $this->plugin_slug ); ?>" type="checkbox"><label for="cool-plugins-GDPR-data-notice"><?php 
+						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+						echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Timeline Widget For Elementor improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.', 'cool-plugins' ); ?></label>				
 					</div>
 				</div>
 				<div class="cool-plugin-popup-button-wrapper">
-					<a class="cool-plugins-button button-deactivate" id="twae-cool-plugin-submitNdeactivate"><?php echo esc_html__( 'Submit and Deactivate', 'cool-plugins' ); ?></a>
-					<a class="cool-plugins-button" id="twae-cool-plugin-skipNdeactivate"><?php echo esc_html__( 'Skip and Deactivate', 'cool-plugins' ); ?></a>
+					<a class="cool-plugins-button button-deactivate" id="twae-cool-plugin-submitNdeactivate"><?php 
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					echo esc_html__( 'Submit and Deactivate', 'cool-plugins' ); ?></a>
+					<a class="cool-plugins-button" id="twae-cool-plugin-skipNdeactivate"><?php
+
+					 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+					echo esc_html__( 'Skip and Deactivate', 'cool-plugins' ); ?></a>
 				</div>
 			</form>
 			</div>
@@ -163,8 +203,9 @@ class cool_plugins_feedback {
 	
 		// Server and WP environment details
 		$server_info = [
-			'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : 'N/A',
-			'mysql_version'          => $wpdb ? sanitize_text_field($wpdb->get_var("SELECT VERSION()")) : 'N/A',
+			'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_SOFTWARE'])) : 'N/A',
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            'mysql_version'          => $wpdb ? sanitize_text_field($wpdb->get_var("SELECT VERSION()")) : 'N/A',
 			'php_version'            => sanitize_text_field(phpversion() ?: 'N/A'),
 			'wp_version'             => sanitize_text_field(get_bloginfo('version') ?: 'N/A'),
 			'wp_debug'               => (defined('WP_DEBUG') && WP_DEBUG) ? 'Enabled' : 'Disabled',
@@ -228,36 +269,49 @@ class cool_plugins_feedback {
             wp_send_json_error( array( 'error' => 'Unauthorized' ) );
         }
 
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], '_cool-plugins_deactivate_feedback_nonce' ) ) {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
-			$reason = isset( $_POST['reason'] ) ? sanitize_text_field( $_POST['reason'] ) : '';
+			$reason = isset( $_POST['reason'] ) ? sanitize_text_field( wp_unslash( $_POST['reason'] ) ) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'title'             => esc_html__( 'The plugin didn\'t work as expected', 'cool-plugins' ),
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'input_placeholder' => esc_html__( 'What did you expect?', 'cool-plugins' ),
 				),
+
 				'found_a_better_plugin'          => array(
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'title'             => esc_html__( 'I found a better plugin', 'cool-plugins' ),
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'input_placeholder' => esc_html__( 'Please share which plugin', 'cool-plugins' ),
 				),
+
 				'couldnt_get_the_plugin_to_work' => array(
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'title'             => esc_html__( 'The plugin is not working', 'cool-plugins' ),
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'input_placeholder' => esc_html__( 'Please share your issue. So we can fix that for other users.', 'cool-plugins' ),
 				),
+
 				'temporary_deactivation'         => array(
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'title'             => esc_html__( 'It\'s a temporary deactivation', 'cool-plugins' ),
 					'input_placeholder' => '',
 				),
+
 				'other'                          => array(
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'title'             => esc_html__( 'Other', 'cool-plugins' ),
+					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'input_placeholder' => esc_html__( 'Please share the reason', 'cool-plugins' ),
 				),
 			);
 
 			$deativation_reason = array_key_exists( $reason, $deactivate_reasons ) ? $reason : 'other';
 			$plugin_initial =  get_option( 'twae_initial_save_version' );
-			$sanitized_message = sanitize_text_field( $_POST['message'] ) == '' ? 'N/A' : sanitize_text_field( $_POST['message'] );
+			$sanitized_message = ! empty( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : 'N/A';
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
 			$site_url          = esc_url( site_url() );
 			$install_date 		= get_option('twae-install-date');

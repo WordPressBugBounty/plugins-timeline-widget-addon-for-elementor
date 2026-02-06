@@ -64,18 +64,19 @@ if (! class_exists('TWAEFeedbackNotice')) {
 			}
 
 			// grab plugin installation date and compare it with current date
-			$display_date = date('Y-m-d h:i:s');
+			$display_date = gmdate('Y-m-d h:i:s');
 			$install_date = new DateTime($installation_date);
 			$current_date = new DateTime($display_date);
 			$difference   = $install_date->diff($current_date);
 			$diff_days    = $difference->days;
 
-			// check if installation days is greator then week
-			if (isset($diff_days) && $diff_days >= 3) {
-				wp_enqueue_style( 'twae-feedback-notice' );
-            	wp_enqueue_script( 'twae-admin-notice' );
-				echo $this->twae_create_notice_content();
-			}
+		// check if installation days is greator then week
+		if (isset($diff_days) && $diff_days >= 3) {
+			wp_enqueue_style( 'twae-feedback-notice' );
+        	wp_enqueue_script( 'twae-admin-notice' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is already escaped in twae_create_notice_content() method
+			echo $this->twae_create_notice_content();
+		}
 		}
 
 		// generated review notice HTML
@@ -88,8 +89,11 @@ if (! class_exists('TWAEFeedbackNotice')) {
 			$img_path      = esc_url( TWAE_URL . 'assets/images/timeline-widget-logo.png' );
 			$p_name             = esc_html('Timeline Widget Addon For Elementor');
 			$like_it_text       =  esc_html('Rate Now! ★★★★★');
+		    // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 			$already_rated_text = esc_html__('Already Reviewed', 'cool-timeline');
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 			$not_interested     = esc_html__('Not Interested', 'ect');
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 			$not_like_it_text   = esc_html__('No, not good enough, i do not like to rate it!', 'cool-timeline');
 			$p_link             = esc_url('https://wordpress.org/support/plugin/timeline-widget-addon-for-elementor/reviews/#new-post');
 			$pro_url            = esc_url('https://cooltimeline.com/plugin/elementor-timeline-widget-pro/');

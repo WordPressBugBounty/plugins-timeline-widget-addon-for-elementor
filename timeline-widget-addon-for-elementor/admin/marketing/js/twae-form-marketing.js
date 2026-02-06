@@ -44,7 +44,15 @@ jQuery(document).ready(function($) {
         button.next('.twae-error-message').remove();
 
         const slug = getPluginSlug(plugin);
-        if (!slug) return;
+        const allowedSlugs = [
+            'extensions-for-elementor-form',
+            'conditional-fields-for-elementor-form',
+            'country-code-field-for-elementor-form',
+            'loop-grid-extender-for-elementor-pro',
+            'events-widgets-for-elementor-and-the-events-calendar',
+            'conditional-fields-for-elementor-form-pro',
+        ];
+        if (!slug || allowedSlugs.indexOf(slug) === -1) return;
         // Get the nonce from the button data attribute
         let nonce = button.data('nonce');
 

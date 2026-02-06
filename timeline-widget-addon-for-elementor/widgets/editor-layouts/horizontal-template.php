@@ -1,3 +1,10 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+?>
+
+
 <# 
 var widgetId=elementorCommon.helpers.getUniqueId();
 var slideToShow=settings.twae_slides_to_show;
@@ -7,7 +14,7 @@ var autoHeight=slideHeight === 'no-height' ? 'true' : 'false';
 #>
 <div id="twae-wrapper-{{widgetId}}" class="twae-wrapper twae-horizontal-timeline">
 <div class="twae-wrapper-inside">
-	<div class="twae-slider-container swiper-container" data-dir="<?php echo esc_attr( $dir ); ?>" data-slidestoshow = "{{slideToShow}}" data-autoplay="{{autoplay}}" data-auto-height="{{autoHeight}}">
+	<div class="twae-slider-container swiper-container" data-dir="<?php echo esc_attr( $twae_dir ); ?>" data-slidestoshow = "{{slideToShow}}" data-autoplay="{{autoplay}}" data-auto-height="{{autoHeight}}">
 
 	<div class="twae-slider-wrapper swiper-wrapper {{slideHeight}}">
 	<#

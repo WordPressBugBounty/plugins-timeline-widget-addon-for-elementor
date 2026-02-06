@@ -3,10 +3,11 @@ Contributors:narinder-singh,satindersingh,coolplugins
 Donate link: https://paypal.me/CoolPlugins/10USD/
 Tags: timeline, elementor timeline, roadmap, history, horizontal timeline
 Requires at least:5.0
-Tested up to:6.8.2
+Tested up to:6.9
 Requires PHP:7.2
-Stable tag:1.6.13
-License:GPLv2 or later License URI:http://www.gnu.org/licenses/gpl-2.0.html
+Stable tag:1.6.19
+License:GPLv2 or later 
+License URI:http://www.gnu.org/licenses/gpl-2.0.html
 Highlight your company’s history, milestones, and key events directly inside Elementor using stunning vertical and horizontal timelines.
 
 == Description ==
@@ -15,7 +16,7 @@ Highlight your company’s history, milestones, and key events directly inside E
 
 https://youtu.be/_WYTT0iBvyo
 
-**[Timeline Widget for Elementor](https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=top_description)** is a powerful timeline slider plugin that allows you to create stunning **[vertical](https://cooltimeline.com/demo/elementor-timeline-widget/free/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=vertical_free_demo)** and **[horizontal timelines](https://cooltimeline.com/demo/elementor-timeline-widget/free/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=horizontal_free_demo#horizontal-layout)** to showcase your achievements, personal journey, or company history directly inside Elementor.
+**[Timeline Widget for Elementor](https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=top_description)** is a powerful timeline slider plugin that allows you to create stunning **[vertical](https://cooltimeline.com/elementor-widget/free-timeline/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=vertical_free_demo)** and **[horizontal timelines](https://cooltimeline.com/elementor-widget/free-timeline/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=horizontal_free_demo#horizontal)** to showcase your achievements, personal journey, or company history directly inside Elementor.
 
 Whether you’re showcasing a company history, project roadmap, personal journey, or blog timeline. With multiple designs and customization options for colors, fonts, and icons, you can easily design your Elementor timelines according to your brand.
 
@@ -33,7 +34,7 @@ Whether you’re showcasing a company history, project roadmap, personal journey
 * **Compatible with all WordPress Themes:** Timeline widget plugin is fully compatible with all WordPress themes.
 * **Fully Responsive:** This plugin is fully responsive, ensuring that your events display perfectly on all screen sizes.
 
-🔗[Check Free Version Demos](https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_free_demo)
+🔗[Check Free Version Demos](https://cooltimeline.com/elementor-widget/free-timeline/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_free_demo)
 
 ### Use Cases
 * **Company Achievements:** Highlight your company’s milestones and achievements.
@@ -61,13 +62,12 @@ Upgrading to the Timeline Widget Pro unlocks more advanced features like:
 * **Ajax Load More:** Load more stories as users scroll down the timeline.
 * **Icons in Timeline:** Use icons, custom text, or images as timeline markers.
 
-🔗 [Check Pro Version Demos](https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo) | [Get Pro](https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=get_pro)
+🔗 [Check Pro Version Demos](https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo) | [Get Pro](https://cooltimeline.com/plugin/elementor-timeline-widget-pro/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=get_pro#pricing)
 
 ### Check our other plugins demos
 
-* **Cool Timeline:** Display your company’s history, product roadmaps, personal stories, or key events using the built-in block or via simple shortcode. [View Demo](https://cooltimeline.com/demo/cool-timeline-free/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=ctl_free_demo)
+* **Cool Timeline:** Display your company’s history, product roadmaps, personal stories, or key events using the built-in block or via simple shortcode. [View Demo](https://cooltimeline.com/demo/free-timeline/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=ctl_free_demo)
 * **Timeline Block For Gutenberg:** Create interactive timelines directly within the WordPress Block Editor to display step-by-step tutorials, a company’s history, and a product roadmap. [View Demo](https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_free_demo)
-* **Timeline Builder:** Create a small timeline inside the Gutenberg block editor using a vertical or horizontal timeline. [View Demo](https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo)
 * **Timeline Module Pro For Divi:** Showcase your personal story or company history using stunning vertical or horizontal timelines directly inside the Divi Builder. [View Demo](https://cooltimeline.com/divi/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tmdivi_view_demo)
 
 == Installation ==
@@ -129,6 +129,28 @@ Yes, using Timeline Widget Plugin, you can enhance your timeline slider with ima
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability](https://patchstack.com/database/vdp/template-events-calendar).
 
 == Changelog ==
+
+**Version 1.6.19 | 02 Feb 2026**
+- **Improved** : Code Improvements.
+
+**Version 1.6.18 | 22 Jan 2026**
+- **Fixed:** Fixed issues reported by “Plugin Check” plugin.
+
+**Version 1.6.17 | 19 Dec 2025**
+- **Added:** Integrated migration  for one sided layout of Vertical Timeline Widget for Elementor.
+
+**Version 1.6.16 | 12 Dec 2025**
+- **Fixed:** Cannot Redeclare a control with tab or section arguments.
+
+**Version 1.6.15 | 10 Dec 2025**
+- **Added:** Integrated migration of Vertical Timeline Widget for Elementor.
+- **Tested up to:** Elementor  3.33.4.
+- **Tested up to:** Elementor Pro 3.33.2.
+
+**Version 1.6.14 | 18 Nov 2025**
+- **Improvement:** Enhanced CSS styling for the timeline sidebar menu.
+- **Tested up to:** Elementor  3.33.1.
+- **Tested up to:** Elementor Pro 3.33.1.
 
 **Version 1.6.13 | 18 September 2025**
 - **Fixed:** Minor bug.

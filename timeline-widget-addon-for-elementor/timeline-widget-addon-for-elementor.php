@@ -3,13 +3,14 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.13
+ * Version:     1.6.19
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
- * Domain Path: /languages
  * Text Domain: twae
- * Elementor tested up to: 3.32.1 
- * Elementor Pro tested up to: 3.32.1 
+ * License:GPLv2 or later 
+ * License URI:http://www.gnu.org/licenses/gpl-2.0.html
+ * Elementor tested up to: 3.33.4
+ * Elementor Pro tested up to: 3.33.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +21,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.13' );
+define( 'TWAE_VERSION', '1.6.19' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -94,13 +95,16 @@ final class Timeline_Widget_Addon {
 			add_action( 'admin_notices', array( $this, 'twae_fail_to_load' ) );
 			return;
 		}
+        
+		require_once TWAE_PATH . 'includes/migration/twae-migration.php';
+		require_once TWAE_PATH . 'includes/migration/twae-migration-ajax.php';
 
 		if ( did_action( 'elementor/loaded' ) && class_exists( '\Elementor\Plugin' ) ) {
 			require_once TWAE_PATH . '/admin/marketing/twae-marketing-common.php';
 		}
-		// Require the main plugin file
-		// require( __DIR__ . '/includes/class-twae.php' );
+		
 		if ( is_admin() ) {
+			
 			$pluginpath= plugin_basename( __FILE__ );
 			/*** Plugin review notice file */
 			require_once __DIR__ . '/admin/feedback-notice/twae-feedback-notice.php';
@@ -124,8 +128,9 @@ final class Timeline_Widget_Addon {
 			}
 
 			$notice = [
-
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'title' => __('Timeline Plugins by Cool Plugins', 'twae'),
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 				'message' => __('Help us make this plugin more compatible with your site by sharing non-sensitive site data.', 'cool-plugins-feedback'),
 				'pages' => ['twae-welcome-page'],
 				'always_show_on' => ['twae-welcome-page'], // This enables auto-show
@@ -133,11 +138,12 @@ final class Timeline_Widget_Addon {
 			];
 
 			CPFM_Feedback_Notice::cpfm_register_notice('cool-timeline', $notice);
-
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 				if (!isset($GLOBALS['cool_plugins_feedback'])) {
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 					$GLOBALS['cool_plugins_feedback'] = [];
 				}
-			
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 				$GLOBALS['cool_plugins_feedback']['cool-timeline'][] = $notice;
 	   
 		});
@@ -155,7 +161,7 @@ final class Timeline_Widget_Addon {
 	 * Load the plugin text domain for translation.
 	 */
 	public function twae_plugin_textdomain() {
-		load_plugin_textdomain( 'twae', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+		
 		if (!get_option( 'twae_initial_save_version' ) ) {
                 add_option( 'twae_initial_save_version', TWAE_VERSION );
             }
@@ -193,6 +199,7 @@ final class Timeline_Widget_Addon {
 
 	public function twae_form_plugin_notice() {
 		if(class_exists('twae_free_form_plugin_notice')){
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 			twae_free_form_plugin_notice::instance('cool-form-free','Are you using the <strong>Elementor Form widget</strong> to create forms? Make your forms smarter with conditional fields and improve your form-building experience!<br><a href="'.esc_url(site_url().'/wp-admin/plugin-install.php?tab=plugin-information&plugin=conditional-fields-for-elementor-form&TB_iframe=true&width=772&height=885').'" class="thickbox button button-primary open-plugin-details-modal" style="margin-right: 10px; margin-top: 10px;">'.esc_html__( 'Install Plugin', 'twae' ).'</a><a href="'.esc_url("https://coolplugins.net/product/conditional-fields-for-elementor-form/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=plugins_list&utm_content=demo#demos").'" class="button button-primary" target="_blank" style="margin-right: 10px;">'.esc_html__( 'View Demos', 'twae' ).'</a>',5);
 		}
 	}
@@ -201,7 +208,9 @@ final class Timeline_Widget_Addon {
 
 		if ( ! is_plugin_active( 'elementor/elementor.php' ) ) : ?>
 			<div class="notice notice-warning is-dismissible">
-				<p><?php echo wp_kses_post( sprintf( __( '<a href="%s"  target="_blank" >Elementor Page Builder</a>  must be installed and activated for "<strong>Timeline Widget Addon For Elementor</strong>" to work' ), 'https://wordpress.org/plugins/elementor/' ) ); ?></p>
+				<p><?php 
+            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
+				/* translators: 1: Plugin name 2: PHP 3: Required PHP version */  echo wp_kses_post( sprintf( __( '<a href="%s"  target="_blank" >Elementor Page Builder</a>  must be installed and activated for "<strong>Timeline Widget Addon For Elementor</strong>" to work' , 'twae' ), 'https://wordpress.org/plugins/elementor/' ) ); ?></p>
 			</div>
 			<?php
 			deactivate_plugins( 'timeline-widget-addon-for-elementor/timeline-widget-addon-for-elementor.php' );
@@ -215,7 +224,7 @@ final class Timeline_Widget_Addon {
 	public static function twae_activate() {
 		update_option( 'twae-free-v', sanitize_text_field( TWAE_VERSION ) );
 		update_option( 'twae-type', 'FREE' );
-		update_option( 'twae-installDate', date( 'Y-m-d h:i:s' ) );
+		update_option( 'twae-installDate', gmdate( 'Y-m-d h:i:s' ) );
 
 		
 		if (!get_option( 'twae_initial_save_version' ) ) {
@@ -249,8 +258,8 @@ final class Timeline_Widget_Addon {
 	}
 }
 
-function Timeline_Widget_Addon() {
+function twae_get_plugin_instance() {
 	return Timeline_Widget_Addon::get_instance();
 }
 
-$GLOBALS['Timeline_Widget_Addon'] = Timeline_Widget_Addon();
+$GLOBALS['twae_plugin_instance'] = twae_get_plugin_instance();
