@@ -5,7 +5,7 @@ Tags: timeline, elementor timeline, roadmap, history, horizontal timeline
 Requires at least:5.0
 Tested up to:6.9
 Requires PHP:7.2
-Stable tag:1.6.20
+Stable tag:1.6.21
 License:GPLv2 or later 
 License URI:http://www.gnu.org/licenses/gpl-2.0.html
 Highlight your company’s history, milestones, and key events directly inside Elementor using stunning vertical and horizontal timelines.
@@ -70,6 +70,8 @@ Upgrading to the Timeline Widget Pro unlocks more advanced features like:
 * **Timeline Block For Gutenberg:** Create interactive timelines directly within the WordPress Block Editor to display step-by-step tutorials, a company’s history, and a product roadmap. [View Demo](https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_free_demo)
 * **Timeline Module Pro For Divi:** Showcase your personal story or company history using stunning vertical or horizontal timelines directly inside the Divi Builder. [View Demo](https://cooltimeline.com/divi/?utm_source=twae_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tmdivi_view_demo)
 
+**Use of 3rd Party Services:** This plugin connects to the Cool Plugins API to display information about related plugins inside the dashboard. It also offers optional usage tracking and optional feedback submission on deactivation. Data is sent only after explicit user consent. No hidden tracking is performed, and no frontend visitor or site user data is collected. For more details, please review our [Data Usage Policy](https://my.coolplugins.net/terms/usage-tracking/), [TOS](https://my.coolplugins.net/terms/), and [Privacy Policy](https://my.coolplugins.net/terms/privacy-policy/).
+
 == Installation ==
 
 * Ensure that you have installed and activated the Elementor and Timeline Widget Plugin.
@@ -129,6 +131,10 @@ Yes, using Timeline Widget Plugin, you can enhance your timeline slider with ima
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability](https://patchstack.com/database/vdp/template-events-calendar).
 
 == Changelog ==
+
+**Version 1.6.21 | 12 Feb 2026**
+- **Tested up to:** Elementor  3.35.4.
+- **Tested up to:** Elementor Pro 3.35.1.
 
 **Version 1.6.20 | 06 Feb 2026**
 - **Fixed** : Incorrect plugin slug that could prevent proper installation.
