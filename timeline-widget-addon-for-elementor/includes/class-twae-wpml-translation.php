@@ -37,24 +37,24 @@ if ( class_exists( 'WPML_Elementor_Module_With_Items' ) && ! class_exists( 'TWAE
 
 			switch ( $field ) {
 				case 'twae_story_title':
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					return esc_html__( 'Timeline: Title', 'twae' ); // Escape output
+					
+					return esc_html__( 'Timeline: Title', 'timeline-widget-addon-for-elementor' ); // Escape output
 
 				case 'twae_description':
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					return esc_html__( 'Timeline: Desc', 'twae' ); // Escape output
+					
+					return esc_html__( 'Timeline: Desc', 'timeline-widget-addon-for-elementor' );
 
 				case 'twae_year':
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					return esc_html__( 'Timeline: Year', 'twae' ); // Escape output
+					
+					return esc_html__( 'Timeline: Year', 'timeline-widget-addon-for-elementor' ); // Escape output
 
 				case 'twae_date_label':
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					return esc_html__( 'Timeline: Label', 'twae' ); // Escape output
+					
+					return esc_html__( 'Timeline: Label', 'timeline-widget-addon-for-elementor' ); // Escape output
 
 				case 'twae_extra_label':
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					return esc_html__( 'Timeline: Sub Label', 'twae' ); // Escape output
+					
+					return esc_html__( 'Timeline: Sub Label', 'timeline-widget-addon-for-elementor' ); // Escape output
 
 				default:
 					return '';

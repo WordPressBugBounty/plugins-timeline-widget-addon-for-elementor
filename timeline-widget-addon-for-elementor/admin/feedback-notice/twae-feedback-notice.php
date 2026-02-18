@@ -89,17 +89,12 @@ if (! class_exists('TWAEFeedbackNotice')) {
 			$img_path      = esc_url( TWAE_URL . 'assets/images/timeline-widget-logo.png' );
 			$p_name             = esc_html('Timeline Widget Addon For Elementor');
 			$like_it_text       =  esc_html('Rate Now! ★★★★★');
-		    // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			$already_rated_text = esc_html__('Already Reviewed', 'cool-timeline');
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			$not_interested     = esc_html__('Not Interested', 'ect');
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			$not_like_it_text   = esc_html__('No, not good enough, i do not like to rate it!', 'cool-timeline');
+			$already_rated_text = esc_html__('Already Reviewed', 'timeline-widget-addon-for-elementor');
+			$not_interested     = esc_html__('Not Interested', 'timeline-widget-addon-for-elementor');
+			$not_like_it_text   = esc_html__('No, not good enough, i do not like to rate it!', 'timeline-widget-addon-for-elementor');
 			$p_link             = esc_url('https://wordpress.org/support/plugin/timeline-widget-addon-for-elementor/reviews/#new-post');
 			$pro_url            = esc_url('https://cooltimeline.com/plugin/elementor-timeline-widget-pro/');
-
 			$raw_message = "Thanks for using <b>$p_name</b> WordPress plugin. We hope it meets your expectations! <br/>Please give us a quick rating, it works as a boost for us to keep working on more <a href='https://coolplugins.net' target='_blank'><strong>Cool Plugins</strong></a>!<br/>";
-
 			$allowed_html = array(
 				'b'      => array(),
 				'br'     => array(),

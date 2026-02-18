@@ -3,13 +3,13 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.21
+ * Version:     1.6.22
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
- * Text Domain: twae
+ * Text Domain: timeline-widget-addon-for-elementor
  * License:GPLv2 or later 
  * License URI:http://www.gnu.org/licenses/gpl-2.0.html
- * Elementor tested up to: 3.35.4
+ * Elementor tested up to: 3.35.5 
  * Elementor Pro tested up to: 3.35.1
  */
 
@@ -21,7 +21,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.21' );
+define( 'TWAE_VERSION', '1.6.22' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -128,12 +128,10 @@ final class Timeline_Widget_Addon {
 			}
 
 			$notice = [
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title' => __('Timeline Plugins by Cool Plugins', 'twae'),
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'message' => __('Help us make this plugin more compatible with your site by sharing non-sensitive site data.', 'cool-plugins-feedback'),
+				'title' => __('Timeline Plugins by Cool Plugins', 'timeline-widget-addon-for-elementor'),
+				'message' => __('Help us make this plugin more compatible with your site by sharing non-sensitive site data.', 'timeline-widget-addon-for-elementor'),
 				'pages' => ['twae-welcome-page'],
-				'always_show_on' => ['twae-welcome-page'], // This enables auto-show
+				'always_show_on' => ['twae-welcome-page'],
 				'plugin_name'=>'twae'
 			];
 
@@ -199,8 +197,8 @@ final class Timeline_Widget_Addon {
 
 	public function twae_form_plugin_notice() {
 		if(class_exists('twae_free_form_plugin_notice')){
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			twae_free_form_plugin_notice::instance('cool-form-free','Are you using the <strong>Elementor Form widget</strong> to create forms? Make your forms smarter with conditional fields and improve your form-building experience!<br><a href="'.esc_url(site_url().'/wp-admin/plugin-install.php?tab=plugin-information&plugin=conditional-fields-for-elementor-form&TB_iframe=true&width=772&height=885').'" class="thickbox button button-primary open-plugin-details-modal" style="margin-right: 10px; margin-top: 10px;">'.esc_html__( 'Install Plugin', 'twae' ).'</a><a href="'.esc_url("https://coolplugins.net/product/conditional-fields-for-elementor-form/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=plugins_list&utm_content=demo#demos").'" class="button button-primary" target="_blank" style="margin-right: 10px;">'.esc_html__( 'View Demos', 'twae' ).'</a>',5);
+			
+			twae_free_form_plugin_notice::instance('cool-form-free','Are you using the <strong>Elementor Form widget</strong> to create forms? Make your forms smarter with conditional fields and improve your form-building experience!<br><a href="'.esc_url(site_url().'/wp-admin/plugin-install.php?tab=plugin-information&plugin=conditional-fields-for-elementor-form&TB_iframe=true&width=772&height=885').'" class="thickbox button button-primary open-plugin-details-modal" style="margin-right: 10px; margin-top: 10px;">'.esc_html__( 'Install Plugin', 'timeline-widget-addon-for-elementor' ).'</a><a href="'.esc_url("https://coolplugins.net/product/conditional-fields-for-elementor-form/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=plugins_list&utm_content=demo#demos").'" class="button button-primary" target="_blank" style="margin-right: 10px;">'.esc_html__( 'View Demos', 'timeline-widget-addon-for-elementor' ).'</a>',5);
 		}
 	}
 
@@ -209,8 +207,7 @@ final class Timeline_Widget_Addon {
 		if ( ! is_plugin_active( 'elementor/elementor.php' ) ) : ?>
 			<div class="notice notice-warning is-dismissible">
 				<p><?php 
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				/* translators: 1: Plugin name 2: PHP 3: Required PHP version */  echo wp_kses_post( sprintf( __( '<a href="%s"  target="_blank" >Elementor Page Builder</a>  must be installed and activated for "<strong>Timeline Widget Addon For Elementor</strong>" to work' , 'twae' ), 'https://wordpress.org/plugins/elementor/' ) ); ?></p>
+				/* translators: 1: Plugin name 2: PHP 3: Required PHP version */  echo wp_kses_post( sprintf( __( '<a href="%s"  target="_blank" >Elementor Page Builder</a>  must be installed and activated for "<strong>Timeline Widget Addon For Elementor</strong>" to work' , 'timeline-widget-addon-for-elementor' ), 'https://wordpress.org/plugins/elementor/' ) ); ?></p>
 			</div>
 			<?php
 			deactivate_plugins( 'timeline-widget-addon-for-elementor/timeline-widget-addon-for-elementor.php' );

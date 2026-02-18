@@ -18,9 +18,7 @@ $twae_cool_plugins_more_info = TWAE_DEMO_URL;
 	<div class="cool-header">
 		<h2 style=""><?php echo esc_html( $this->dashboar_page_heading ); ?></h2>
 	<a href="<?php echo esc_url( $twae_cool_plugins_docs ); ?>" target="_docs" class="button"><?php 
-	// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-	echo esc_html__( 'Docs', 'twae' ); ?></a>
+	echo esc_html__( 'Docs', 'timeline-widget-addon-for-elementor' ); ?></a>
 	<a href="<?php echo esc_url( $twae_cool_plugins_more_info ); ?>" target="_info" class="button"><?php 
-	// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-	echo esc_html__( 'Demos', 'twae' ); ?></a>
+	echo esc_html__( 'Demos', 'timeline-widget-addon-for-elementor' ); ?></a>
 </div>

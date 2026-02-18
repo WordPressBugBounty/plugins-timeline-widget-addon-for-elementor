@@ -94,8 +94,7 @@ if (!class_exists('TWAE_cronjob')) {
 
                 $schedules['every_30_days'] = array(
                     'interval' => 30 * 24 * 60 * 60, // 2,592,000 seconds
-                    // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-                    'display'  => __('Once every 30 days' , 'twae'),
+                    'display'  => __('Once every 30 days' , 'timeline-widget-addon-for-elementor'),
                 );
             }
 

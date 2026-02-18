@@ -149,7 +149,7 @@ class CPFM_Feedback_Notice {
         }
 
         $screen         = get_current_screen();
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading GET parameter to determine current admin page
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading GET parameter to determine current admin page
         $current_page   = isset($_GET['page']) ? sanitize_key($_GET['page']) : '';
 
        
@@ -166,8 +166,8 @@ class CPFM_Feedback_Notice {
     
         $output = '';
         $output .= '<div id="cpfNoticePanel" class="notice-panel"' . ($auto_show ? ' data-auto-show="true"' : '') . '>';
-        // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-        $output .= '<div class="notice-panel-header">' . esc_html__('Help Improve Plugins', 'ccpw') . ' <span class="dashicons dashicons-no" id="cpfm_remove_notice"></span></div>';
+        
+        $output .= '<div class="notice-panel-header">' . esc_html__('Help Improve Plugins', 'timeline-widget-addon-for-elementor') . ' <span class="dashicons dashicons-no" id="cpfm_remove_notice"></span></div>';
         $output .= '<div class="notice-panel-content">';
     
         foreach (self::$registered_notices as $key => $notice) {
@@ -191,32 +191,20 @@ class CPFM_Feedback_Notice {
     
             $output .= '<div class="notice-item unread" data-notice-id="' . esc_attr($key) . '">';
             $output .= '<strong>' . esc_html($notice['title']) . '</strong>';
-            
             $output .= '<div class="notice-message-with-toggle">';
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-            $output .= '<p>' . esc_html($notice['message']) . '<a href="#" class="cpf-toggle-extra">' . esc_html__(' More info', 'ccpw') . '</a></p>';
+            $output .= '<p>' . esc_html($notice['message']) . '<a href="#" class="cpf-toggle-extra">' . esc_html__(' More info', 'timeline-widget-addon-for-elementor') . '</a></p>';
             $output .= '</div>';
-            
             $output .= '<div class="cpf-extra-info">';
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-            $output .= '<p>' . esc_html__('Opt in to receive email updates about security improvements, new features, helpful tutorials, and occasional special offers. We\'ll collect:', 'ccpw') . '</p>';
+            $output .= '<p>' . esc_html__('Opt in to receive email updates about security improvements, new features, helpful tutorials, and occasional special offers. We\'ll collect:', 'timeline-widget-addon-for-elementor') . '</p>';
             $output .= '<ul>';
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-            $output .= '<li>' . esc_html__('Your website home URL and WordPress admin email.', 'ccpw') . '</li>';
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-            $output .= '<li>' .esc_html__('To check plugin compatibility, we will collect the following: list of active plugins and themes, server type, MySQL version, WordPress version, memory limit, site language and database prefix.','ccpw') .' <a href="' . esc_url( 'https://my.coolplugins.net/terms/usage-tracking/' ) . '" target="_blank" rel="noopener noreferrer">' .esc_html__( 'Click here', 'ccpw' ) .'</a></li>';
-
+            $output .= '<li>' . esc_html__('Your website home URL and WordPress admin email.', 'timeline-widget-addon-for-elementor') . '</li>';
+            $output .= '<li>' .esc_html__('To check plugin compatibility, we will collect the following: list of active plugins and themes, server type, MySQL version, WordPress version, memory limit, site language and database prefix.','timeline-widget-addon-for-elementor') .' <a href="' . esc_url( 'https://my.coolplugins.net/terms/usage-tracking/' ) . '" target="_blank" rel="noopener noreferrer">' .esc_html__( 'Click here', 'timeline-widget-addon-for-elementor' ) .'</a></li>';
             $output .= '</ul>';
-            
             $output .= '</div>';
-            
             $output .= '<div class="notice-actions">';
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-            $output .= '<button class="button button-primary opt-in-yes" data-category="' . esc_attr($key) . '" id="yes-share-data" value="yes">' . esc_html__("Yes, I Agree", 'ccpw') . '</button>';
-            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-            $output .= '<button class="button opt-in-no" data-category="' . esc_attr($key) . '" id="no-share-data" value="no">' . esc_html__('No, Thanks', 'ccpw') . '</button>';
+            $output .= '<button class="button button-primary opt-in-yes" data-category="' . esc_attr($key) . '" id="yes-share-data" value="yes">' . esc_html__("Yes, I Agree", 'timeline-widget-addon-for-elementor') . '</button>';
+            $output .= '<button class="button opt-in-no" data-category="' . esc_attr($key) . '" id="no-share-data" value="no">' . esc_html__('No, Thanks', 'timeline-widget-addon-for-elementor') . '</button>';
             $output .= '</div>';
-            
             $output .= '</div>';
         }
     

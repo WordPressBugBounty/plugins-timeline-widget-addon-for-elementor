@@ -74,8 +74,8 @@ final class TWAE_Free_Main {
 			\Elementor\Plugin::$instance->elements_manager->add_category(
 				'twae',              // the name of the category
 				array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'title' => esc_html__( 'Timeline Widgets', 'twae' ),
+					
+					'title' => esc_html__( 'Timeline Widgets', 'timeline-widget-addon-for-elementor'),
 					'icon'  => 'fa fa-header', // default icon
 				),
 				1 // position
@@ -117,14 +117,14 @@ final class TWAE_Free_Main {
 		}
 
 	$message = sprintf(
-		// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-		/* translators: 1: Plugin name 2: PHP 3: Required PHP version */ esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'twae' ),
+		
+		/* translators: 1: Plugin name 2: PHP 3: Required PHP version */ esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'timeline-widget-addon-for-elementor'),
 
 	'<strong>' . 
-	// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-	esc_html__( 'Timeline Widget Pro For Elementor', 'twae' ) . '</strong>',
-	// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-	'<strong>' . esc_html__( 'PHP', 'twae' ) . '</strong>',
+	
+	esc_html__( 'Timeline Widget Pro For Elementor', 'timeline-widget-addon-for-elementor') . '</strong>',
+	
+	'<strong>' . esc_html__( 'PHP', 'timeline-widget-addon-for-elementor') . '</strong>',
 		esc_html( self::MINIMUM_PHP_VERSION ) // Escape output
 	);
 

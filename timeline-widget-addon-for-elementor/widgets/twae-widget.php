@@ -93,8 +93,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_title() {
-		// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-		return __( 'Story Timeline', 'twae' );
+		
+		return __( 'Story Timeline', 'timeline-widget-addon-for-elementor' );
 	}
 
 	public function get_icon() {
@@ -103,7 +103,7 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 
 	public function get_categories() {
 
-		return array( 'twae' );
+		return array( 'timeline-widget-addon-for-elementor' );
 	}
 	protected function register_controls() {
 		$this->content_controls();
@@ -112,8 +112,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_layout_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( 'Layout Settings', 'twae' ),
+				
+				'label' => __( 'Layout Settings', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -121,8 +121,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_layout',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'   => __( 'Layout', 'twae' ),
+				
+				'label'   => __( 'Layout', 'timeline-widget-addon-for-elementor' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'default' => 'centered',
 				'options' => array(
@@ -136,23 +136,23 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'content-alignment',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Content Alignment', 'twae' ),
+				
+				'label'     => esc_html__( 'Content Alignment', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'   => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Left', 'twae' ),
+						
+						'title' => esc_html__( 'Left', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Center', 'twae' ),
+						
+						'title' => esc_html__( 'Center', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Right', 'twae' ),
+						
+						'title' => esc_html__( 'Right', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
@@ -166,23 +166,23 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'content-alignment_alternate',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Content Alignment (Left)', 'twae' ),
+				
+				'label'     => esc_html__( 'Content Alignment (Left)', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'   => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Left', 'twae' ),
+						
+						'title' => esc_html__( 'Left', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Center', 'twae' ),
+						
+						'title' => esc_html__( 'Center', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Right', 'twae' ),
+						
+						'title' => esc_html__( 'Right', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
@@ -202,8 +202,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'twae_icon_position',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'       => __( 'Icon / Labels Position', 'twae' ),
+				
+				'label'       => __( 'Icon / Labels Position', 'timeline-widget-addon-for-elementor' ),
 				'type'        => \Elementor\Controls_Manager::SLIDER,
 				'render_type' => 'template',
 				'range'       => array(
@@ -225,8 +225,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_horizontal_slides',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( '🔶 Horizontal Slides', 'twae' ),
+				
+				'label'     => esc_html__( '🔶 Horizontal Slides', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => array(
@@ -238,23 +238,23 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_slides_to_show',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Slides To Show', 'twea' ),
+				
+				'label'     => esc_html__( 'Slides To Show', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::SELECT,
 				'default'   => 2,
 				'options'   => array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					1 => esc_html__( '1 Slide', 'twae' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					2 => esc_html__( '2 Slides', 'twae' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					3 => esc_html__( '3 Slides', 'twae' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					4 => esc_html__( '4 Slides', 'twae' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					5 => esc_html__( '5 Slides', 'twae' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					6 => esc_html__( '6 Slides', 'twae' ),
+					
+					1 => esc_html__( '1 Slide', 'timeline-widget-addon-for-elementor' ),
+					
+					2 => esc_html__( '2 Slides', 'timeline-widget-addon-for-elementor' ),
+					
+					3 => esc_html__( '3 Slides', 'timeline-widget-addon-for-elementor' ),
+					
+					4 => esc_html__( '4 Slides', 'timeline-widget-addon-for-elementor' ),
+					
+					5 => esc_html__( '5 Slides', 'timeline-widget-addon-for-elementor' ),
+					
+					6 => esc_html__( '6 Slides', 'timeline-widget-addon-for-elementor' ),
 				),
 				'condition' => array(
 					'twae_layout' => 'horizontal',
@@ -265,8 +265,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_autoplay',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch	
-				'label'     => __( 'Autoplay', 'twae' ),
+					
+				'label'     => __( 'Autoplay', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::SELECT,
 				'default'   => 'false',
 				'options'   => array(
@@ -284,10 +284,10 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_slides_height',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'       => __( 'Slides Height', 'twae' ),
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'description' => __( 'Make all slides the same height based on the tallest slide', 'twae' ),
+				
+				'label'       => __( 'Slides Height', 'timeline-widget-addon-for-elementor' ),
+				
+				'description' => __( 'Make all slides the same height based on the tallest slide', 'timeline-widget-addon-for-elementor' ),
 				'type'        => \Elementor\Controls_Manager::SELECT,
 				'default'     => 'no-height',
 				'options'     => array(
@@ -542,44 +542,44 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		// Image and Icon controller options.
 		$media_option = array(
 			'image' => array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title' => __( 'Image', 'twae' ),
+				
+				'title' => __( 'Image', 'timeline-widget-addon-for-elementor' ),
 				'icon'  => 'fa fa-image',
 			),
 		);
 		$icon_option  = array(
 			'icon' => array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title' => __( 'Icon', 'twae' ),
+				
+				'title' => __( 'Icon', 'timeline-widget-addon-for-elementor' ),
 				'icon'  => 'fab fa-font-awesome',
 			),
 		);
 
 		// Conditional based Image and Icon controller options.
 		$media_option['video']     = array(
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			'title' => __( 'Video', 'twae' ),
+			
+			'title' => __( 'Video', 'timeline-widget-addon-for-elementor' ),
 			'icon'  => 'fa fa-video',
 		);
 		$media_option['slideshow'] = array(
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			'title' => __( 'Slideshow', 'twae' ),
+			
+			'title' => __( 'Slideshow', 'timeline-widget-addon-for-elementor' ),
 			'icon'  => 'fa fa-images',
 		);
 		$icon_option['customtext'] = array(
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			'title' => __( 'Text', 'twae' ),
+			
+			'title' => __( 'Text', 'timeline-widget-addon-for-elementor' ),
 			'icon'  => 'fa fa-list-ol',
 		);
 		$icon_option['image']      = array(
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			'title' => __( 'Image', 'twae' ),
+			
+			'title' => __( 'Image', 'timeline-widget-addon-for-elementor' ),
 			'icon'  => 'fa fa-images',
 		);
 
 		$icon_option['dot'] = array(
-			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-			'title' => __( 'Dot', 'twae' ),
+			
+			'title' => __( 'Dot', 'timeline-widget-addon-for-elementor' ),
 			'icon'  => 'eicon-circle',
 		);
 
@@ -587,8 +587,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_content_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( 'Timeline Stories', 'twae' ),
+				
+				'label' => __( 'Timeline Stories', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -603,21 +603,21 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->start_controls_tab(
 			'twae_content_tab',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( 'Content', 'twae' ),
+				
+				'label' => __( 'Content', 'timeline-widget-addon-for-elementor' ),
 			)
 		);
 		// Story Year / Label Show/Hide
 		$repeater->add_control(
 			'twae_show_year_label',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'        => __( 'Year / Label (Top)', 'twae' ),
+				
+				'label'        => __( 'Year / Label (Top)', 'timeline-widget-addon-for-elementor' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label_on'     => __( 'Show', 'twae' ),
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label_off'    => __( 'Hide', 'twae' ),
+				
+				'label_on'     => __( 'Show', 'timeline-widget-addon-for-elementor' ),
+				
+				'label_off'    => __( 'Hide', 'timeline-widget-addon-for-elementor' ),
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'separator'    => 'before',
@@ -627,8 +627,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_year',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Year / Label Text', 'twae' ),
+				
+				'label'     => __( 'Year / Label Text', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::TEXT,
 				'default'   => '2022',
 				'condition' => array(
@@ -642,8 +642,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_date_label',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'   => __( 'Label / Date', 'twae' ),
+				
+				'label'   => __( 'Label / Date', 'timeline-widget-addon-for-elementor' ),
 				'type'    => \Elementor\Controls_Manager::TEXT,
 				'default' => 'March 30',
 			)
@@ -652,8 +652,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_extra_label',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'   => __( 'Sub Label', 'twae' ),
+				
+				'label'   => __( 'Sub Label', 'timeline-widget-addon-for-elementor' ),
 				'type'    => \Elementor\Controls_Manager::TEXT,
 				'default' => 'Sub Label',
 			)
@@ -662,8 +662,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_story_title',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'       => __( 'Title', 'twae' ),
+				
+				'label'       => __( 'Title', 'timeline-widget-addon-for-elementor' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => 'Add Title Here',
 				'label_block' => true,
@@ -674,8 +674,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_media',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Choose Media', 'twae' ),
+				
+				'label'     => __( 'Choose Media', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::CHOOSE,
 				'separator' => 'before',
 				'options'   => $media_option,
@@ -687,11 +687,11 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_image',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'       => __( 'Choose Image', 'twae' ),
+				
+				'label'       => __( 'Choose Image', 'timeline-widget-addon-for-elementor' ),
 				'type'        => \Elementor\Controls_Manager::MEDIA,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'description' => __( 'Image Size will not work with default image', 'twae' ),
+				
+				'description' => __( 'Image Size will not work with default image', 'timeline-widget-addon-for-elementor' ),
 				'default'     => array(
 					'url' => \Elementor\Utils::get_placeholder_image_src(),
 				),
@@ -710,8 +710,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 				'name'        => 'twae_thumbnail', // Usage: `{name}_size` and `{name}_custom_dimension`, in this case `thumbnail_size` and `thumbnail_custom_dimension`.
 				'separator'   => 'none',
 				'default'     => 'large',
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'description' => __( 'Image Size will not work with dummy image.', 'twae' ),
+				
+				'description' => __( 'Image Size will not work with dummy image.', 'timeline-widget-addon-for-elementor' ),
 				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- This is Elementor control config, not a WP_Query parameter
 				'exclude'     => array( 'custom' ),
 				'condition'   => array(
@@ -761,8 +761,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_description',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Description', 'twae' ),
+				
+				'label'     => __( 'Description', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::WYSIWYG,
 				'default'   => 'Add Description Here',
 				'separator' => 'before',
@@ -775,16 +775,16 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->start_controls_tab(
 			'twae_advanced_tab',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( 'Advanced', 'twae' ),
+				
+				'label' => __( 'Advanced', 'timeline-widget-addon-for-elementor' ),
 			)
 		);
 		// Story Icon Type
 		$repeater->add_control(
 			'twae_icon_type',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Icon Type', 'twae' ),
+				
+				'label'     => __( 'Icon Type', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::CHOOSE,
 				'separator' => 'before',
 				'options'   => $icon_option,
@@ -796,8 +796,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->add_control(
 			'twae_story_icon',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'FontAwesome Icon', 'twae' ),
+				
+				'label'     => __( 'FontAwesome Icon', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::ICONS,
 				'default'   => array(
 					'value'   => 'far fa-clock',
@@ -859,8 +859,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$repeater->start_controls_tab(
 			'twae_style_tab',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( 'Colors', 'twae' ),
+				
+				'label' => __( 'Colors', 'timeline-widget-addon-for-elementor' ),
 			)
 		);
 		// Story Colors [PRO]
@@ -885,22 +885,22 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_list',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'       => __( 'Content', 'twae' ),
+				
+				'label'       => __( 'Content', 'timeline-widget-addon-for-elementor' ),
 				'type'        => \Elementor\Controls_Manager::REPEATER,
 				'fields'      => $repeater->get_controls(),
 				'default'     => array(
 					array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_story_title' => __( 'Amazon is born', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_description' => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Erat enim res aperta. Ne discipulum abducam, times. Primum quid tu dicis breve? An haec ab eo non dicuntur?', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_year'        => __( '1994', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_date_label'  => __( 'July 5', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_extra_label' => __( 'Introduced', 'twae' ),
+						
+						'twae_story_title' => __( 'Amazon is born', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_description' => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Erat enim res aperta. Ne discipulum abducam, times. Primum quid tu dicis breve? An haec ab eo non dicuntur?', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_year'        => __( '1994', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_date_label'  => __( 'July 5', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_extra_label' => __( 'Introduced', 'timeline-widget-addon-for-elementor' ),
 						'twae_image'       => array(
 							'url' => TWAE_URL . 'assets/images/amazon1.jpg',
 							'id'  => '',
@@ -908,16 +908,16 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 						'twae_video_url'   => '',
 					),
 					array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_story_title' => __( 'Amazon Prime debuts', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_description' => __( 'Aliter homines, aliter philosophos loqui putas oportere? Sin aliud quid voles, postea. Mihi enim satis est, ipsis non satis. Negat enim summo bono afferre incrementum diem. Quod ea non occurrentia fingunt, vincunt Aristonem.', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_year'        => __( '2005', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_date_label'  => __( 'February 2', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_extra_label' => __( 'Expanded', 'twae' ),
+						
+						'twae_story_title' => __( 'Amazon Prime debuts', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_description' => __( 'Aliter homines, aliter philosophos loqui putas oportere? Sin aliud quid voles, postea. Mihi enim satis est, ipsis non satis. Negat enim summo bono afferre incrementum diem. Quod ea non occurrentia fingunt, vincunt Aristonem.', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_year'        => __( '2005', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_date_label'  => __( 'February 2', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_extra_label' => __( 'Expanded', 'timeline-widget-addon-for-elementor' ),
 						'twae_image'       => array(
 							'url' => TWAE_URL . 'assets/images/amazon2.jpg',
 							'id'  => '',
@@ -925,16 +925,16 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 						'twae_video_url'   => '',
 					),
 					array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_story_title' => __( 'Amazon acquires Audible', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_description' => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_year'        => __( '2008', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_date_label'  => __( 'January 31', 'twae' ),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'twae_extra_label' => __( 'Expanded', 'twae' ),
+						
+						'twae_story_title' => __( 'Amazon acquires Audible', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_description' => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_year'        => __( '2008', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_date_label'  => __( 'January 31', 'timeline-widget-addon-for-elementor' ),
+						
+						'twae_extra_label' => __( 'Expanded', 'timeline-widget-addon-for-elementor' ),
 						'twae_image'       => array(
 							'url' => TWAE_URL . 'assets/images/amazon3.png',
 							'id'  => '',
@@ -956,8 +956,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_line_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '📍 Line Settings', 'twae' ),
+				
+				'label' => __( '📍 Line Settings', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -965,8 +965,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_line_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Line Color', 'twae' ),
+				
+				'label'     => __( 'Line Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper, {{WRAPPER}} .twae-navigationBar' => '--tw-line-bg: {{VALUE}}',
@@ -995,8 +995,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_storycontent_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '#️⃣ Title / Desc ', 'twae' ),
+				
+				'label' => __( '#️⃣ Title / Desc ', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1004,8 +1004,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_title_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '🔶 Title', 'twae' ),
+				
+				'label' => __( '🔶 Title', 'timeline-widget-addon-for-elementor' ),
 				'type'  => \Elementor\Controls_Manager::HEADING,
 			)
 		);
@@ -1014,8 +1014,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_story_title_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Color', 'twae' ),
+				
+				'label'     => __( 'Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'separator' => 'before',
 				'selectors' => array(
@@ -1029,8 +1029,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'               => 'twae_title_typography',
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'              => __( 'Typography', 'twae' ),
+				
+				'label'              => __( 'Typography', 'timeline-widget-addon-for-elementor' ),
 				'selector'           => '{{WRAPPER}} .twae-title, .twae-popup .twae-title',
 				'frontend_available' => true,
 			// 'exclude'            => array( 'line_height' ),
@@ -1042,8 +1042,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			'twae_story_title_margin',
 			array(
 				'type'      => \Elementor\Controls_Manager::SLIDER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Bottom Spacing', 'twae' ),
+				
+				'label'     => esc_html__( 'Bottom Spacing', 'timeline-widget-addon-for-elementor' ),
 				'range'     => array(
 					'px' => array(
 						'min'  => 0,
@@ -1061,8 +1061,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_description_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( '🔶 Description', 'twae' ),
+				
+				'label'     => __( '🔶 Description', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1071,8 +1071,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_description_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Color', 'twae' ),
+				
+				'label'     => __( 'Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'separator' => 'before',
 				'selectors' => array(
@@ -1086,8 +1086,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'twae_description_typography',
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'    => __( 'Typography', 'twae' ),
+				
+				'label'    => __( 'Typography', 'timeline-widget-addon-for-elementor' ),
 				'selector' => '{{WRAPPER}} .twae-description, {{WRAPPER}} .twae-button a, .twae-popup .twae-description',
 			// 'exclude'  => array( 'line_height' ),
 			)
@@ -1098,8 +1098,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			'space_between_story_desc',
 			array(
 				'type'      => \Elementor\Controls_Manager::SLIDER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Bottom Spacing', 'twae' ),
+				
+				'label'     => esc_html__( 'Bottom Spacing', 'timeline-widget-addon-for-elementor' ),
 				'range'     => array(
 					'px' => array(
 						'min' => 0,
@@ -1125,8 +1125,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_cbox_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '🔳 Content Background / Border', 'twae' ),
+				
+				'label' => __( '🔳 Content Background / Border', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1134,8 +1134,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_cbox_padding',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'      => __( 'Padding', 'twae' ),
+				
+				'label'      => __( 'Padding', 'timeline-widget-addon-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
@@ -1149,8 +1149,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			'twae_space_between',
 			array(
 				'type'      => \Elementor\Controls_Manager::SLIDER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Bottom Spacing', 'twae' ),
+				
+				'label'     => esc_html__( 'Bottom Spacing', 'timeline-widget-addon-for-elementor' ),
 				'default'   => array(
 					'size' => '60',
 					'unit' => 'px',
@@ -1171,8 +1171,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_cbox_background',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( '🔶 Content Box Background', 'twae' ),
+				
+				'label'     => __( '🔶 Content Box Background', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1188,32 +1188,32 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_tab(
 			'twae_cbox_background_normal',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => esc_html__( 'Normal', 'twae' ),
+				
+				'label' => esc_html__( 'Normal', 'timeline-widget-addon-for-elementor' ),
 			)
 		);
 		// Content Box Background Type Normal
 		$this->add_control(
 			'twae_cbox_background_type',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'   => esc_html__( 'Background Type', 'twae' ),
+				
+				'label'   => esc_html__( 'Background Type', 'timeline-widget-addon-for-elementor' ),
 				'type'    => \Elementor\Controls_Manager::CHOOSE,
 				'default' => 'simple',
 				'options' => array(
 					'simple'     => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Simple', 'twae' ),
+						
+						'title' => esc_html__( 'Simple', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-paint-brush',
 					),
 					'gradient'   => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Gradient', 'twae' ),
+						
+						'title' => esc_html__( 'Gradient', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-barcode',
 					),
 					'multicolor' => array(
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'title' => esc_html__( 'Multi Color', 'twae' ),
+						
+						'title' => esc_html__( 'Multi Color', 'timeline-widget-addon-for-elementor' ),
 						'icon'  => 'eicon-plus-square',
 					),
 				),
@@ -1224,8 +1224,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_story_bgcolor',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Background Color', 'twae' ),
+				
+				'label'     => esc_html__( 'Background Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper, .elementor-page .twae-popup .twae-popup-content' => '--tw-cbx-bg: {{VALUE}}',
@@ -1271,8 +1271,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_tab(
 			'twae_cbox_background_hover',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => esc_html__( 'Hover', 'twae' ),
+				
+				'label' => esc_html__( 'Hover', 'timeline-widget-addon-for-elementor' ),
 			)
 		);
 
@@ -1295,8 +1295,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_cbox_border',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( '🔶 Content Box Border', 'twae' ),
+				
+				'label'     => __( '🔶 Content Box Border', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1305,8 +1305,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_cbox_border_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => esc_html__( 'Border Color', 'twae' ),
+				
+				'label'     => esc_html__( 'Border Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper' => '--tw-cbx-bd-color: {{VALUE}}',
@@ -1318,8 +1318,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_cbox_border_width',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'      => __( 'Border Width', 'twae' ),
+				
+				'label'      => __( 'Border Width', 'timeline-widget-addon-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
@@ -1356,8 +1356,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_icon_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '🔵 Icon Box / Dot', 'twae' ),
+				
+				'label' => __( '🔵 Icon Box / Dot', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1365,8 +1365,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_icon_bgcolor',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Icon / Dot Background', 'twae' ),
+				
+				'label'     => __( 'Icon / Dot Background', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper, {{WRAPPER}} .twae-navigationBar' => '--tw-ibx-bg: {{VALUE}}',
@@ -1377,8 +1377,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_icon_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Icon / Text Color', 'twae' ),
+				
+				'label'     => __( 'Icon / Text Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper, {{WRAPPER}} .twae-navigationBar' => '--tw-ibx-color: {{VALUE}}',
@@ -1409,8 +1409,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_image_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '📺 Image / Media - PRO', 'twae' ),
+				
+				'label' => __( '📺 Image / Media - PRO', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1432,8 +1432,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_button_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '🅱 Button (Read More) - PRO', 'twae' ),
+				
+				'label' => __( '🅱 Button (Read More) - PRO', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1458,8 +1458,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'twae_yld_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '📢 Labels / Date / Year Box', 'twae' ),
+				
+				'label' => __( '📢 Labels / Date / Year Box', 'timeline-widget-addon-for-elementor' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1467,8 +1467,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_yld_labels',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label' => __( '🔶 Label / Sub Label / Date', 'twae' ),
+				
+				'label' => __( '🔶 Label / Sub Label / Date', 'timeline-widget-addon-for-elementor' ),
 				'type'  => \Elementor\Controls_Manager::HEADING,
 			)
 		);
@@ -1477,8 +1477,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_date_label_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Label Color', 'twae' ),
+				
+				'label'     => __( 'Label Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper' => '--tw-lbl-big-color: {{VALUE}}',
@@ -1491,8 +1491,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'twae_label_typography',
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'    => __( 'Label Typography', 'twae' ),
+				
+				'label'    => __( 'Label Typography', 'timeline-widget-addon-for-elementor' ),
 				'selector' => '{{WRAPPER}} .twae-label-big,{{WRAPPER}} .twae_icon_text',
 				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- This is Elementor control config, not a WP_Query parameter
 				'exclude'  => array( 'line_height', 'font_size', 'letter_spacing', 'word_spacing' ),
@@ -1503,8 +1503,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			'twae_yld_label_size',
 			array(
 				'type'           => \Elementor\Controls_Manager::SLIDER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'          => esc_html__( 'Label Size', 'twae' ),
+				
+				'label'          => esc_html__( 'Label Size', 'timeline-widget-addon-for-elementor' ),
 				'range'          => array(
 					'px' => array(
 						'min' => 8,
@@ -1533,8 +1533,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_extra_label_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Sub Label Color', 'twae' ),
+				
+				'label'     => __( 'Sub Label Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper' => '--tw-lbl-small-color: {{VALUE}}',
@@ -1547,8 +1547,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'twae_extra_label_typography',
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'    => __( 'Sub Label Typography', 'twae' ),
+				
+				'label'    => __( 'Sub Label Typography', 'timeline-widget-addon-for-elementor' ),
 				'selector' => '{{WRAPPER}} .twae-label-small',
 				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- This is Elementor control config, not a WP_Query parameter
 				'exclude'  => array( 'line_height', 'font_size', 'letter_spacing', 'word_spacing' ),
@@ -1559,8 +1559,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			'twae_yld_sublabel_size',
 			array(
 				'type'           => \Elementor\Controls_Manager::SLIDER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'          => esc_html__( 'Sub Label Size', 'twae' ),
+				
+				'label'          => esc_html__( 'Sub Label Size', 'timeline-widget-addon-for-elementor' ),
 				'range'          => array(
 					'px' => array(
 						'min' => 8,
@@ -1589,8 +1589,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_year_label_section',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( '🔶 Year/Label (On Line)', 'twae' ),
+				
+				'label'     => __( '🔶 Year/Label (On Line)', 'timeline-widget-addon-for-elementor' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -1599,8 +1599,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_year_label_color',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Color', 'twae' ),
+				
+				'label'     => __( 'Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'separator' => 'before',
 				'selectors' => array(
@@ -1613,8 +1613,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'twae_year_label_bgcolor',
 			array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'     => __( 'Background Color', 'twae' ),
+				
+				'label'     => __( 'Background Color', 'timeline-widget-addon-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .twae-wrapper, {{WRAPPER}} .twae-navigationBar' => '--tw-ybx-bg: {{VALUE}}',
@@ -1626,8 +1626,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'twae_year_typography_new',
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'    => __( 'Typography', 'twae' ),
+				
+				'label'    => __( 'Typography', 'timeline-widget-addon-for-elementor' ),
 				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- This is Elementor control config, not a WP_Query parameter
 				'exclude'  => array( 'line_height' ),
 				'selector' => '{{WRAPPER}} .twae-year-text',
@@ -1639,8 +1639,8 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			'twae_year_size',
 			array(
 				'type'           => \Elementor\Controls_Manager::SLIDER,
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'label'          => esc_html__( 'Year Box Size', 'twae' ),
+				
+				'label'          => esc_html__( 'Year Box Size', 'timeline-widget-addon-for-elementor' ),
 				'range'          => array(
 					'px' => array(
 						'min' => 36,

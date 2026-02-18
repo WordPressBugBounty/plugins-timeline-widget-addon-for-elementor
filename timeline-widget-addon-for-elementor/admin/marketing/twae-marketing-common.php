@@ -123,14 +123,11 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 			$element->add_control(
 					'lgefep_taxonomy_dropdown',
 					[
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label' => __('Enable Smart Filters', 'loop-grid-extender-for-elementor-pro'),
+						'label' => __('Enable Smart Filters', 'timeline-widget-addon-for-elementor'),
 						'type' => \Elementor\Controls_Manager::SWITCHER,
 						'default' => 'no',
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_on' => __('Yes', 'loop-grid-extender-for-elementor-pro'),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_off' => __('No', 'loop-grid-extender-for-elementor-pro'),
+						'label_on' => __('Yes', 'timeline-widget-addon-for-elementor'),
+						'label_off' => __('No', 'timeline-widget-addon-for-elementor'),
 						'return_value' => 'yes',
 						'condition' => [
 							'selected_element!' => '',
@@ -261,13 +258,10 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					array(
 						'name'            => 'ctwae_mkt_country_notice',
 						'type'            => \Elementor\Controls_Manager::SWITCHER,
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label'        => esc_html__('Use ACF Repeater', 'country-code-for-elementor-form-telephone-field'),
+						'label'        => esc_html__('Use ACF Repeater', 'timeline-widget-addon-for-elementor'),
 						'type'         => \Elementor\Controls_Manager::SWITCHER,
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_on'     => esc_html__('Yes', 'country-code-for-elementor-form-telephone-field'),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_off'    => esc_html__('No', 'country-code-for-elementor-form-telephone-field'),
+						'label_on'     => esc_html__('Yes', 'timeline-widget-addon-for-elementor'),
+						'label_off'    => esc_html__('No', 'timeline-widget-addon-for-elementor'),
 
 					),
 			);
@@ -334,8 +328,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 
             if ( ! current_user_can( 'install_plugins' ) ) {
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				$status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.', 'twae' );
+				$status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.', 'timeline-widget-addon-for-elementor' );
 				wp_send_json_error( $status );
 			}
 			
@@ -346,8 +339,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				wp_send_json_error( array(
 					'slug'         => '',
 					'errorCode'    => 'no_plugin_specified',
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'errorMessage' => __( 'No plugin specified.', 'twae' ),
+					'errorMessage' => __( 'No plugin specified.', 'timeline-widget-addon-for-elementor' ),
 				));
 			}
      	
@@ -366,8 +358,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				wp_send_json_error( array(
 					'slug'         => $plugin_slug,
 					'errorCode'    => 'plugin_not_allowed',
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'errorMessage' => __( 'This plugin cannot be installed from here.', 'twae' ),
+					'errorMessage' => __( 'This plugin cannot be installed from here.', 'timeline-widget-addon-for-elementor' ),
 				));
 			}
 
@@ -468,8 +459,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					global $wp_filesystem;
 
 					$status['errorCode']    = 'unable_to_connect_to_filesystem';
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' , 'twae' );
+					$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' , 'timeline-widget-addon-for-elementor' );
 
 					if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
 						$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
@@ -549,16 +539,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				
 				'ctwae-mkt-country-conditions' => array(
 						'name'         => 'ctwae-mkt-country-conditions',
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label'        => esc_html__('Enable Country Code', 'country-code-for-elementor-form-telephone-field'),
+						'label'        => esc_html__('Enable Country Code', 'timeline-widget-addon-for-elementor'),
 						'type'         => \Elementor\Controls_Manager::SWITCHER,
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_on'     => esc_html__('Yes', 'country-code-for-elementor-form-telephone-field'),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_off'    => esc_html__('No', 'country-code-for-elementor-form-telephone-field'),
+						'label_on'     => esc_html__('Yes', 'timeline-widget-addon-for-elementor'),
+						'label_off'    => esc_html__('No', 'timeline-widget-addon-for-elementor'),
 						'condition'    => array(
-							// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-							'field_type' => array('tel', 'ehp-tel'),
+							'field_type' => array('tel', 'timeline-widget-addon-for-elementor'),
 						),
 						'tab'          => 'content',
 						'default'      => 'no',
@@ -587,7 +573,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 						'tab'             => 'content',
 						'condition'       => array(
 
-							'field_type' =>  array('tel', 'ehp-tel'),
+							'field_type' =>  array('tel', 'timeline-widget-addon-for-elementor'),
 							'ctwae-mkt-country-conditions' => 'yes'
 						),
 						'inner_tab'       => 'form_fields_content_tab',
@@ -611,15 +597,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 					'ctwae-mkt-conditional-conditions' => array(
 						'name'         => 'ctwae-mkt-conditional-conditions',
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label'        => esc_html__('Enable Conditions', 'conditional-fields-for-elementor-form'),
+						'label'        => esc_html__('Enable Conditions', 'timeline-widget-addon-for-elementor'),
 						'type'         => \Elementor\Controls_Manager::SWITCHER,
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_on'     => esc_html__('Yes', 'conditional-fields-for-elementor-form'),
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						'label_off'    => esc_html__('No', 'conditional-fields-for-elementor-form'),
+						'label_on'     => esc_html__('Yes', 'timeline-widget-addon-for-elementor'),
+						'label_off'    => esc_html__('No', 'timeline-widget-addon-for-elementor'),
 						'condition'    => array(
-							'field_type' => array('text', 'email', 'textarea', 'number', 'select', 'radio', 'checkbox', 'tel'),
+							'field_type' => array('text', 'email', 'textarea', 'number', 'select', 'radio', 'checkbox', 'timeline-widget-addon-for-elementor'),
 						),
 						'tab'          => 'content',
 						'default'      => 'no',

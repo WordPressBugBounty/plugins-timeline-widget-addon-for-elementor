@@ -73,38 +73,28 @@ class cool_plugins_feedback {
 		}
 		$deactivate_reasons = array(
 			'didnt_work_as_expected'         => array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title'             => __( 'The plugin didn\'t work as expected', 'cool-plugins' ),
+				'title'             => __( 'The plugin didn\'t work as expected', 'timeline-widget-addon-for-elementor' ),
 				'input_placeholder' => 'What did you expect?',
 			),
 
-			'found_a_better_plugin'          => array(
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title'             => __( 'I found a better plugin', 'cool-plugins' ),
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'input_placeholder' => __( 'Please share which plugin', 'cool-plugins' ),
+				'found_a_better_plugin'          => array(
+				'title'             => __( 'I found a better plugin', 'timeline-widget-addon-for-elementor' ),
+				'input_placeholder' => __( 'Please share which plugin', 'timeline-widget-addon-for-elementor' ),
 			),
 
-			'couldnt_get_the_plugin_to_work' => array(
-
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title'             => __( 'The plugin is not working', 'cool-plugins' ),
+				'couldnt_get_the_plugin_to_work' => array(
+				'title'             => __( 'The plugin is not working', 'timeline-widget-addon-for-elementor' ),
 				'input_placeholder' => 'Please share your issue. So we can fix that for other users.',
 			),
 
 			'temporary_deactivation'         => array(
-
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title'             => __( 'It\'s a temporary deactivation', 'cool-plugins' ),
+				'title'             => __( 'It\'s a temporary deactivation', 'timeline-widget-addon-for-elementor' ),
 				'input_placeholder' => '',
 			),
 
-			'other'                          => array(
-				
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'title'             => __( 'Other', 'cool-plugins' ),
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				'input_placeholder' => __( 'Please share the reason', 'cool-plugins' ),
+				'other'                          => array(
+				'title'             => __( 'Other', 'timeline-widget-addon-for-elementor' ),
+				'input_placeholder' => __( 'Please share the reason', 'timeline-widget-addon-for-elementor' ),
 			),
 		);
 
@@ -114,8 +104,7 @@ class cool_plugins_feedback {
 			<div class="cool-plugins-deactivation-response">
 			<div id="cool-plugins-deactivate-feedback-dialog-header">
 				<span id="cool-plugins-feedback-form-title"><?php 
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				echo esc_html__( 'Quick Feedback', 'cool-plugins' ); ?></span>
+				echo esc_html__( 'Quick Feedback', 'timeline-widget-addon-for-elementor' ); ?></span>
 			</div>
 			<div id="cool-plugins-loader-wrapper">
 				<div class="cool-plugins-loader-container">
@@ -129,9 +118,7 @@ class cool_plugins_feedback {
 				?>
 				<input type="hidden" name="action" value="cool-plugins_deactivate_feedback" />
 				<div id="cool-plugins-deactivate-feedback-dialog-form-caption"><?php 
-
-				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-				echo esc_html__( 'If you have a moment, please share why you are deactivating this plugin.', 'cool-plugins' ); ?></div>
+				echo esc_html__( 'If you have a moment, please share why you are deactivating this plugin.', 'timeline-widget-addon-for-elementor' ); ?></div>
 				<div id="cool-plugins-deactivate-feedback-dialog-form-body">
 					<?php
 					$reason_key_arr = array( 'didnt_work_as_expected', 'found_a_better_plugin', 'couldnt_get_the_plugin_to_work' );
@@ -151,20 +138,12 @@ class cool_plugins_feedback {
 									?>
 								  <div class="cool-plugins-extra-links">
 									<?php 
-									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-									echo esc_html__( 'Please try', 'cool-plugins' ); ?> <a href="<?php echo esc_url( $ctl_plugin_url ); ?>" target="_blank"><?php 
 									
-									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-									echo esc_html__( 'Cool Timeline', 'cool-plugins' ); ?></a> <?php 
-
-									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-									echo esc_html__( 'or', 'cool-plugins' ); ?> <a href="<?php echo esc_url( $ctb_plugin_url ); ?>" target="_blank"><?php 
-									
-									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-									echo esc_html__( 'Timeline Block', 'cool-plugins' ); ?></a> <?php 
-									
-									// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-									echo esc_html__( 'plugin.', 'cool-plugins' ); ?>
+									echo esc_html__( 'Please try', 'timeline-widget-addon-for-elementor' ); ?> <a href="<?php echo esc_url( $ctl_plugin_url ); ?>" target="_blank"><?php 
+									echo esc_html__( 'Cool Timeline', 'timeline-widget-addon-for-elementor' ); ?></a> <?php 
+									echo esc_html__( 'or', 'timeline-widget-addon-for-elementor' ); ?> <a href="<?php echo esc_url( $ctb_plugin_url ); ?>" target="_blank"><?php 
+									echo esc_html__( 'Timeline Block', 'timeline-widget-addon-for-elementor' ); ?></a> <?php 
+									echo esc_html__( 'plugin.', 'timeline-widget-addon-for-elementor' ); ?>
 									</div>
 									<?php
 								}
@@ -178,18 +157,14 @@ class cool_plugins_feedback {
 					<?php endforeach; ?>
 					<div class="cool-plugins-deactivate-feedback-dialog-input-wrapper">
 						<input class="cool-plugins-GDPR-data-notice" id="cool-plugins-GDPR-data-notice-<?php echo esc_attr( $this->plugin_slug ); ?>" type="checkbox"><label for="cool-plugins-GDPR-data-notice"><?php 
-						// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-						echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Timeline Widget For Elementor improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.', 'cool-plugins' ); ?></label>				
+						echo esc_html__( 'I agree to share anonymous usage data and basic site details (such as server, PHP, and WordPress versions) to support Timeline Widget For Elementor improvement efforts. Additionally, I allow Cool Plugins to store all information provided through this form and to respond to my inquiry.', 'timeline-widget-addon-for-elementor' ); ?></label>				
 					</div>
 				</div>
 				<div class="cool-plugin-popup-button-wrapper">
 					<a class="cool-plugins-button button-deactivate" id="twae-cool-plugin-submitNdeactivate"><?php 
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					echo esc_html__( 'Submit and Deactivate', 'cool-plugins' ); ?></a>
+					echo esc_html__( 'Submit and Deactivate', 'timeline-widget-addon-for-elementor' ); ?></a>
 					<a class="cool-plugins-button" id="twae-cool-plugin-skipNdeactivate"><?php
-
-					 // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					echo esc_html__( 'Skip and Deactivate', 'cool-plugins' ); ?></a>
+					echo esc_html__( 'Skip and Deactivate', 'timeline-widget-addon-for-elementor' ); ?></a>
 				</div>
 			</form>
 			</div>
@@ -275,37 +250,28 @@ class cool_plugins_feedback {
 			$reason = isset( $_POST['reason'] ) ? sanitize_text_field( wp_unslash( $_POST['reason'] ) ) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'title'             => esc_html__( 'The plugin didn\'t work as expected', 'cool-plugins' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'input_placeholder' => esc_html__( 'What did you expect?', 'cool-plugins' ),
+					'title'             => esc_html__( 'The plugin didn\'t work as expected', 'timeline-widget-addon-for-elementor' ),
+					'input_placeholder' => esc_html__( 'What did you expect?', 'timeline-widget-addon-for-elementor' ),
 				),
 
 				'found_a_better_plugin'          => array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'title'             => esc_html__( 'I found a better plugin', 'cool-plugins' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'input_placeholder' => esc_html__( 'Please share which plugin', 'cool-plugins' ),
+					'title'             => esc_html__( 'I found a better plugin', 'timeline-widget-addon-for-elementor' ),
+					'input_placeholder' => esc_html__( 'Please share which plugin', 'timeline-widget-addon-for-elementor' ),
 				),
 
-				'couldnt_get_the_plugin_to_work' => array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'title'             => esc_html__( 'The plugin is not working', 'cool-plugins' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'input_placeholder' => esc_html__( 'Please share your issue. So we can fix that for other users.', 'cool-plugins' ),
+					'couldnt_get_the_plugin_to_work' => array(
+					'title'             => esc_html__( 'The plugin is not working', 'timeline-widget-addon-for-elementor' ),
+					'input_placeholder' => esc_html__( 'Please share your issue. So we can fix that for other users.', 'timeline-widget-addon-for-elementor' ),
 				),
 
 				'temporary_deactivation'         => array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'title'             => esc_html__( 'It\'s a temporary deactivation', 'cool-plugins' ),
+					'title'             => esc_html__( 'It\'s a temporary deactivation', 'timeline-widget-addon-for-elementor' ),
 					'input_placeholder' => '',
 				),
 
 				'other'                          => array(
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'title'             => esc_html__( 'Other', 'cool-plugins' ),
-					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-					'input_placeholder' => esc_html__( 'Please share the reason', 'cool-plugins' ),
+					'title'             => esc_html__( 'Other', 'timeline-widget-addon-for-elementor' ),
+					'input_placeholder' => esc_html__( 'Please share the reason', 'timeline-widget-addon-for-elementor' ),
 				),
 			);
 

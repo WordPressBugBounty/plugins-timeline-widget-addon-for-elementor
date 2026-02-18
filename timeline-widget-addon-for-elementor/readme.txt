@@ -5,7 +5,7 @@ Tags: timeline, elementor timeline, roadmap, history, horizontal timeline
 Requires at least:5.0
 Tested up to:6.9
 Requires PHP:7.2
-Stable tag:1.6.21
+Stable tag:1.6.22
 License:GPLv2 or later 
 License URI:http://www.gnu.org/licenses/gpl-2.0.html
 Highlight your company’s history, milestones, and key events directly inside Elementor using stunning vertical and horizontal timelines.
@@ -131,6 +131,10 @@ Yes, using Timeline Widget Plugin, you can enhance your timeline slider with ima
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability](https://patchstack.com/database/vdp/template-events-calendar).
 
 == Changelog ==
+
+**Version 1.6.22 | 18 Feb 2026**
+- **Improved** : Standardized text domain across plugins.
+- **Tested up to:** Elementor 3.35.5
 
 **Version 1.6.21 | 12 Feb 2026**
 - **Tested up to:** Elementor  3.35.4.
