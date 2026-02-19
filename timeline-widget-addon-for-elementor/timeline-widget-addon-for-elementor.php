@@ -3,7 +3,7 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.22
+ * Version:     1.6.23
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
  * Text Domain: timeline-widget-addon-for-elementor
@@ -21,7 +21,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.22' );
+define( 'TWAE_VERSION', '1.6.23' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -37,6 +37,7 @@ register_deactivation_hook( TWAE_FILE, array( 'Timeline_Widget_Addon', 'twae_dea
 /**
  * Class Timeline_Widget_Addon
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 final class Timeline_Widget_Addon {
 
 
