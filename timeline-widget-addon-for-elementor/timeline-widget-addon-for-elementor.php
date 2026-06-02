@@ -3,7 +3,7 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.24
+ * Version:     1.6.25
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
  * Text Domain: timeline-widget-addon-for-elementor
@@ -21,7 +21,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.24' );
+define( 'TWAE_VERSION', '1.6.25' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -170,15 +170,26 @@ final class Timeline_Widget_Addon {
 	}
 
 	function twae_plugin_redirection( $plugin ) {
-		if ( plugin_basename( __FILE__ ) === $plugin ) {
+		if ( plugin_basename( __FILE__ ) !== $plugin ) {
+			return;
+		}
 
-			if ( ! function_exists( 'is_plugin_active' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			}
-			if ( is_plugin_active( 'elementor/elementor.php' ) ) {
-				wp_safe_redirect( admin_url( 'admin.php?page=twae-welcome-page' ) );
-				exit;
-			}
+		// Only redirect in admin when a user with activate_plugins activated this plugin.
+		if ( wp_doing_ajax() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+			return;
+		}
+
+		if ( ! get_current_user_id() || ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( is_plugin_active( 'elementor/elementor.php' ) ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=twae-welcome-page' ) );
+			exit;
 		}
 	}
     public function ctl_settings_link( $links ) {
@@ -220,6 +231,7 @@ final class Timeline_Widget_Addon {
 	 * Run when activate plugin.
 	 */
 	public static function twae_activate() {
+
 		update_option( 'twae-free-v', sanitize_text_field( TWAE_VERSION ) );
 		update_option( 'twae-type', 'FREE' );
 		update_option( 'twae-installDate', gmdate( 'Y-m-d h:i:s' ) );

@@ -22,6 +22,11 @@ class cool_plugins_feedback {
 	private $feedback_url    = TWAE_FEEDBACK_API.'wp-json/coolplugins-feedback/v1/feedback';
 
 	/**
+	 * Nonce action for the deactivation feedback AJAX handler (do not prefix with underscore).
+	 */
+	private const DEACTIVATE_FEEDBACK_NONCE_ACTION = 'twae_deactivate_feedback';
+
+	/**
 	 * Avoid creating multiple instance of this class
 	 */
 	static function get_instance() {
@@ -57,6 +62,24 @@ class cool_plugins_feedback {
 		if ( isset( $screen ) && $screen->id == 'plugins' ) {
 			wp_enqueue_script( __NAMESPACE__ . '-feedback-script', $this->plugin_url . 'admin/feedback/js/admin-feedback.js', array(), $this->plugin_version, true );
 			wp_enqueue_style( 'cool-plugins-feedback-style', $this->plugin_url . 'admin/feedback/css/admin-feedback.css', array(), $this->plugin_version );
+
+			$plugin_basename = plugin_basename( TWAE_FILE );
+			wp_localize_script(
+				__NAMESPACE__ . '-feedback-script',
+				'twaeDeactivateFeedback',
+				array(
+					'deactivateUrl' => wp_nonce_url(
+						add_query_arg(
+							array(
+								'action' => 'deactivate',
+								'plugin' => $plugin_basename,
+							),
+							admin_url( 'plugins.php' )
+						),
+						'deactivate-plugin_' . $plugin_basename
+					),
+				)
+			);
 		}
 	}
 
@@ -114,7 +137,7 @@ class cool_plugins_feedback {
 			<div id="cool-plugins-form-wrapper" class="cool-plugins-form-wrapper-cls">
 			<form id="cool-plugins-deactivate-feedback-dialog-form" method="post">
 				<?php
-				wp_nonce_field( '_cool-plugins_deactivate_feedback_nonce' );
+				wp_nonce_field( self::DEACTIVATE_FEEDBACK_NONCE_ACTION, '_wpnonce' );
 				?>
 				<input type="hidden" name="action" value="cool-plugins_deactivate_feedback" />
 				<div id="cool-plugins-deactivate-feedback-dialog-form-caption"><?php 
@@ -241,11 +264,11 @@ class cool_plugins_feedback {
 	function submit_deactivation_response() {
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( array( 'error' => 'Unauthorized' ) );
+            wp_send_json_error( array( 'error' => 'Unauthorized' ), 403 );
         }
 
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
-			wp_send_json_error();
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), self::DEACTIVATE_FEEDBACK_NONCE_ACTION ) ) {
+			wp_send_json_error( array( 'error' => 'Invalid nonce' ), 403 );
 		} else {
 			$reason = isset( $_POST['reason'] ) ? sanitize_text_field( wp_unslash( $_POST['reason'] ) ) : '';
 			$deactivate_reasons = array(
@@ -280,16 +303,17 @@ class cool_plugins_feedback {
 			$sanitized_message = ! empty( $_POST['message'] ) ? sanitize_text_field( wp_unslash( $_POST['message'] ) ) : 'N/A';
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
 			$site_url          = esc_url( site_url() );
-			$install_date 		= get_option('twae-install-date');
+			$install_date 		= sanitize_text_field( (string) get_option( 'twae-install-date', '' ) );
 			$unique_key     	= '50';  // Ensure this key is unique per plugin to prevent collisions when site URL and install date are the same across plugins
             $site_id        	= $site_url . '-' . $install_date . '-' . $unique_key;
+			$user_info          = $this->twae_get_user_info();
 			$response          = wp_remote_post(
 				$this->feedback_url,
 				array(
 					'timeout' => 30,
 					'body'    => array(
-						'server_info' => serialize($this->twae_get_user_info()['server_info']), 
-						'extra_details' => serialize($this->twae_get_user_info()['extra_details']),
+						'server_info'   => wp_json_encode( $user_info['server_info'] ),
+						'extra_details' => wp_json_encode( $user_info['extra_details'] ),
 						'plugin_version' => $this->plugin_version,
 						'plugin_name'    => $this->plugin_name,
 						'reason'         => $deativation_reason,
@@ -302,7 +326,28 @@ class cool_plugins_feedback {
 				)
 			);
 
-			die( json_encode( array( 'response' => $response ) ) );
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error(
+					array(
+						'message' => 'Request failed',
+						'code'    => $response->get_error_code(),
+					),
+					500
+				);
+			}
+
+			$code = wp_remote_retrieve_response_code( $response );
+			if ( $code >= 200 && $code < 300 ) {
+				wp_send_json_success( array( 'code' => $code ) );
+			}
+
+			wp_send_json_error(
+				array(
+					'message' => 'Unexpected response',
+					'code'    => $code,
+				),
+				500
+			);
 		}
 
 	}

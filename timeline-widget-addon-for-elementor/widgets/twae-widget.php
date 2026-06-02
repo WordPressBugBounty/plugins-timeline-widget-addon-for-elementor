@@ -350,12 +350,18 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 		$compatibility_styles = '';
 		$twae_story_styles         = '';
 		global $post;
-		$post_id = $post->ID;
+		$post_id = 0;
+		if ( is_object( $post ) && isset( $post->ID ) ) {
+			$post_id = (int) $post->ID;
+		} else {
+			$post_id = (int) get_the_ID();
+			if ( empty( $post_id ) ) {
+				$post_id = (int) get_queried_object_id();
+			}
+		}
 
 		// run code only for old users
-		if ( get_option( 'twae-v' ) != false ) {
-			global $post;
-			$post_id = $post->ID;
+		if ( false !== get_option( 'twae-v' ) ) {
 			// delete_post_meta($post_id, 'twae_style_migration');
 			if ( ! get_post_meta( $post_id, 'twae_style_migration', true ) ) {
 				update_post_meta( $post_id, 'twae_exists', 'yes' );
@@ -381,13 +387,11 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 
 			$compatibility_styles .= $twae_story_styles;
 
-	    if ( ! empty( $compatibility_styles ) ) {
-	          $allowed_html = array(
-		      'style' => array(), 
-	          );
-	         $safe_styles = wp_kses( $compatibility_styles, $allowed_html );
-	            echo '<style type="text/css">' . esc_html( $safe_styles ) . '</style>';
-        }
+		if ( ! empty( $compatibility_styles ) ) {
+			$safe_styles = wp_strip_all_tags( $compatibility_styles );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Plain CSS after wp_strip_all_tags(); esc_html() would break selectors.
+			echo '<style type="text/css">' . $safe_styles . '</style>';
+		}
 
 	}
 
@@ -521,17 +525,100 @@ class TWAE_Widget extends \Elementor\Widget_Base {
 			$attribute = str_replace( '_', '-', $field );
 			if ( isset( $all_settings[ $index ] ) && $all_settings[ $index ] !== '' ) {
 				if ( is_array( $all_settings[ $index ] ) ) {
-					if ( $all_settings[ $index ]['size'] !== '' ) {
-						$unit       = $all_settings[ $index ]['unit'];
-						$size       = $all_settings[ $index ]['size'];
-						$field_css .= $attribute . ':' . $size . $unit . ';';
+					if ( isset( $all_settings[ $index ]['size'] ) && $all_settings[ $index ]['size'] !== '' ) {
+						$unit  = isset( $all_settings[ $index ]['unit'] ) ? $all_settings[ $index ]['unit'] : '';
+						$size  = $all_settings[ $index ]['size'];
+						$value = $this->twae_sanitize_typography_value( $field, $size, $unit );
+						if ( '' !== $value ) {
+							$field_css .= $attribute . ':' . $value . ';';
+						}
 					}
 				} else {
-					$field_css .= $attribute . ':' . $all_settings[ $index ] . ';';
+					$value = $this->twae_sanitize_typography_value( $field, $all_settings[ $index ] );
+					if ( '' !== $value ) {
+						$field_css .= $attribute . ':' . $value . ';';
+					}
 				}
 			}
 		}
 		return $field_css;
+	}
+
+	/**
+	 * Sanitize typography values before inserting into CSS.
+	 *
+	 * @param string $field Typography field key (e.g. font_family, font_size).
+	 * @param mixed  $value Field value.
+	 * @param string $unit  Optional unit for size-like controls.
+	 * @return string Sanitized CSS-safe value (or empty string to skip).
+	 */
+	private function twae_sanitize_typography_value( $field, $value, $unit = '' ) {
+
+		// Prevent accidental array injection.
+		if ( is_array( $value ) || is_object( $value ) ) {
+			return '';
+		}
+
+		$field = (string) $field;
+
+		// Size-like controls.
+		$size_fields = array( 'font_size', 'line_height', 'letter_spacing', 'word_spacing' );
+		if ( in_array( $field, $size_fields, true ) ) {
+			$allowed_units = array( 'px', 'em', 'rem', '%', 'vh', 'vw' );
+			$unit          = (string) $unit;
+
+			// Elementor sometimes uses an empty unit for line-height (unitless).
+			if ( '' !== $unit && ! in_array( $unit, $allowed_units, true ) ) {
+				return '';
+			}
+
+			if ( ! is_numeric( $value ) ) {
+				return '';
+			}
+
+			return rtrim( rtrim( (string) $value, '0' ), '.' ) . $unit;
+		}
+
+		if ( 'font_weight' === $field ) {
+			$val     = strtolower( sanitize_text_field( (string) $value ) );
+			$allowed = array( 'normal', 'bold', 'bolder', 'lighter', 'inherit', 'initial', 'unset' );
+			if ( in_array( $val, $allowed, true ) ) {
+				return $val;
+			}
+			// Allow numeric weights 100..900.
+			if ( preg_match( '/^(100|200|300|400|500|600|700|800|900)$/', $val ) ) {
+				return $val;
+			}
+			return '';
+		}
+
+		if ( 'text_transform' === $field ) {
+			$val     = strtolower( sanitize_text_field( (string) $value ) );
+			$allowed = array( 'none', 'capitalize', 'uppercase', 'lowercase', 'inherit', 'initial', 'unset' );
+			return in_array( $val, $allowed, true ) ? $val : '';
+		}
+
+		if ( 'font_style' === $field ) {
+			$val     = strtolower( sanitize_text_field( (string) $value ) );
+			$allowed = array( 'normal', 'italic', 'oblique', 'inherit', 'initial', 'unset' );
+			return in_array( $val, $allowed, true ) ? $val : '';
+		}
+
+		if ( 'text_decoration' === $field ) {
+			$val     = strtolower( sanitize_text_field( (string) $value ) );
+			$allowed = array( 'none', 'underline', 'overline', 'line-through', 'inherit', 'initial', 'unset' );
+			return in_array( $val, $allowed, true ) ? $val : '';
+		}
+
+		if ( 'font_family' === $field ) {
+			// Keep it simple: remove anything that could break out of the declaration.
+			$val = sanitize_text_field( (string) $value );
+			$val = str_replace( array( ';', '{', '}', "\n", "\r" ), '', $val );
+			return trim( $val );
+		}
+
+		// Unknown field: drop it.
+		return '';
 	}
 
 

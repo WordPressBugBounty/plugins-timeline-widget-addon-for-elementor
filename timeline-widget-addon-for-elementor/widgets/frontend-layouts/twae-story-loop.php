@@ -52,13 +52,15 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 		 *
 		 * @param array $content               The content for the story loop.
 		 * @param array $repeater_key          The repeater key for the story loop.
-		 * @param array $render_repeater_attr  The render attributes for the story loop.
+		 * @param array $render_repeater_attr  Escaped attribute strings from Elementor get_render_attribute_string().
 		 */
 		public function twae_story_loop( $content, $repeater_key, $render_repeater_attr ) {
-			// Sanitize inputs
-			$content              = $content;
-			$repeater_key         = array_map( 'sanitize_text_field', $repeater_key );
-			$render_repeater_attr = array_map( 'sanitize_text_field', $render_repeater_attr );
+			if ( ! is_array( $repeater_key ) ) {
+				$repeater_key = array();
+			}
+			if ( ! is_array( $render_repeater_attr ) ) {
+				$render_repeater_attr = array();
+			}
 
 			$html = '';
 			// Story content array.
@@ -89,6 +91,7 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 			$html .= '<!-- Start of Story Repeater Content -->';
 
 			// Story article wrapper start.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped via Elementor get_render_attribute_string().
 			$html .= '<div ' . $article_attr . '>';
 
 			// Display Timeline Year Label in horizontal layout if set to 'yes'.
@@ -141,6 +144,7 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 
 			if ( ! empty( $title_content ) ) {
 				$html .= '<!-- Story Title -->';
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped via Elementor get_render_attribute_string().
 				$html .= '<div ' . $title_attr . '>' . wp_kses_post( $title_content ) . '</div>';
 			}
 
@@ -161,6 +165,7 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 			// Story description content.
 			$allowed_tags = wp_kses_allowed_html('post');
 			$allowed_tags['iframe'] = array(
+				
 				'src'             => true,
 				'width'           => true,
 				'height'          => true,
@@ -173,7 +178,8 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 			$desc_content = $this->story_data['twae_description'];
 			if ( ! empty( $desc_content ) ) {
 				$html .= '<!-- Story Description -->';
-				$html .= '<div ' . $description_attr . '>' . wp_kses($desc_content, $allowed_tags) . '</div>';
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped via Elementor get_render_attribute_string().
+				$html .= '<div ' . $description_attr . '>' . wp_kses( $desc_content, $allowed_tags ) . '</div>';
 			}
 			return $html;
 		}
@@ -194,24 +200,28 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 			$image                = '';
 
 			if ( isset( $story_data['twae_image'] ) && is_array( $story_data['twae_image'] ) ) {
-				if ( $story_data['twae_image']['id'] != '' ) {
-					if ( $image_size == 'custom' ) {
-						// Image custom dimension.
-						$thumbnail_custom_dimension = $story_data['twae_thumbnail_custom_dimension'];
-						// Image custom size.
-						$custom_size = array( $thumbnail_custom_dimension['width'], $thumbnail_custom_dimension['height'] );
-						// Story media image.
-						$image .= wp_get_attachment_image( esc_attr( $story_data['twae_image']['id'] ), esc_attr( $custom_size ) );
+				if ( '' !== $story_data['twae_image']['id'] ) {
+					$attachment_id = absint( $story_data['twae_image']['id'] );
+					if ( 'custom' === $image_size ) {
+						// Image custom dimension (wp_get_attachment_image accepts array [ width, height ]).
+						$thumbnail_custom_dimension = isset( $story_data['twae_thumbnail_custom_dimension'] ) && is_array( $story_data['twae_thumbnail_custom_dimension'] )
+							? $story_data['twae_thumbnail_custom_dimension']
+							: array();
+						$custom_size = array(
+							absint( $thumbnail_custom_dimension['width'] ?? 0 ),
+							absint( $thumbnail_custom_dimension['height'] ?? 0 ),
+						);
+						$image .= wp_get_attachment_image( $attachment_id, $custom_size );
 					} else {
 						// Story media image.
-						$image = wp_get_attachment_image( esc_attr( $story_data['twae_image']['id'] ), esc_attr( $image_size ) );
+						$image = wp_get_attachment_image( $attachment_id, $image_size );
 					}
-				} elseif ( $story_data['twae_image']['url'] != '' ) {
+				} elseif ( '' !== $story_data['twae_image']['url'] ) {
 					// Story media image.
 					$image .= '<img src="' . esc_url( $story_data['twae_image']['url'] ) . '" alt="' . esc_attr( $timeline_story_title ) . '">';
 				}
 
-				if ( $story_data['twae_image']['url'] != '' && $story_data['twae_media'] == 'image' ) {
+				if ( '' !== $story_data['twae_image']['url'] && 'image' === $story_data['twae_media'] ) {
 					$html .= '<!-- Story Image -->';
 					$html .= '<div class="twae-media ' . esc_attr( $image_size ) . '">' . $image . '</div>';
 				}
@@ -229,7 +239,7 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 			$html = '';
 			// story icon type.
 			$icon_type = isset( $this->story_data['twae_icon_type'] ) ? $this->story_data['twae_icon_type'] : 'icon';
-			if ( $icon_type == 'dot' ) {
+			if ( 'dot' === $icon_type ) {
 				$html .= '<!-- Story Icon Dot -->';
 				$html .= '<div class="twae-icondot"></div>';
 			} else {
@@ -284,6 +294,7 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 				$html .= '<!-- Story Label -->';
 				$html .= '<div class="twae-labels">';
 				if ( ! empty( $story_data['twae_date_label'] ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped via Elementor get_render_attribute_string().
 					$html .= '<div ' . $date_label_attr . '>' . wp_kses_post( $story_data['twae_date_label'] ) . '</div>';
 				}
 
@@ -293,6 +304,7 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 					$sub_label_key = $this->repeater_key['sublabel_key'];
 					// Story secondary label repeater attribute.
 					$sub_label_attr = isset( $this->render_repeater_attr[ $sub_label_key ] ) ? $this->render_repeater_attr[ $sub_label_key ] : '';
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped via Elementor get_render_attribute_string().
 					$html          .= '<div ' . $sub_label_attr . '>' . wp_kses_post( $story_data['twae_extra_label'] ) . '</div>';
 				}
 				$html .= '</div>';

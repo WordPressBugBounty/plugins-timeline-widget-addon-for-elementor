@@ -32,8 +32,8 @@ $twae_story_loop_obj = new Twae_Story_Loop( $settings );
 if ( is_array( $twae_data ) ) {
 	foreach ( $twae_data as $twae_index => $twae_content ) {
 		$twae_story_alignment = 'twae-story-right';
-		if ( $layout == 'centered' ) {
-			if ( $twae_countItem % 2 == 0 ) {
+		if ( 'centered' === $layout ) {
+			if ( 0 === $twae_countItem % 2 ) {
 				$twae_story_alignment = 'twae-story-left';
 			}
 		}

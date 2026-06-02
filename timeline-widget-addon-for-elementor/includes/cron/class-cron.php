@@ -17,11 +17,7 @@ if (!class_exists('TWAE_cronjob')) {
         }
         
         function twae_cron_extra_data_autoupdater() {
-       
-                if (class_exists('TWAE_cronjob')) {
-                    TWAE_cronjob::twae_send_data();
-                }
-
+            self::twae_send_data();
         }
            
        static public function twae_send_data() {
@@ -71,14 +67,11 @@ if (!class_exists('TWAE_cronjob')) {
             ));
 
             
-            if (is_wp_error($response)) {
-                                
+            if ( is_wp_error( $response ) ) {
                 return;
             }
-            
-            $response_body  = wp_remote_retrieve_body($response);
-            $decoded        = json_decode($response_body, true);
-            if (!wp_next_scheduled('twae_extra_data_update')) {
+
+            if ( ! wp_next_scheduled( 'twae_extra_data_update' ) ) {
 
                 wp_schedule_event(time(), 'every_30_days', 'twae_extra_data_update');
             }

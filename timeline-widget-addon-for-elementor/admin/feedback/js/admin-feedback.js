@@ -8,7 +8,9 @@
 
         $target = $('#the-list').find('[data-slug="' + plugin_name + '"] span.deactivate a');
 
-        var plugin_deactivate_link = $target.attr('href');
+        var plugin_deactivate_link = (typeof twaeDeactivateFeedback !== 'undefined' && twaeDeactivateFeedback.deactivateUrl)
+            ? twaeDeactivateFeedback.deactivateUrl
+            : $target.attr('href');
 
         $($target).on('click', function(event) {
             event.preventDefault();
@@ -95,7 +97,9 @@
                 },
                 success: function(res) {
                     $('#cool-plugins-loader-wrapper').hide();
-                    window.location = plugin_deactivate_link;
+                    if (plugin_deactivate_link) {
+                        window.location.assign(plugin_deactivate_link);
+                    }
                     $('#deactivating-plugin').text('Deactivated');
                 }
             })
@@ -106,7 +110,9 @@
             $('#twae-cool-plugin-submitNdeactivate').remove();
             $('twae-cool-plugin-skipNdeactivate').addClass('button-deactivate');
             $('twae-cool-plugin-skipNdeactivate').attr('id', 'deactivating-plugin');
-            window.location = plugin_deactivate_link;
+            if (plugin_deactivate_link) {
+                window.location.assign(plugin_deactivate_link);
+            }
         });
 
     });

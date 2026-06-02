@@ -5,8 +5,11 @@ jQuery(function ($) {
           
             if(mig_val=='' || mig_val==undefined){
                   $(this).closest(".twae-migration-notice").fadeOut(300);
-                var mig_val = 'twe';
+                mig_val = 'twe';
             }
+        if (typeof twae_migration_obj === 'undefined' || !twae_migration_obj.ajax_url || !twae_migration_obj.hide_migration_nonce) {
+            return;
+        }
         $.post(twae_migration_obj.ajax_url, {
             action: "twae_hide_migration_notice",
             value:mig_val,
@@ -56,6 +59,11 @@ jQuery(function ($) {
     // Button Click Handler
     $(document).on("click", "#twae-run-migration", function (e) {
 
+        var $btn = $(this);
+        var $notice = $btn.closest(".twae-migration-notice");
+        var $result = $notice.find("#twae-migration-result");
+        var defaultLabel = $btn.data("default-label") || "Migrate Now!";
+
         if (hasUnsavedChanges) {
             e.preventDefault();
 
@@ -68,7 +76,16 @@ jQuery(function ($) {
             return false;
         }
 
-        $("#twae-migration-result").html("Running migration...");
+        $result.empty();
+        $btn.prop("disabled", true).text("Running migration...");
+
+        if (typeof twae_migration_obj === 'undefined' || !twae_migration_obj.ajax_url || !twae_migration_obj.nonce) {
+            $btn.prop("disabled", false).text(defaultLabel);
+            if ($result.length) {
+                $result.text("Migration is unavailable. Please reload the page.");
+            }
+            return;
+        }
 
         $.ajax({
             url: twae_migration_obj.ajax_url,
@@ -80,30 +97,39 @@ jQuery(function ($) {
             success: function (response) {
 
                 if (response.success) {
-                    $("#twae-migration-result").html("<strong>" + response.data.message + "</strong>");
-                    $(".twae_eventprime_promotion-text").hide();
+                    $btn.prop("disabled", true).text("Migration Completed");
+                    $result.empty();
+                    $notice.find(".twae_eventprime_promotion-text > span").last().hide();
 
                     setTimeout(function () {
-                        $(".twae-migration-notice").slideUp(500);
+                        $notice.slideUp(500);
                     }, 6000);
-                      setTimeout(function () {
-                    if (typeof elementor !== "undefined") {
+                    setTimeout(function () {
+                        if (typeof elementor !== "undefined") {
                             window.location.reload();
                         }
-                        }, 3000);
-
-                    $("#twae-run-migration")
-                        .prop("disabled", true)
-                        .text("Migration Completed");
+                    }, 3000);
 
                 } else {
-                    $("#twae-migration-result").html(
-                        "<span style='color:#cc0000;'>" + response.data.message + "</span>"
-                    );
+                    $btn.prop("disabled", false).text(defaultLabel);
+                    if ($result.length) {
+                        $result
+                            .empty()
+                            .append(
+                                jQuery("<span/>", { css: { color: "#cc0000" } }).text(
+                                    (response && response.data && response.data.message) ? response.data.message : ""
+                                )
+                            );
+                    }
                 }
             },
             error: function () {
-                $("#twae-migration-result").html("<span style='color:red;'>AJAX Error</span>");
+                $btn.prop("disabled", false).text(defaultLabel);
+                if ($result.length) {
+                    $result
+                        .empty()
+                        .append(jQuery("<span/>", { css: { color: "red" } }).text("AJAX Error"));
+                }
             }
         });
 

@@ -19,6 +19,16 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 	class Twae_Marketing_Controllers
 	{
 		private static $instance = null;
+
+		/**
+		 * Loop Grid Extender plugin basename (folder/main-file.php).
+		 *
+		 * Used only to detect whether the plugin is active. Install/activate uses the
+		 * WordPress.org slug via AJAX, not this path. If you change this constant, also update:
+		 * - data-plugin="loop-grid" buttons below (maps in admin/marketing/js/twae-form-marketing.js getPluginSlug())
+		 * - 'loop-grid-extender-for-elementor-pro' in twae_install_plugin() $allowed_slugs
+		 */
+		private const TWAE_LOOP_GRID_EXTENDER_PLUGIN = 'loop-grid-extender-for-elementor-pro/loop-grid-extender-for-elementor-pro.php';
 		
 		/**
 		 * ✅ Singleton instance
@@ -45,11 +55,11 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 			
 			$active_plugins = get_option( 'active_plugins', [] );
 
-			if ( in_array( 'elementor-pro/elementor-pro.php', $active_plugins ) || in_array( 'pro-elements/pro-elements.php', $active_plugins )) {
+			if ( in_array( 'elementor-pro/elementor-pro.php', $active_plugins, true ) || in_array( 'pro-elements/pro-elements.php', $active_plugins, true ) ) {
 
 				add_action('elementor/init', [$this, 'twae_init_hooks']);
 				
-				if (class_exists('acf_pro') && !in_array('loop-grid-extender-for-elementor-pro/loop-grid-extender-for-elementor-pro.php', $active_plugins, true)) {
+				if ( class_exists( 'acf_pro' ) && ! in_array( self::TWAE_LOOP_GRID_EXTENDER_PLUGIN, $active_plugins, true ) ) {
                     add_action('elementor/element/loop-grid/section_query/before_section_end', [$this, 'twae_add_acf_repeater_mkt_query_controls']);
                 }
 
@@ -64,11 +74,17 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					'sb-elementor-contact-form-db/sb_elementor_contact_form_db.php',
 				];
 
-				if (empty(array_intersect($required_plugins, $active_plugins))) {
-
+				$has_required_plugin_active = false;
+				foreach ( $required_plugins as $plugin_path ) {
+					if ( in_array( $plugin_path, $active_plugins, true ) ) {
+						$has_required_plugin_active = true;
+						break;
+					}
+				}
+				if ( ! $has_required_plugin_active ) {
 					add_action('elementor/element/form/section_form_fields/before_section_end', [$this, 'twae_marketing_controls'], 100, 2);
 				}
-				if(!in_array('loop-grid-extender-for-elementor-pro/loop-grid-extender-for-elementor-pro.php', $active_plugins, true)){
+				if ( ! in_array( self::TWAE_LOOP_GRID_EXTENDER_PLUGIN, $active_plugins, true ) ) {
                     add_action("elementor/element/taxonomy-filter/section_taxonomy_filter/before_section_end", [$this, 'twae_register_controls'], 10);
                 }
 			}
@@ -84,29 +100,36 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		 * Handles the dismissal of marketing notices via AJAX.
 		 */
 
-	function twae_dismiss_notice_callback() {
+		public function twae_dismiss_notice_callback() {
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-                 wp_send_json_error([ 'message' => 'Permission denied' ]);
-		}
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => 'Permission denied' ), 403 );
+			}
 
-		$type  = isset($_POST['notice_type']) ? sanitize_text_field(wp_unslash($_POST['notice_type'])) : '';
-		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
-         
-	    if ( empty( $nonce ) || empty( $type ) || ! wp_verify_nonce( $nonce, "twae_dismiss_nonce_{$type}" ) ) {
-           wp_send_json_error([ 'message' => 'Invalid nonce' ]);
-        }
-			if ($type === 'cool_form') {
-				update_option('twae_marketing_dismissed', true);
-				wp_send_json_success();
+			$type = isset( $_POST['notice_type'] ) ? sanitize_text_field( wp_unslash( $_POST['notice_type'] ) ) : '';
 
-			} elseif ($type === 'tec_notice') {
-				update_option('twae_tec_notice_dismissed', true);
+			$allowed_notice_types = array( 'cool_form', 'tec_notice' );
+			if ( empty( $type ) || ! in_array( $type, $allowed_notice_types, true ) ) {
+				wp_send_json_error( array( 'message' => 'Invalid notice type' ), 403 );
+			}
+
+			if ( ! check_ajax_referer( 'twae_dismiss_nonce_' . $type, 'nonce', false ) ) {
+				wp_send_json_error( array( 'message' => 'Invalid nonce' ), 403 );
+			}
+
+			if ( 'cool_form' === $type ) {
+				update_option( 'twae_marketing_dismissed', true );
 				wp_send_json_success();
 			}
 
-			wp_send_json_error(['message' => 'Unknown notice type']);
+			if ( 'tec_notice' === $type ) {
+				update_option( 'twae_tec_notice_dismissed', true );
+				wp_send_json_success();
+			}
+
+			wp_send_json_error( array( 'message' => 'Invalid notice type' ), 403 );
 		}
+
 
 			
 		public function twae_register_controls($element) {
@@ -167,42 +190,46 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		 * Displays a notice to install the Events Widgets for Elementor plugin if TEC is active.
 		 */
 
-		function twae_show_tec_active_notice(){
-			
-			$active_plugins = get_option( 'active_plugins', [] );
+		public function twae_show_tec_active_notice() {
+
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				return;
+			}
+
+			$active_plugins = get_option( 'active_plugins', array() );
 			if (
-				!class_exists('Tribe__Events__Main') 
-				|| in_array('events-widgets-pro/events-widgets-pro.php', $active_plugins, true) 
-				|| in_array('events-widgets-for-elementor-and-the-events-calendar/events-widgets-for-elementor-and-the-events-calendar.php', $active_plugins, true)
-				|| get_option('twae_tec_notice_dismissed')
+				! class_exists( 'Tribe__Events__Main' )
+				|| in_array( 'events-widgets-pro/events-widgets-pro.php', $active_plugins, true )
+				|| in_array( 'events-widgets-for-elementor-and-the-events-calendar/events-widgets-for-elementor-and-the-events-calendar.php', $active_plugins, true )
+				|| get_option( 'twae_tec_notice_dismissed' )
 			) {
 				return;
 			}
 
 			wp_enqueue_script(
-					'coolplugin-editor-js',
-					plugin_dir_url(__FILE__) . 'js/twae-form-marketing.js',
-					['jquery'],
-					TWAE_VERSION,
-					true
+				'coolplugin-editor-js',
+				plugin_dir_url( __FILE__ ) . 'js/twae-form-marketing.js',
+				array( 'jquery' ),
+				TWAE_VERSION,
+				true
 			);
 
-		// Check if it's tribe_events post type or tec settings page
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context
-		$get_page     = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context
-		$get_posttype = isset( $_GET['post_type'] ) ? sanitize_key( $_GET['post_type'] ) : '';
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context
-		$is_taxonomy  = isset( $_GET['taxonomy'] );
-			$blocked_pages = array('tribe-app-shop','tec-troubleshooting','first-time-setup','tec-events-help-hub','aggregator');
-			$on_tribe_events_list = ( $get_posttype === 'tribe_events' ) && ! $is_taxonomy; 
-			$on_tec_settings      = ( $get_page === 'tec-events-settings' );
-			$on_twae_welcome      = ( $get_page === 'twae-welcome-page' );
+			// Check if it's tribe_events post type or tec settings page.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context.
+			$get_page     = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context.
+			$get_posttype = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters to determine admin page context.
+			$is_taxonomy  = isset( $_GET['taxonomy'] );
+			$blocked_pages = array( 'tribe-app-shop', 'tec-troubleshooting', 'first-time-setup', 'tec-events-help-hub', 'aggregator' );
+			$on_tribe_events_list = ( 'tribe_events' === $get_posttype ) && ! $is_taxonomy;
+			$on_tec_settings      = ( 'tec-events-settings' === $get_page );
+			$on_twae_welcome      = ( 'twae-welcome-page' === $get_page );
 
-			if(in_array($get_page,$blocked_pages)){
+			if ( in_array( $get_page, $blocked_pages, true ) ) {
 				return;
 			}
-			if (  ( $on_tribe_events_list || $on_tec_settings || $on_twae_welcome ) ) {
+			if ( $on_tribe_events_list || $on_tec_settings || $on_twae_welcome ) {
 				?>
 				<div class="notice notice-info is-dismissible twae-tec-notice"
                      data-notice="tec_notice"
@@ -299,7 +326,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 			wp_enqueue_script(
 				'coolplugin-editor-js',
 				plugin_dir_url(__FILE__) . 'js/twae-form-marketing.js',
-				['jquery'],
+				array( 'jquery', 'elementor-editor' ),
 				TWAE_VERSION,
 				true
 			);
@@ -326,14 +353,23 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		 */
 		public function twae_install_plugin() {
 
-
-            if ( ! current_user_can( 'install_plugins' ) ) {
-				$status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.', 'timeline-widget-addon-for-elementor' );
-				wp_send_json_error( $status );
+			if ( ! check_ajax_referer( 'twae_install_nonce', '_wpnonce', false ) ) {
+				wp_send_json_error(
+					array(
+						'errorCode'    => 'invalid_nonce',
+						'errorMessage' => __( 'Security check failed. Please refresh and try again.', 'timeline-widget-addon-for-elementor' ),
+					)
+				);
 			}
-			
 
-			check_ajax_referer('twae_install_nonce');
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				wp_send_json_error(
+					array(
+						'errorCode'    => 'insufficient_permissions',
+						'errorMessage' => __( 'Sorry, you are not allowed to install plugins on this site.', 'timeline-widget-addon-for-elementor' ),
+					)
+				);
+			}
 
 			if ( empty( $_POST['slug'] ) ) {
 				wp_send_json_error( array(
@@ -346,11 +382,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 		    $plugin_slug = sanitize_key( wp_unslash( $_POST['slug'] ) );
 
 			// Only allow installation of known marketing plugins (ignore client-manipulated slugs).
+			// Short keys in data-plugin (e.g. loop-grid) are mapped in admin/marketing/js/twae-form-marketing.js getPluginSlug().
 			$allowed_slugs = array(
 				'extensions-for-elementor-form',
 				'conditional-fields-for-elementor-form',
 				'country-code-field-for-elementor-form',
-				'loop-grid-extender-for-elementor-pro',
+				'loop-grid-extender-for-elementor-pro', // data-plugin="loop-grid"; active check: TWAE_LOOP_GRID_EXTENDER_PLUGIN.
 				'events-widgets-for-elementor-and-the-events-calendar',
 				'conditional-fields-for-elementor-form-pro',
 			);
@@ -365,23 +402,23 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 			$status = array(
 				'install' => 'plugin',
-				'slug'    => sanitize_key( wp_unslash( $_POST['slug'] ) ),
+				'slug'    => $plugin_slug,
 			);
 			
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			
-			if ($plugin_slug == 'conditional-fields-for-elementor-form-pro') {
-
-				if (! current_user_can('activate_plugin', $plugin_slug)) {
-					wp_send_json_error(['message' => 'Permission denied']);
-				}
+			if ('conditional-fields-for-elementor-form-pro' === $plugin_slug) {
 
 				$conditional_pro_plugin_file = 'conditional-fields-for-elementor-form-pro/class-conditional-fields-for-elementor-form-pro.php';
 
-				$pagenow        = isset($_POST['pagenow']) ? sanitize_key($_POST['pagenow']) : '';
-				$network_wide = (is_multisite() && 'import' !== $pagenow);
+				if ( ! current_user_can( 'activate_plugin', $conditional_pro_plugin_file ) ) {
+					wp_send_json_error( array( 'message' => 'Permission denied' ) );
+				}
+
+				$request_pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( wp_unslash( $_POST['pagenow'] ) ) : '';
+				$network_wide    = ( is_multisite() && 'import' !== $request_pagenow );
 				$activation_result = activate_plugin($conditional_pro_plugin_file, '', $network_wide);
 
 				if (is_wp_error($activation_result)) {
@@ -423,11 +460,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					if($skin->result->get_error_message() === 'Destination folder already exists.'){
 							
 						$install_status = install_plugin_install_status( $api );
-						$pagenow        = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
+
+						$request_pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( wp_unslash( $_POST['pagenow'] ) ) : '';
 
 						if ( current_user_can( 'activate_plugin', $install_status['file'] )) {
 
-							$network_wide = ( is_multisite() && 'import' !== $pagenow );
+							$network_wide = ( is_multisite() && 'import' !== $request_pagenow );
 							$activation_result = activate_plugin( $install_status['file'], '', $network_wide );
 							if ( is_wp_error( $activation_result ) ) {
 								
@@ -469,12 +507,12 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				}
 
 				$install_status = install_plugin_install_status( $api );
-				$pagenow        = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
+				$request_pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( wp_unslash( $_POST['pagenow'] ) ) : '';
 
 				// 🔄 Auto-activate the plugin right after successful install
 				if ( current_user_can( 'activate_plugin', $install_status['file'] ) && is_plugin_inactive( $install_status['file'] ) ) {
 
-					$network_wide = ( is_multisite() && 'import' !== $pagenow );
+					$network_wide = ( is_multisite() && 'import' !== $request_pagenow );
 					$activation_result = activate_plugin( $install_status['file'], '', $network_wide );
 
 					if ( is_wp_error( $activation_result ) ) {
@@ -566,9 +604,8 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				
 											<div class="elementor-control-notice-main-content">Add a country code dropdown to your phone field.</div>
 											<div class="elementor-control-notice-main-actions">
-											<button type="button" class="elementor-button e-btn e-info e-btn-1 twae-install-plugin"  data-plugin="country-code" data-nonce="' . esc_attr(wp_create_nonce('twae_install_nonce')) . '">Install Country Code</button>
-											
-											</button></div></div></div></div>',
+											<button type="button" class="elementor-button e-btn e-info e-btn-1 twae-install-plugin" data-plugin="country-code" data-nonce="' . esc_attr( wp_create_nonce( 'twae_install_nonce' ) ) . '">Install Country Code</button>
+											</div></div></div></div>',
 											
 						'tab'             => 'content',
 						'condition'       => array(

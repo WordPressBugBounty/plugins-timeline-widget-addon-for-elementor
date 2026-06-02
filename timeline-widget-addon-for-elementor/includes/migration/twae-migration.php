@@ -209,6 +209,10 @@ class TWE_Migration_Core {
 
         foreach ( $elements as $key => &$element ) {
 
+            if ( ! is_array( $element ) ) {
+                continue;
+            }
+
             if (isset( $element['elType'], $element['widgetType'] ) && $element['elType'] === 'widget' && $element['widgetType'] === 'be-timeline') {
 
                 $free_settings = isset( $element['settings'] ) ? $element['settings'] : array();
@@ -226,6 +230,68 @@ class TWE_Migration_Core {
                 $this->scan_and_replace_widgets( $element['elements'], $made_change );
             }
         }
+    }
+
+    /**
+     * Validate Elementor elements tree shape before persisting to post meta.
+     *
+     * @param mixed $elements Elementor elements array.
+     * @return bool
+     */
+    private function twae_is_valid_elementor_elements( $elements ) {
+
+        if ( ! is_array( $elements ) ) {
+            return false;
+        }
+
+        foreach ( $elements as $element ) {
+            if ( ! is_array( $element ) ) {
+                return false;
+            }
+
+            if ( empty( $element['elType'] ) || ! is_string( $element['elType'] ) ) {
+                return false;
+            }
+
+            if ( isset( $element['widgetType'] ) && ! is_string( $element['widgetType'] ) ) {
+                return false;
+            }
+
+            if ( isset( $element['settings'] ) && ! is_array( $element['settings'] ) ) {
+                return false;
+            }
+
+            if ( isset( $element['elements'] ) && ! $this->twae_is_valid_elementor_elements( $element['elements'] ) ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Encode validated Elementor data for storage.
+     *
+     * @param array $json Elementor document elements.
+     * @return string|false JSON string or false when invalid.
+     */
+    private function twae_encode_elementor_data( $json ) {
+
+        if ( ! $this->twae_is_valid_elementor_elements( $json ) ) {
+            return false;
+        }
+
+        $encoded = wp_json_encode( $json );
+        if ( false === $encoded || '' === $encoded ) {
+            return false;
+        }
+
+        $decoded = json_decode( $encoded, true, 512 );
+        if ( ! is_array( $decoded ) || ! $this->twae_is_valid_elementor_elements( $decoded ) ) {
+            return false;
+        }
+
+        return $encoded;
     }
 
     /**
@@ -247,17 +313,22 @@ class TWE_Migration_Core {
             return false;
         }
 
-        $json = json_decode( $elementor_data_raw, true );
-        if ( ! is_array( $json ) ) {
+        $json = json_decode( $elementor_data_raw, true, 512 );
+        if ( ! is_array( $json ) || ! $this->twae_is_valid_elementor_elements( $json ) ) {
             return false;
         }
-        
+
         $made_change = false;
         $this->scan_and_replace_widgets( $json, $made_change );
 
         if ( $made_change ) {
+            $encoded = $this->twae_encode_elementor_data( $json );
+            if ( false === $encoded ) {
+                return false;
+            }
+
             // Save back changed data. Use wp_slash to preserve quotes for update_post_meta.
-            update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $json ) ) );
+            update_post_meta( $post_id, '_elementor_data', wp_slash( $encoded ) );
 
             return true;
         }
@@ -272,31 +343,53 @@ class TWE_Migration_Core {
      */
     public function twae_run_migration() {
 
-        $manager = TWE_Migration_Notice_Manager::instance(); 
-
-        if (  !$manager->twae_has_legacy_timeline_widgets() ) {
-          
+        if ( ! current_user_can( 'manage_options' ) ) {
             return 0;
         }
 
-        $args = array(
-            'post_type'      => array( 'post', 'page' ),
-            'posts_per_page' => -1,
-            'post_status'    => 'any',
-            'fields'         => 'ids',
-        );
+        $manager = TWE_Migration_Notice_Manager::instance();
 
-        $all_posts = get_posts( $args );
+        $manager->twae_flush_legacy_timeline_cache();
+
+        if ( ! $manager->twae_has_legacy_timeline_widgets() ) {
+            return 0;
+        }
+
         $migrated_count = 0;
+        $per_page      = 200;
+        $paged         = 1;
+        $queried_count = 0;
 
-        if ( ! empty( $all_posts ) ) {
-            foreach ( $all_posts as $post_id ) {
+        do {
+            $args = array(
+                'post_type'              => array( 'post', 'page' ),
+                'post_status'            => 'any',
+                'fields'                 => 'ids',
+                'posts_per_page'         => $per_page,
+                'paged'                  => $paged,
+                'orderby'                => 'ID',
+                'order'                  => 'ASC',
+                'no_found_rows'          => true,
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
+                'suppress_filters'       => true,
+            );
 
-                if ( $this->migrate_post_elementor_data( $post_id ) ) {
-                    $migrated_count++;
+            $post_ids = get_posts( $args );
+            $queried_count = is_array( $post_ids ) ? count( $post_ids ) : 0;
+
+            if ( $queried_count > 0 ) {
+                foreach ( $post_ids as $post_id ) {
+                    if ( $this->migrate_post_elementor_data( $post_id ) ) {
+                        $migrated_count++;
+                    }
                 }
             }
-        }
+
+            $paged++;
+        } while ( $queried_count === $per_page );
+
+        $manager->twae_flush_legacy_timeline_cache();
 
         return $migrated_count;
     }

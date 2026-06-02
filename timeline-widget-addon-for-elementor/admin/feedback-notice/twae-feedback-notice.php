@@ -27,10 +27,10 @@ if (! class_exists('TWAEFeedbackNotice')) {
 		 */
 		public function twae_load_script()
 		{
-			$alreadyRated = get_option('twae-alreadyRated') != false ? get_option('twae-alreadyRated') : 'no';
+			$already_rated = get_option( 'twae-alreadyRated', 'no' );
 
 			// check user already rated
-			if ($alreadyRated == 'yes') {
+			if ( 'yes' === $already_rated ) {
 				return;
 			}
 
@@ -41,12 +41,14 @@ if (! class_exists('TWAEFeedbackNotice')) {
 		// ajax callback for review notice
 		public function twae_dismiss_review_notice()
 		{
-			// Verify nonce for security
-			check_ajax_referer('twae_dismiss_nonce', 'nonce');
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				wp_send_json_error( array( 'message' => 'Permission denied' ), 403 );
+			}
 
-			$rs = update_option('twae-alreadyRated', 'yes');
-			echo json_encode(array('success' => 'true'));
-			exit;
+			check_ajax_referer( 'twae_dismiss_nonce', 'nonce' );
+
+			update_option( 'twae-alreadyRated', 'yes' );
+			wp_send_json_success( array( 'success' => 'true' ) );
 		}
 		// admin notice
 		public function twae_admin_notice_for_reviews()
@@ -56,25 +58,38 @@ if (! class_exists('TWAEFeedbackNotice')) {
 			}
 			// get installation dates and rated settings
 			$installation_date = get_option('twae-installDate');
-			$alreadyRated      = get_option('twae-alreadyRated') != false ? get_option('twae-alreadyRated') : 'no';
+			$already_rated = get_option( 'twae-alreadyRated', 'no' );
 
 			// check user already rated
-			if ($alreadyRated == 'yes') {
+			if ( 'yes' === $already_rated ) {
 				return;
 			}
 
-			// grab plugin installation date and compare it with current date
-			$display_date = gmdate('Y-m-d h:i:s');
-			$install_date = new DateTime($installation_date);
-			$current_date = new DateTime($display_date);
-			$difference   = $install_date->diff($current_date);
-			$diff_days    = $difference->days;
+			// Fall back to install date set on init if activation option is missing.
+			if ( empty( $installation_date ) ) {
+				$installation_date = get_option( 'twae-install-date' );
+			}
+			if ( empty( $installation_date ) ) {
+				return;
+			}
 
-		// check if installation days is greator then week
-		if (isset($diff_days) && $diff_days >= 3) {
+			$install_timestamp = strtotime( (string) $installation_date );
+			if ( false === $install_timestamp ) {
+				return;
+			}
+
+			$diff_days = (int) floor( ( time() - $install_timestamp ) / DAY_IN_SECONDS );
+
+			// Show review notice after 3+ days since install.
+			if ( $diff_days >= 3 ) {
 			wp_enqueue_style( 'twae-feedback-notice' );
         	wp_enqueue_script( 'twae-admin-notice' );
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is already escaped in twae_create_notice_content() method
+			/*
+			 * Do not wrap this in wp_kses() / wp_kses_post() on output: a full-document kses pass can strip
+			 * or rewrite markup (e.g. javascript: hrefs, attributes) that this notice and its dismiss script rely on,
+			 * which can break admin behavior. All dynamic values are escaped or wp_kses()'d inside twae_create_notice_content().
+			 */
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Assembled HTML; pieces escaped in twae_create_notice_content().
 			echo $this->twae_create_notice_content();
 		}
 		}
@@ -82,13 +97,13 @@ if (! class_exists('TWAEFeedbackNotice')) {
 		// generated review notice HTML
 		function twae_create_notice_content()
 		{
-			$wp_nonce = wp_create_nonce('twae_dismiss_nonce');
+			$wp_nonce = esc_attr( wp_create_nonce( 'twae_dismiss_nonce' ) );
 			$ajax_url      = esc_url( admin_url( 'admin-ajax.php' ) );
-			$ajax_callback      = 'twae_dismiss_notice';
-			$wrap_cls           = 'notice notice-info is-dismissible';
+			$ajax_callback      = esc_attr( 'twae_dismiss_notice' );
+			$wrap_cls           = esc_attr( 'notice notice-info is-dismissible' );
 			$img_path      = esc_url( TWAE_URL . 'assets/images/timeline-widget-logo.png' );
-			$p_name             = esc_html('Timeline Widget Addon For Elementor');
-			$like_it_text       =  esc_html('Rate Now! ★★★★★');
+			$p_name             = esc_html__( 'Timeline Widget Addon For Elementor', 'timeline-widget-addon-for-elementor' );
+			$like_it_text       = esc_html__( 'Rate Now! ★★★★★', 'timeline-widget-addon-for-elementor' );
 			$already_rated_text = esc_html__('Already Reviewed', 'timeline-widget-addon-for-elementor');
 			$not_interested     = esc_html__('Not Interested', 'timeline-widget-addon-for-elementor');
 			$not_like_it_text   = esc_html__('No, not good enough, i do not like to rate it!', 'timeline-widget-addon-for-elementor');

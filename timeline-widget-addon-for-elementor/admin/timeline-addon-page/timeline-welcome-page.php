@@ -75,6 +75,11 @@ if ( ! class_exists( 'twae_welcome_page' ) ) {
 		 * Avoid using any HTML here or use nominal HTML tags inside this function.
 		 */
 	public function twae_welcome_page_content() {
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'timeline-widget-addon-for-elementor' ), '', array( 'response' => 403 ) );
+			}
+
 			require $this->addon_dir . '/includes/dashboard-header.php';
 			echo '<div class="cool-body-left">';
 			require $this->addon_dir . '/includes/twae-get-started-content.php';

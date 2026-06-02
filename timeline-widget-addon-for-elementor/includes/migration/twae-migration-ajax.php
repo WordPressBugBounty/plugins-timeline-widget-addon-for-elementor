@@ -5,6 +5,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 class TWE_Migration_Notice_Manager {
 
+    /**
+     * Cached result of legacy Vertical Timeline (be-timeline) scan: yes|no.
+     *
+     * @var string
+     */
+    private const LEGACY_WIDGET_TRANSIENT = 'twae_legacy_be_timeline_v1';
+
     private static $instance = null;
 
     public static function instance() {
@@ -21,20 +28,83 @@ class TWE_Migration_Notice_Manager {
         add_action('wp_ajax_twae_run_migration', array($this,'twae_run_migration_callback'));
         add_action('wp_ajax_twae_hide_migration_notice', array($this, 'twae_hide_notice'));
         add_action('elementor/editor/after_enqueue_scripts', array($this, 'enqueue_editor_scripts'));
+        add_action( 'added_post_meta', array( $this, 'twae_invalidate_legacy_scan_on_elementor_data' ), 10, 4 );
+        add_action( 'updated_post_meta', array( $this, 'twae_invalidate_legacy_scan_on_elementor_data' ), 10, 4 );
+        add_action( 'deleted_post_meta', array( $this, 'twae_invalidate_legacy_scan_on_elementor_data' ), 10, 4 );
+        add_action('before_delete_post', array($this, 'twae_invalidate_legacy_scan_before_delete'));
+        add_action('activated_plugin', array($this, 'twae_flush_legacy_timeline_cache'));
+        add_action('deactivated_plugin', array($this, 'twae_flush_legacy_timeline_cache'));
+    }
+
+    /**
+     * Clear cached legacy-widget detection (e.g. after migration or content changes).
+     *
+     * @return void
+     */
+    public function twae_flush_legacy_timeline_cache() {
+
+        delete_transient( self::LEGACY_WIDGET_TRANSIENT );
+    }
+
+    /**
+     * Invalidate legacy scan cache only when Elementor document data changes.
+     *
+     * @param int    $meta_id    Meta ID.
+     * @param int    $object_id  Post ID.
+     * @param string $meta_key   Meta key.
+     * @param mixed  $_meta_value Meta value (unused).
+     * @return void
+     */
+    public function twae_invalidate_legacy_scan_on_elementor_data( $meta_id, $object_id, $meta_key, $_meta_value ) {
+
+        unset( $meta_id, $_meta_value );
+
+        if ( '_elementor_data' !== $meta_key ) {
+            return;
+        }
+
+        $post = get_post( $object_id );
+        if ( ! $post instanceof WP_Post || ! in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
+            return;
+        }
+
+        if ( wp_is_post_revision( $object_id ) || wp_is_post_autosave( $object_id ) ) {
+            return;
+        }
+
+        $this->twae_flush_legacy_timeline_cache();
+    }
+
+    /**
+     * @param int $post_id Post ID.
+     * @return void
+     */
+    public function twae_invalidate_legacy_scan_before_delete( $post_id ) {
+
+        $post = get_post( $post_id );
+        if ( $post instanceof WP_Post && in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
+            $this->twae_flush_legacy_timeline_cache();
+        }
     }
 
     public function twae_hide_notice() {
 
-        if ( ! isset($_POST['nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'twae_hide_migration_nonce') ) {
-            wp_send_json_error('Invalid nonce');
+        check_ajax_referer( 'twae_hide_migration_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( 'Unauthorized', 403 );
         }
-        
+
         if ( ! isset($_POST['value']) ) {
             wp_send_json_error('Missing value parameter');
         }
-        
-        $val = sanitize_text_field(wp_unslash($_POST['value']));
-        update_option($val . '_hide_migration_notice', 'yes');
+
+        $val = sanitize_key( wp_unslash( $_POST['value'] ) );
+        $allowed_values = array( 'twe', 'twae' );
+        if ( ! in_array( $val, $allowed_values, true ) ) {
+            wp_send_json_error( 'Invalid value', 400 );
+        }
+        update_option( $val . '_hide_migration_notice', 'yes' );
         wp_send_json_success();
     }
     
@@ -44,7 +114,7 @@ class TWE_Migration_Notice_Manager {
             'twae-migration-js',
             TWAE_URL . 'includes/migration/assets/twae-migration.js',
             array('jquery'),
-            '1.0',
+            TWAE_VERSION,
             true
         );
 
@@ -57,32 +127,85 @@ class TWE_Migration_Notice_Manager {
     
     function twae_has_legacy_timeline_widgets() {
 
-        $args = array(
-            'post_type'      => array('post', 'page'),
-            'posts_per_page' => -1,
-            'post_status'    => 'any',
-            'fields'         => 'ids',
-        );
-
-        $posts = get_posts($args);
-
-        if ( empty($posts) ) {
+        $cached = get_transient( self::LEGACY_WIDGET_TRANSIENT );
+        if ( 'yes' === $cached ) {
+            return true;
+        }
+        if ( 'no' === $cached ) {
             return false;
         }
 
-        foreach ($posts as $post_id) {
+        $found = $this->twae_scan_posts_for_legacy_be_timeline();
 
-            $raw = get_post_meta($post_id, '_elementor_data', true);
+        set_transient( self::LEGACY_WIDGET_TRANSIENT, $found ? 'yes' : 'no', WEEK_IN_SECONDS );
 
-            if ( empty($raw) ) continue;
+        return $found;
+    }
 
-            $data = json_decode($raw, true);
+    /**
+     * Find be-timeline widgets using a narrow meta_query, then confirm via JSON walk.
+     *
+     * @return bool
+     */
+    private function twae_scan_posts_for_legacy_be_timeline() {
 
-            if ( ! is_array($data) ) continue;
+        $per_page = 50;
+        $paged    = 1;
 
-            if ( $this->twae_search_widgets_recursive($data) ) {
-                return true;
+        while ( true ) {
+
+            $query = new WP_Query(
+                array(
+                    'post_type'              => array( 'post', 'page' ),
+                    'post_status'            => 'any',
+                    'posts_per_page'         => $per_page,
+                    'paged'                  => $paged,
+                    'fields'                 => 'ids',
+                    'no_found_rows'          => true,
+                    'orderby'                => 'ID',
+                    'order'                  => 'ASC',
+                    'meta_query'             => array(
+                        array(
+                            'key'     => '_elementor_data',
+                            'value'   => 'be-timeline',
+                            'compare' => 'LIKE',
+                        ),
+                    ),
+                )
+            );
+
+            if ( empty( $query->posts ) ) {
+                wp_reset_postdata();
+                break;
             }
+
+            foreach ( $query->posts as $post_id ) {
+
+                $raw = get_post_meta( $post_id, '_elementor_data', true );
+
+                if ( empty( $raw ) ) {
+                    continue;
+                }
+
+                $data = json_decode( $raw, true );
+
+                if ( ! is_array( $data ) ) {
+                    continue;
+                }
+
+                if ( $this->twae_search_widgets_recursive( $data ) ) {
+                    wp_reset_postdata();
+                    return true;
+                }
+            }
+
+            if ( count( $query->posts ) < $per_page ) {
+                wp_reset_postdata();
+                break;
+            }
+
+            $paged++;
+            wp_reset_postdata();
         }
 
         return false;
@@ -106,6 +229,10 @@ class TWE_Migration_Notice_Manager {
 
 
     function twae_show_migration_notice() {
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
 
         global $pagenow;
 
@@ -137,7 +264,7 @@ class TWE_Migration_Notice_Manager {
             'twae-migration-js',
             TWAE_URL . 'includes/migration/assets/twae-migration.js',
             array('jquery'),
-            '1.0',
+            TWAE_VERSION,
             true
         );
 
@@ -150,10 +277,12 @@ class TWE_Migration_Notice_Manager {
         ?>
         <div class="notice notice-info is-dismissible twae-migration-notice" data-tineline-mig="twae" style="min-height:30px; display:flex; align-items:center;">
             <div class="twae_eventprime_promotion-text" style="width: fit-content;padding: 5px 0px; display:flex; gap:10px;">
-                <span><button class="button button-primary install-eventprime" aria-label="Install EventPrime Plugin" rel="noopener noreferrer" id="twae-run-migration">Migrate Now!</button></span>
+                <span style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <button type="button" class="button button-primary install-eventprime" aria-label="<?php esc_attr_e( 'Run timeline migration', 'timeline-widget-addon-for-elementor' ); ?>" id="twae-run-migration" data-default-label="<?php esc_attr_e( 'Migrate Now!', 'timeline-widget-addon-for-elementor' ); ?>"><?php esc_html_e( 'Migrate Now!', 'timeline-widget-addon-for-elementor' ); ?></button>
+                    <span id="twae-migration-result" class="twae-migration-result"></span>
+                </span>
                 <span style="margin-top: 5px;"> We noticed you’re using the <strong>Vertical Timeline Widget for Elementor.</strong>  Upgrade your existing timelines to <a href="https://cooltimeline.com/elementor-widget/free-timeline/?utm_source=vtwe_plugin&utm_medium=inside&utm_campaign=demo&utm_content=migration_notice"><Strong>Timeline Widget</strong></a> by Cool Plugins for enhanced features and a more refined design experience</span>
             </div>
-            <div id="twae-migration-result"></div>
         </div>
         <?php
     }
@@ -161,8 +290,12 @@ class TWE_Migration_Notice_Manager {
     function twae_run_migration_callback() {
 
         check_ajax_referer('twae_migration_nonce', 'nonce');
-    
-        $manager = TWE_Migration_Core::instance(); 
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( 'Unauthorized', 403 );
+        }
+
+        $manager = TWE_Migration_Core::instance();
 
         $migrated_count = $manager->twae_run_migration();
         if ($migrated_count > 0) {

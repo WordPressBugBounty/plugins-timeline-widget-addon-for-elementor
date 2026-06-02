@@ -4,13 +4,12 @@
 
         e.preventDefault();
         var $el = $(this);
-        var noticeType = $el.data('notice');
-        var nonce = $el.data('nonce');
+        let noticeType = $el.data('notice');
+        let nonce = $el.data('nonce');
 
-        if (noticeType == undefined) {
-
-            var noticeType = jQuery('.twae-tec-notice').data('notice')
-            var nonce = jQuery('.twae-tec-notice').data('nonce');
+        if (noticeType === undefined) {
+            noticeType = $('.twae-tec-notice').data('notice');
+            nonce = $('.twae-tec-notice').data('nonce');
         }
 
         $.post(ajaxurl, {
@@ -83,44 +82,56 @@
                     if (slug === 'events-widgets-for-elementor-and-the-events-calendar') {
 
                         successMessage = 'Events Widget is now active! Design your Events page with Elementor to access powerful new features.';
-                        jQuery('.twae_ect-notice-widget').text(successMessage);
+                        $('.twae_ect-notice-widget').text(successMessage);
 
                     } else {
 
                         $wrapper.find('.elementor-control-notice-success').remove();
-                        $wrapper.find(' .elementor-control-notice-main-actions').after(
-                            '<div class="elementor-control-notice elementor-control-notice-success">' +
-                            '<div class="elementor-control-notice-content">' +
-                            successMessage +
-                            '</div></div>');
+
+                        const $notice = $('<div/>', {
+                            class: 'elementor-control-notice elementor-control-notice-success'
+                        });
+                        const $content = $('<div/>', { class: 'elementor-control-notice-content' }).text(successMessage);
+                        $notice.append($content);
+                        $wrapper.find('.elementor-control-notice-main-actions').after($notice);
                     }
 
                 } else if (!responseContainsPlugin) {
 
                     $wrapper.find('.elementor-control-notice-success').remove();
-                    $wrapper.find('.elementor-control-notice-main-actions').after('<div class="elementor-control-notice elementor-control-notice-success">' + '<div class="elementor-control-notice-content">' +
-                        'The plugin is installed but not yet activated. Please go to the Plugins menu and activate it.' +
-                        '</div></div>');
+
+                    const $notice = $('<div/>', {
+                        class: 'elementor-control-notice elementor-control-notice-success'
+                    });
+                    const $content = $('<div/>', { class: 'elementor-control-notice-content' })
+                        .text('The plugin is installed but not yet activated. Please go to the Plugins menu and activate it.');
+                    $notice.append($content);
+                    $wrapper.find('.elementor-control-notice-main-actions').after($notice);
                 } else {
 
-                    let errorMessage = 'Please try again or download plugin manually from WordPress.org</a>';
+                    let errorMessage = 'Please try again or download plugin manually from WordPress.org';
                     $wrapper.find('.elementor-button-warning').remove();
                     if (slug === 'events-widget') {
                         //
-                        jQuery('.twae_ect-notice-widget').text(errorMessage)
+                        $('.twae_ect-notice-widget').text(errorMessage)
                     } else {
 
-                        $wrapper.find('.elementor-control-notice-main-actions').after(
-                            '<div class="elementor-control-notice elementor-button-warning">' +
-                            '<div class="elementor-control-notice-content">' +
-                            errorMessage +
-                            '</div></div>');
+                        const $notice = $('<div/>', {
+                            class: 'elementor-control-notice elementor-button-warning'
+                        });
+                        const $content = $('<div/>', { class: 'elementor-control-notice-content' }).text(errorMessage);
+                        $notice.append($content);
+                        $wrapper.find('.elementor-control-notice-main-actions').after($notice);
                     }
                 }
             });
     }
 
     function getPluginSlug(plugin) {
+
+        if (!plugin) {
+            return '';
+        }
 
         const slugs = {
             'cool-form-lite': 'extensions-for-elementor-form',
@@ -130,7 +141,7 @@
             'events-widget': 'events-widgets-for-elementor-and-the-events-calendar',
             'conditional-pro': 'conditional-fields-for-elementor-form-pro',
         };
-        return slugs[plugin];
+        return slugs[plugin] || '';
     }
 
     function disableAllOtherPluginButtonsTemporarily(activeSlug) {
@@ -140,11 +151,11 @@
             'country-code-field-for-elementor-form'
         ];
 
-        jQuery('.twae-install-plugin').each(function() {
-            const $btn = jQuery(this);
+        $('.twae-install-plugin').each(function() {
+            const $btn = $(this);
             const btnSlug = getPluginSlug($btn.data('plugin'));
 
-            if (btnSlug !== activeSlug && relatedSlugs.includes(btnSlug)) {
+            if (btnSlug && btnSlug !== activeSlug && relatedSlugs.includes(btnSlug)) {
                 $btn.prop('disabled', true);
             }
         });
@@ -160,11 +171,11 @@
 
         if (!relatedSlugs.includes(activatedSlug)) return;
 
-        jQuery('.twae-install-plugin').each(function() {
-            const $btn = jQuery(this);
+        $('.twae-install-plugin').each(function() {
+            const $btn = $(this);
             const btnSlug = getPluginSlug($btn.data('plugin'));
 
-            if (btnSlug !== activatedSlug && relatedSlugs.includes(btnSlug)) {
+            if (btnSlug && btnSlug !== activatedSlug && relatedSlugs.includes(btnSlug)) {
                 $btn.text('Already Installed')
                     .addClass('elementor-disabled')
                     .prop('disabled', true)
@@ -182,53 +193,18 @@
             }
         });
     }
-    if (typeof elementor !== 'undefined' && elementor) {
-        var twaeControlDone = false;
-        function runTwaeElementorInit() {
-            if (twaeControlDone) return;
-            if (!elementor.addControlView || !elementor.modules || !elementor.modules.controls) return;
-            twaeControlDone = true;
-            var callbackfunction = elementor.modules.controls.BaseData.extend({
-                onRender: function (data) {
-                    if (!data.el) return;
-                    var customNotice = data.el.querySelector('.cool-form-wrp');
-                    if (!customNotice) return;
-                    var installBtns = customNotice.querySelectorAll('button.twae-install-plugin');
-                    if (installBtns.length === 0) return;
-                    installBtns.forEach(function (btn) {
-                        var installSlug = btn.getAttribute('data-plugin') || btn.dataset.plugin;
-                        btn.addEventListener('click', function () {
-                            installPlugin(jQuery(btn), installSlug);
-                        });
-                    });
-                },
-            });
-            elementor.addControlView('raw_html', callbackfunction);
+    $(document).on('click', '.twae-install-plugin', function (e) {
+        e.preventDefault();
+
+        const $btn = $(this);
+        const pluginKey = $btn.data('plugin');
+        const slug = getPluginSlug(pluginKey);
+
+        if (!slug) {
+            return;
         }
-        $(window).on('elementor:init', runTwaeElementorInit);
-        if (typeof window.addEventListener === 'function') {
-            window.addEventListener('elementor/init', runTwaeElementorInit);
-        }
-        if (elementor.addControlView && elementor.modules && elementor.modules.controls) {
-            setTimeout(runTwaeElementorInit, 0);
-        }
-    } else {
-        $(document).ready(function ($) {
-            const customNotice = $('.cool-form-wrp, .twae-tec-notice');
-            if(customNotice.length === 0) return;
-            const installBtns = customNotice.find('button.twae-install-plugin, a.twae-install-plugin');
-            if(installBtns.length === 0) return;  
-            
-            installBtns.each(function(){
-                const btn = this;
-                const installSlug = btn.dataset.plugin;
-                $(btn).on('click', function(){
-                    if(installSlug) {
-                        installPlugin($(btn), installSlug);
-                    } 
-                });
-            });
-        })
-    }
+
+        installPlugin($btn, pluginKey);
+    });
 
 })(jQuery);
