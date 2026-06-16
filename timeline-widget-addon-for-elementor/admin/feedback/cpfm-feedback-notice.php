@@ -30,7 +30,11 @@ class CPFM_Feedback_Notice {
                 'always_show_on' => [],
             ]);
         }
-         self::$registered_notices[$key][] = $args;
+        if(!isset(self::$registered_notices[$key]['plugins'])){
+            self::$registered_notices[$key]['plugins'] = array();
+        }
+     
+        self::$registered_notices[$key]['plugins'][] = $args;
     }
     
     public function cpfm_listen_for_external_notice_registration() {
@@ -66,7 +70,7 @@ class CPFM_Feedback_Notice {
         }
     
         // Early return if not needed
-        if (!in_array($current_page, array_unique($allowed_pages))) {
+        if (!in_array($current_page, array_unique($allowed_pages),true)) {
             return;
         }
         wp_enqueue_style(
@@ -117,13 +121,17 @@ class CPFM_Feedback_Notice {
             wp_send_json_error('Invalid notice category.');
         }
 
+        if(!isset(self::$registered_notices[$category]['plugins'])){
+            wp_send_json_error('Invalid notice category plugins.');
+        }
+
         update_option("cpfm_opt_in_choice_{$category}", $opt_in);
 
         $review_option = get_option("cpfm_opt_in_choice_{$category}");
        
         if ($review_option === 'yes') {
             
-             foreach (self::$registered_notices[$category] as $notice) {
+            foreach (self::$registered_notices[$category]['plugins'] as $notice) {
 
                     $plugin_name = isset($notice['plugin_name'])?sanitize_key($notice['plugin_name']):'';
 
