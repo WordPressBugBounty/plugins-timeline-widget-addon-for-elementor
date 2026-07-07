@@ -22,9 +22,10 @@ class cool_plugins_feedback {
 	private $feedback_url    = TWAE_FEEDBACK_API.'wp-json/coolplugins-feedback/v1/feedback';
 
 	/**
-	 * Nonce action for the deactivation feedback AJAX handler (do not prefix with underscore).
+	 * Nonce action for the deactivation feedback AJAX handler. Shared across Cool Plugins
+	 * so the common feedback JS verifies correctly when multiple Cool Plugins are active.
 	 */
-	private const DEACTIVATE_FEEDBACK_NONCE_ACTION = 'twae_deactivate_feedback';
+	private const DEACTIVATE_FEEDBACK_NONCE_ACTION = '_cool-plugins_deactivate_feedback_nonce';
 
 	/**
 	 * Avoid creating multiple instance of this class
