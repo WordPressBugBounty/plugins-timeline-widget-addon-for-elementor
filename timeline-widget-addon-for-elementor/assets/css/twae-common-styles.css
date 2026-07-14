@@ -102,6 +102,10 @@
   --tw-cbx-btn-height: auto;
   --tw-cbx-btn-color: var(--tw-cbx-des-color, #444);
   --tw-cbx-btn-bgcolor: #00000015;
+
+  width: 100%;
+  display: block;
+  position: relative;
 }
 
 .twae-wrapper,
@@ -113,12 +117,6 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
-
-.twae-wrapper {
-  width: 100%;
-  display: block;
-  position: relative;
 }
 
 /* --------------------------- Main Wrapper - END --------------------------- */
@@ -242,12 +240,6 @@
   fill: var(--tw-ibx-color);
   height: var(--tw-ibx-text-size);
   width: var(--tw-ibx-text-size);
-}
-
-.twae-wrapper .twae-icon img {
-  height: -webkit-fill-available;
-  width: -webkit-fill-available;
-  border-radius: calc(var(--tw-ibx-radius) * 1%);
 }
 
 .twae-wrapper .twae-icondot {
@@ -528,7 +520,6 @@
   --tw-cbx-bg: #ffffff;
 
   opacity: 1;
-  width: 100%;
   position: fixed;
   left: 0;
   top: 0;
@@ -544,19 +535,6 @@
   -ms-flex-pack: center;
   justify-content: center;
   /*  z-index: -1; */
-}
-
-.twae-popup-bg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: #000000;
-  opacity: 0.8;
-  -webkit-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
 }
 
 .twae-popup .twae-popup-content {
@@ -661,7 +639,6 @@ img.attachment-medium.size-medium.wp-post-image {
 
 .twae-popup .twae-img.thumbnail,
 .twae-popup .twae-img.medium {
-  width: auto;
   padding-right: 10px;
   width: auto;
   margin: 0px;
@@ -690,12 +667,6 @@ img.attachment-medium.size-medium.wp-post-image {
 /*
     Popup foooter
 */
-
-.twae-popup-footer {
-  height: 35px;
-  position: relative;
-}
-
 .twae-popup span.twae_close_button {
   float: right;
   border: 1px solid #b1b1b1;

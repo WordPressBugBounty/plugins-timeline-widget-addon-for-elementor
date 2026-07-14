@@ -3,7 +3,7 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.6.27
+ * Version:     1.6.28
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
  * Text Domain: timeline-widget-addon-for-elementor
@@ -21,7 +21,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.6.27' );
+define( 'TWAE_VERSION', '1.6.28' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -100,7 +100,7 @@ final class Timeline_Widget_Addon {
 		require_once TWAE_PATH . 'includes/migration/twae-migration.php';
 		require_once TWAE_PATH . 'includes/migration/twae-migration-ajax.php';
 
-		if ( did_action( 'elementor/loaded' ) && class_exists( '\Elementor\Plugin' ) ) {
+		if ( class_exists( '\Elementor\Plugin' ) ) {
 			require_once TWAE_PATH . '/admin/marketing/twae-marketing-common.php';
 		}
 		
@@ -116,12 +116,10 @@ final class Timeline_Widget_Addon {
 
 			twae_welcome_page( 'elementor', 'twae-welcome-page', 'Timeline Widget', 'Timeline Widget' );
 			add_filter( "plugin_action_links_$pluginpath", array( $this, 'ctl_settings_link' ) );
-		}
 
-		if ( is_admin() ) {
 			add_action('admin_init', array($this,'twae_form_plugin_notice'));
 		}
-
+		
 		add_action('cpfm_register_notice', function () {
             
 			if (!class_exists('CPFM_Feedback_Notice') || !current_user_can('manage_options')) {

@@ -40,8 +40,6 @@ if ( is_array( $twae_data ) ) {
 
 		$twae_story_id = isset( $twae_content['_id'] ) ? esc_attr( $twae_content['_id'] ) : '';
 
-		$twae_icon_type = isset( $twae_content['twae_icon_type'] ) ? esc_attr( $twae_content['twae_icon_type'] ) : 'icon';
-
 		$twae_title_key = $this->get_repeater_setting_key( 'twae_story_title', 'twae_list', $twae_index );
 
 		$twae_date_label_key  = $this->get_repeater_setting_key( 'twae_date_label', 'twae_list', $twae_index );
@@ -68,7 +66,7 @@ if ( is_array( $twae_data ) ) {
 					esc_html( 'twae-story' ),
 					esc_html( 'twae-repeater-item' ),
 					esc_attr( $twae_story_alignment ),
-					'dot' === $twae_icon_type ? esc_html( 'twae-story-no-icon' ) : esc_html( 'twae-story-no-icon' ),
+					esc_html( 'twae-story-no-icon' ),
 				),
 			)
 		);

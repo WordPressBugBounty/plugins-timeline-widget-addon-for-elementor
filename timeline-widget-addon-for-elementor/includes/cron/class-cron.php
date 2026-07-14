@@ -17,7 +17,7 @@ if (!class_exists('TWAE_cronjob')) {
         }
         
         function twae_cron_extra_data_autoupdater() {
-            self::twae_send_data();
+            $this->twae_send_data();
         }
            
        static public function twae_send_data() {

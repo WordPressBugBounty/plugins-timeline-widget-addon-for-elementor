@@ -43,16 +43,16 @@ var autoHeight=slideHeight === 'no-height' ? 'true' : 'false';
 			 if(item.twae_show_year_label == 'yes'){
 						#>
 						<div class="twae-year twae-year-container">
-							<div class="twae-year-label twae-year-text">{{{ item.twae_year }}}</div>
+							<div class="twae-year-label twae-year-text">{{ item.twae_year }}</div>
 						</div>
 				<# }#>
 					
 					<div class="twae-labels">
-						<div  class="twae-label-big">{{{ item.twae_date_label }}}</div>
+						<div  class="twae-label-big">{{ item.twae_date_label }}</div>
 						
 						<# if(extra_label_key!=="undefined")
 						{ #>
-						<div class="twae-label-small">{{{ item.twae_extra_label }}}</div>
+						<div class="twae-label-small">{{ item.twae_extra_label }}</div>
 						<# } #>
 
 					</div>	
@@ -75,7 +75,7 @@ var autoHeight=slideHeight === 'no-height' ? 'true' : 'false';
 					<# if( item.twae_media == 'image' && image_url!=''){ #>          
 						<div class="twae-media {{timeline_image.size}}"><img src="{{ image_url }}" /></div>
 					<# } #>            
-						<div class="twae-title">{{{ item.twae_story_title}}}</div>
+						<div class="twae-title">{{ item.twae_story_title}}</div>
 						<div class="twae-description">{{{ item.twae_description }}}</div>
 					</div>
 			</div>

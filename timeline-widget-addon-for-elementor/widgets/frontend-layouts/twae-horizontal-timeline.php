@@ -44,7 +44,6 @@ if ( is_array( $twae_data ) ) {
 	foreach ( $twae_data as $twae_index => $twae_content ) {
 
 		$twae_story_id             = $twae_content['_id'];
-		$twae_icon_type            = isset( $twae_content['twae_icon_type'] ) ? $twae_content['twae_icon_type'] : 'icon';
 
 		$this->add_render_attribute( 'twae_story_title', array( 'class' => esc_html( 'twae-title' ) ) );
 		$this->add_render_attribute( 'twae_date_label', array( 'class' => esc_html( 'twae-label-big' ) ) );
@@ -61,7 +60,7 @@ if ( is_array( $twae_data ) ) {
 					esc_html( 'twae-repeater-item' ),
 					esc_html( 'twae-story' ),
 					esc_html( 'swiper-slide' ),
-					'dot' === $twae_icon_type ? esc_html( 'twae-story-no-icon' ) : esc_html( 'twae-story-no-icon' ),
+					 'twae-story-no-icon'
 				),
 			)
 		);

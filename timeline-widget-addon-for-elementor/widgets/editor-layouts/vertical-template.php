@@ -63,13 +63,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			 if(item.twae_show_year_label == 'yes'){
 						#>
 						<div class="twae-year twae-year-container">
-							<div class="twae-year-label twae-year-text">{{{ item.twae_year }}}</div>
+							<div class="twae-year-label twae-year-text">{{ item.twae_year }}</div>
 						</div>
 				<# }#>
 			<div id="story-{{story_id}}" class="twae-story twae-repeater-item {{story_alignment}} {{iconCls}}">									
 					<div class="twae-labels">
-						<div {{{ view.getRenderAttributeString( date_label_key ) }}} >{{{ item.twae_date_label }}}</div>
-						<div {{{ view.getRenderAttributeString( extra_label_key ) }}} >{{{ item.twae_extra_label }}}</div>
+						<div {{{ view.getRenderAttributeString( date_label_key ) }}} >{{ item.twae_date_label }}</div>
+						<div {{{ view.getRenderAttributeString( extra_label_key ) }}} >{{ item.twae_extra_label }}</div>
 					</div>
 					<# if (iconType =='dot' ) { #>
 						<div class="twae-icondot"></div>
@@ -87,7 +87,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="twae-arrow"></div>
 					<div class="twae-content">
-						<div {{{ view.getRenderAttributeString( title_key ) }}} >{{{ item.twae_story_title }}}</div>
+						<div {{{ view.getRenderAttributeString( title_key ) }}} >{{ item.twae_story_title }}</div>
 						<# if( item.twae_media == 'image' && image_url!=''){ #>
 							<div class="twae-media {{timeline_image.size}}"><img src="{{image_url}}"/></div>
 						<# } #>

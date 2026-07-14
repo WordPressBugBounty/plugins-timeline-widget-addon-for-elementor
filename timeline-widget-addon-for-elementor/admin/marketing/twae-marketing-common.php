@@ -147,7 +147,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					'lgefep_taxonomy_dropdown',
 					[
 						'label' => __('Enable Smart Filters', 'timeline-widget-addon-for-elementor'),
-						'type' => \Elementor\Controls_Manager::SWITCHER,
+						'type' => Controls_Manager::SWITCHER,
 						'default' => 'no',
 						'label_on' => __('Yes', 'timeline-widget-addon-for-elementor'),
 						'label_off' => __('No', 'timeline-widget-addon-for-elementor'),
@@ -164,7 +164,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					[
 						'name'      => 'lgefep_acf_mkt_repeater_tag',
 						'label'     => '',
-						'type'      => \Elementor\Controls_Manager::RAW_HTML,
+						'type'      => Controls_Manager::RAW_HTML,
 						'raw'       => '<div class="elementor-control-raw-html cool-form-wrp"><div class="elementor-control-notice elementor-control-notice-type-info">
 										<div class="elementor-control-notice-icon">
 										<img class="twae-highlight-icon" src="'.esc_url( TWAE_URL . 'admin/marketing/images/twae-highlight-icon.svg' ).'" width="250" alt="Highlight Icon" />
@@ -284,9 +284,8 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				'lgefep_mkt_country_notice',
 					array(
 						'name'            => 'ctwae_mkt_country_notice',
-						'type'            => \Elementor\Controls_Manager::SWITCHER,
+						'type'            => Controls_Manager::SWITCHER,
 						'label'        => esc_html__('Use ACF Repeater', 'timeline-widget-addon-for-elementor'),
-						'type'         => \Elementor\Controls_Manager::SWITCHER,
 						'label_on'     => esc_html__('Yes', 'timeline-widget-addon-for-elementor'),
 						'label_off'    => esc_html__('No', 'timeline-widget-addon-for-elementor'),
 
@@ -299,7 +298,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					[
 						'name'      => 'lgefep_acf_mkt_repeater_tag',
 						'label'     => '',
-						'type'      => \Elementor\Controls_Manager::RAW_HTML,
+						'type'      => Controls_Manager::RAW_HTML,
 							'raw'       => '<div class="elementor-control-raw-html cool-form-wrp"><div class="elementor-control-notice elementor-control-notice-type-info">
 											<div class="elementor-control-notice-icon"><img class="twae-highlight-icon" src="'.esc_url( TWAE_URL . 'admin/marketing/images/twae-highlight-icon.svg' ).'" width="250" alt="Highlight Icon" />
 											</div>
@@ -550,7 +549,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 						[
 							'name'      => 'twae_marketing_box',
 							'label'     => '',
-							'type'      => \Elementor\Controls_Manager::RAW_HTML,
+							'type'      => Controls_Manager::RAW_HTML,
 							'raw'       => '<div class="elementor-control-raw-html cool-form-wrp"><div class="elementor-control-notice elementor-control-notice-type-info">
 											<div class="elementor-control-notice-icon"><img class="twae-highlight-icon" src="'.esc_url( TWAE_URL . 'admin/marketing/images/twae-highlight-icon.svg' ).'" width="250" alt="Highlight Icon" /></div>
 											<div class="elementor-control-notice-main">
@@ -578,7 +577,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				'ctwae-mkt-country-conditions' => array(
 						'name'         => 'ctwae-mkt-country-conditions',
 						'label'        => esc_html__('Enable Country Code', 'timeline-widget-addon-for-elementor'),
-						'type'         => \Elementor\Controls_Manager::SWITCHER,
+						'type'         => Controls_Manager::SWITCHER,
 						'label_on'     => esc_html__('Yes', 'timeline-widget-addon-for-elementor'),
 						'label_off'    => esc_html__('No', 'timeline-widget-addon-for-elementor'),
 						'condition'    => array(
@@ -596,7 +595,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 				'ctwae_mkt_country_notice' => array(
 
 						'name'            => 'ctwae_mkt_country_notice',
-						'type'            => \Elementor\Controls_Manager::RAW_HTML,
+						'type'            => Controls_Manager::RAW_HTML,
 						
 						'raw'             => '<div class="elementor-control-raw-html cool-form-wrp"><div class="elementor-control-notice elementor-control-notice-type-info">
 											<div class="elementor-control-notice-icon"><img class="twae-highlight-icon" src="'.esc_url( TWAE_URL . 'admin/marketing/images/twae-highlight-icon.svg' ).'" width="250" alt="Highlight Icon" /></div>
@@ -635,7 +634,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 					'ctwae-mkt-conditional-conditions' => array(
 						'name'         => 'ctwae-mkt-conditional-conditions',
 						'label'        => esc_html__('Enable Conditions', 'timeline-widget-addon-for-elementor'),
-						'type'         => \Elementor\Controls_Manager::SWITCHER,
+						'type'         => Controls_Manager::SWITCHER,
 						'label_on'     => esc_html__('Yes', 'timeline-widget-addon-for-elementor'),
 						'label_off'    => esc_html__('No', 'timeline-widget-addon-for-elementor'),
 						'condition'    => array(
@@ -652,7 +651,7 @@ if (! class_exists('Twae_Marketing_Controllers')) {
 
 					'ctwae_mkt_condition_notice' => array(
 						'name'            => 'ctwae_mkt_condition_notice',
-						'type'            => \Elementor\Controls_Manager::RAW_HTML,
+						'type'            => Controls_Manager::RAW_HTML,
 
 						'raw' => '<div class="elementor-control-raw-html cool-form-wrp"><div class="elementor-control-notice elementor-control-notice-type-info">
 								<div class="elementor-control-notice-icon">

@@ -153,10 +153,9 @@ class CPFM_Feedback_Notice {
         if (!current_user_can('manage_options') || !function_exists('get_current_screen')) { 
             return;
         }
-
-        $screen         = get_current_screen();
+;
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading GET parameter to determine current admin page
-        $current_page   = isset($_GET['page']) ? sanitize_key($_GET['page']) : '';
+        $current_page   = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : '';
 
        
         $unread_count   = 0;
@@ -169,7 +168,8 @@ class CPFM_Feedback_Notice {
                 break;
             }
         }
-    
+        
+     
         $output = '';
         $output .= '<div id="cpfNoticePanel" class="notice-panel"' . ($auto_show ? ' data-auto-show="true"' : '') . '>';
         

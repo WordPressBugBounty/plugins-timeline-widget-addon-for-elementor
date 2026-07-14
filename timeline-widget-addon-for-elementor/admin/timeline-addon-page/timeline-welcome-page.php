@@ -24,7 +24,7 @@ if ( ! class_exists( 'twae_welcome_page' ) ) {
 		private static $instance;
 		private $main_menu_slug = null;
 		private $menu_slug      = null;
-		private $page_heading;
+		private $page_heading   = '';
 		private $addon_dir             = __DIR__; // point to the main addon-page directory
 		private $menu_title            = '';
 		private $dashboar_page_heading = 'Timeline Addons';

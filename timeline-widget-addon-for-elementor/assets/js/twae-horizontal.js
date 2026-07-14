@@ -32,7 +32,7 @@ class HorizontalSliderClass extends elementorModules.frontend.handlers.Base {
       var Navigation; var swiper;
       var lang_dir = selector.data("dir");
       if (lang_dir == 'rtl') {
-          var Navigation = {
+          Navigation = {
               nextEl: prevButton[0],
               prevEl: nextButton[0],
           }

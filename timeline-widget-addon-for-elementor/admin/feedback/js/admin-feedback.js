@@ -108,8 +108,8 @@
 
         $(document).on('click', '#twae-cool-plugin-skipNdeactivate:not(".button-deactivate")', function() {
             $('#twae-cool-plugin-submitNdeactivate').remove();
-            $('twae-cool-plugin-skipNdeactivate').addClass('button-deactivate');
-            $('twae-cool-plugin-skipNdeactivate').attr('id', 'deactivating-plugin');
+            $('#twae-cool-plugin-skipNdeactivate').addClass('button-deactivate');
+            $('#twae-cool-plugin-skipNdeactivate').attr('id', 'deactivating-plugin');
             if (plugin_deactivate_link) {
                 window.location.assign(plugin_deactivate_link);
             }
