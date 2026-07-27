@@ -251,11 +251,21 @@ class cool_plugins_feedback {
 			}
 		}
 	
+		// Onboarding events collected by the shared cp-onboarding framework's
+		// Telemetry (option twae_onboarding_telemetry). Mirrors ctl_get_user_info().
+		$onboarding_data = [];
+		$telemetry = get_option('twae_onboarding_telemetry', array());
+		if (!empty($telemetry)) {
+			$onboarding_data = $telemetry;
+			$onboarding_data['install_date'] = get_option('twae-install-date', 'N/A');
+		}
+
 		return [
 			'server_info'   => $server_info,
 			'extra_details' => [
-				'wp_theme'       => $theme_data,
-				'active_plugins' => $plugin_data,
+				'wp_theme'        => $theme_data,
+				'active_plugins'  => $plugin_data,
+				'onboarding_data' => $onboarding_data,
 			],
 		];
 	}
@@ -316,6 +326,7 @@ class cool_plugins_feedback {
 						'server_info'   => wp_json_encode( $user_info['server_info'] ),
 						'extra_details' => wp_json_encode( $user_info['extra_details'] ),
 						'plugin_version' => $this->plugin_version,
+						'install_date'   => $install_date,
 						'plugin_name'    => $this->plugin_name,
 						'reason'         => $deativation_reason,
 						'review'         => $sanitized_message,

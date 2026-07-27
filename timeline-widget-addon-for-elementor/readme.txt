@@ -5,7 +5,7 @@ Tags: timeline, elementor timeline, roadmap, history, horizontal timeline
 Requires at least:5.0
 Tested up to: 7.0
 Requires PHP:7.2
-Stable tag:1.6.28
+Stable tag: 1.7.0
 License:GPLv2 or later 
 License URI:http://www.gnu.org/licenses/gpl-2.0.html
 Highlight your company’s history, milestones, and key events directly inside Elementor using stunning vertical and horizontal timelines.
@@ -131,6 +131,12 @@ Yes, using Timeline Widget Plugin, you can enhance your timeline slider with ima
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability](https://patchstack.com/database/vdp/template-events-calendar).
 
 == Changelog ==
+
+**Version 1.7.0 | 27 July 2026**
+- **New:** Introduced a“Get Started”onboarding page for a smoother setup experience.
+- **New:**Added a guided sample timeline demo creation flow to help users get started quickly.
+- **Removed:** Removed the legacy dashboard and replaced it with the new onboarding experience.
+- **Improved**: Simplified the initial setup process with a quick-start demo.
 
 **Version 1.6.28 | 14 July 2026**
 - **Fixed:** Plugin optimization and code improvement.
@@ -371,5 +377,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - **New:** Initial plugin release
 
 == Upgrade Notice ==
-**Version 1.6.11**
-Version 1.6.11 resolves security vulnerabilities and enhances overall code quality. Updating to this release is strongly recommended for improved stability and security.
+
+**Version 1.7.0 | 27 July 2026**
+- **New:** Introduced a“Get Started”onboarding page for a smoother setup experience.
+- **New:**Added a guided sample timeline demo creation flow to help users get started quickly.
+- **Removed:** Removed the legacy dashboard and replaced it with the new onboarding experience.
+- **Improved**: Simplified the initial setup process with a quick-start demo.
