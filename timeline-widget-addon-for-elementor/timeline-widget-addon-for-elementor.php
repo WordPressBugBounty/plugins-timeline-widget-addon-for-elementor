@@ -3,7 +3,7 @@
  * Plugin Name: Timeline Widget For Elementor
  * Description: Best timeline widget for Elementor page builder to showcase your personal or business stories in beautiful vertical or horizontal timeline layouts. <strong>[Elementor Addon]</strong>
  * Plugin URI:  https://coolplugins.net
- * Version:     1.7.1
+ * Version:     1.7.2
  * Author:      Cool Plugins
  * Author URI:  https://coolplugins.net/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
  * Text Domain: timeline-widget-addon-for-elementor
@@ -21,7 +21,7 @@ if ( defined( 'TWAE_VERSION' ) ) {
 	return;
 }
 
-define( 'TWAE_VERSION', '1.7.1' );
+define( 'TWAE_VERSION', '1.7.2' );
 define( 'TWAE_FILE', __FILE__ );
 define( 'TWAE_PATH', plugin_dir_path( TWAE_FILE ) );
 define( 'TWAE_URL', plugin_dir_url( TWAE_FILE ) );
@@ -119,7 +119,7 @@ final class Timeline_Widget_Addon {
 				array(
 					'id'                     => 'twae',
 					'slug'                   => 'timeline-widget-addon-for-elementor',
-					'plugin_name'            => __( 'Timeline Widget For Elementor', 'timeline-widget-addon-for-elementor' ),
+					'plugin_name'            => 'Timeline Widget For Elementor',
 					'version'                => TWAE_VERSION,
 					'api'                    => TWAE_FEEDBACK_API,
 					'site_key'               => '50',
@@ -403,7 +403,7 @@ final class Timeline_Widget_Addon {
 			return;
 		}
 
-		$name = __( 'Timeline Widget For Elementor', 'timeline-widget-addon-for-elementor' );
+		$name = 'Timeline Widget For Elementor';
 
 		if ( 'yes' === get_option( 'twae-alreadyRated' ) ) {
 			$twae_review_state = get_option( 'cpfm_review_state_twae' );
