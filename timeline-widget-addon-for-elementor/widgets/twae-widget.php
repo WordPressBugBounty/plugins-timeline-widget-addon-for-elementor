@@ -124,6 +124,19 @@ class TWAE_Widget extends Widget_Base {
 				),
 			)
 		);
+		// Timeline Icons / Dots Visibility
+		$this->add_control(
+			'twae_show_icon',
+			array(
+				'label'   => esc_html__( 'Icons / Dots', 'timeline-widget-addon-for-elementor' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'yes',
+				'options' => array(
+					'yes' => esc_html__( 'Show Icons / Dots', 'timeline-widget-addon-for-elementor' ),
+					'no'  => esc_html__( 'None (Hide All)', 'timeline-widget-addon-for-elementor' ),
+				),
+			)
+		);
 		// Story Content Alignment
 		$this->add_control(
 			'content-alignment',
@@ -322,6 +335,21 @@ class TWAE_Widget extends Widget_Base {
 				'condition'       => array(
 					'twae_layout!' => 'horizontal',
 				),
+			)
+		);
+
+				// Keyboard Navigation (WCAG 2.2)
+		$this->add_control(
+			'twae_accessibility_keyboard',
+			array(
+				'label'        => __( 'Keyboard Navigation (WCAG 2.2)', 'timeline-widget-addon-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Enable', 'timeline-widget-addon-for-elementor' ),
+				'label_off'    => __( 'Disable', 'timeline-widget-addon-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __( 'Allows keyboard users to tab through timeline stories in sequential order with visible focus indicators.', 'timeline-widget-addon-for-elementor' ),
+				'separator'    => 'before',
 			)
 		);
 
@@ -752,6 +780,9 @@ class TWAE_Widget extends Widget_Base {
 				'default'     => 'Add Title Here',
 				'label_block' => true,
 				'separator'   => 'before',
+				'dynamic'     => array(
+					'active' => true,
+				),
 			)
 		);
 		// Story Media
@@ -1414,6 +1445,35 @@ class TWAE_Widget extends Widget_Base {
 				--tw-cbx-bd-left-width: {{LEFT}}{{UNIT}};',
 				),
 
+			)
+		);
+
+		// Content Box Shadow
+		$this->add_control(
+			'twae_cbox_box_shadow',
+			array(
+				'label'     => esc_html__( 'Box Shadow', 'timeline-widget-addon-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
+					'show' => array(
+						'title' => esc_html__( 'Show', 'timeline-widget-addon-for-elementor' ),
+						'icon'  => 'eicon-preview-medium',
+					),
+					'hide' => array(
+						'title' => esc_html__( 'Hide', 'timeline-widget-addon-for-elementor' ),
+						'icon'  => 'eicon-ban',
+					),
+				),
+				'default'   => 'show',
+				'toggle'    => false,
+				'selectors' => array(
+					'{{WRAPPER}} .twae-wrapper' => '{{VALUE}}',
+				),
+				'selectors_dictionary' => array(
+					'show' => '--tw-cbx-shadow: 0px 2px 8px -2px rgba(0, 0, 0, 0.3); --tw-cbx-shadow-left: 0px 2px 8px -2px rgba(0, 0, 0, 0.3); --tw-arw-shadow: -4px 4px 8px -4px rgba(0, 0, 0, 0.4); --tw-arw-shadow-left: 4px -4px 8px -4px rgba(0, 0, 0, 0.4);',
+					'hide' => '--tw-cbx-shadow: none; --tw-cbx-shadow-left: none; --tw-cbx-shadow-hover: none; --tw-cbx-shadow-left-hover: none; --tw-arw-shadow: none; --tw-arw-shadow-left: none;',
+				),
+				'separator' => 'before',
 			)
 		);
 

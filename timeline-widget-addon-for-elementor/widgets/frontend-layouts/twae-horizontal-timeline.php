@@ -52,17 +52,38 @@ if ( is_array( $twae_data ) ) {
 
 		$twae_article_key = 'twae-article-' . esc_attr( $twae_story_id );
 
+		$is_keyboard_nav  = ! isset( $settings['twae_accessibility_keyboard'] ) || 'yes' === $settings['twae_accessibility_keyboard'];
+		$icon_type        = isset( $twae_content['twae_icon_type'] ) ? $twae_content['twae_icon_type'] : 'icon';
+		$show_icon        = isset( $settings['twae_show_icon'] ) ? $settings['twae_show_icon'] : 'yes';
+		$story_icon_class = 'no' === $show_icon ? 'twae-story-no-icon' : ( 'dot' === $icon_type ? 'twae-story-no-dot' : '' );
+
+		$twae_article_classes = array(
+			esc_html( 'twae-repeater-item' ),
+			esc_html( 'twae-story' ),
+			esc_html( 'swiper-slide' ),
+		);
+		if ( ! empty( $story_icon_class ) ) {
+			$twae_article_classes[] = esc_html( $story_icon_class );
+		}
+
+		$twae_article_attr = array(
+			'id'    => esc_attr( $twae_article_key ),
+			'class' => $twae_article_classes,
+		);
+		if ( $is_keyboard_nav ) {
+			$twae_article_attr['tabindex'] = '0';
+			$twae_article_attr['role']     = 'article';
+			$story_title = ! empty( $twae_content['twae_story_title'] ) ? $twae_content['twae_story_title'] : '';
+			$story_date  = ! empty( $twae_content['twae_date_label'] ) ? $twae_content['twae_date_label'] : ( ! empty( $twae_content['twae_year'] ) ? $twae_content['twae_year'] : '' );
+			$aria_label  = trim( $story_title . ( ! empty( $story_date ) ? ' (' . $story_date . ')' : '' ) );
+			if ( ! empty( $aria_label ) ) {
+				$twae_article_attr['aria-label'] = esc_attr( $aria_label );
+			}
+		}
+
 		$this->add_render_attribute(
 			$twae_article_key,
-			array(
-				'id'    => esc_attr( $twae_article_key ),
-				'class' => array(
-					esc_html( 'twae-repeater-item' ),
-					esc_html( 'twae-story' ),
-					esc_html( 'swiper-slide' ),
-					 'twae-story-no-icon'
-				),
-			)
+			$twae_article_attr
 		);
 
 		$twae_repeater_attributes = array(

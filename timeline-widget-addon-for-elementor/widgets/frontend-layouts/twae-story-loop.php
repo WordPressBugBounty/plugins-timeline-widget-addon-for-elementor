@@ -236,6 +236,10 @@ if ( ! class_exists( 'Twae_Story_Loop' ) ) {
 		 * @return string The HTML for the story icon.
 		 */
 		public function twae_story_icon() {
+			$show_icon = isset( $this->settings['twae_show_icon'] ) ? $this->settings['twae_show_icon'] : 'yes';
+			if ( 'no' === $show_icon ) {
+				return '';
+			}
 			$html = '';
 			// story icon type.
 			$icon_type = isset( $this->story_data['twae_icon_type'] ) ? $this->story_data['twae_icon_type'] : 'icon';

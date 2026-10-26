@@ -286,7 +286,7 @@
     left: calc(var(--tw-ibx-size) / 7 - var(--tw-ibx-size) / 3.5 + var(--tw-cbx-bd-left-width) / 3);
     top: calc(var(--tw-ibx-position) * 1% - var(--tw-ibx-size) * var(--tw-ibx-position) / 100 + var(--tw-ibx-size) / 2 - var(--tw-ibx-size) / 7);
     border-width: 0 0 var(--tw-cbx-bd-left-width) var(--tw-cbx-bd-left-width);
-    box-shadow: -4px 4px 8px -4px rgb(0, 0, 0, 0.4);
+    box-shadow: var(--tw-arw-shadow, -4px 4px 8px -4px rgba(0, 0, 0, 0.4));
 }
 
 .twae-vertical.twae-wrapper .twae-story.twae-bg-hover:hover .twae-arrow,
@@ -318,7 +318,7 @@
     right: calc(var(--tw-ibx-size) / 7 - var(--tw-ibx-size) / 3.5 + var(--tw-cbx-bd-left-width) / 3);
     background: linear-gradient(to bottom left, var(--tw-arw-bg) 52%, transparent 48%);
     border-width: var(--tw-cbx-bd-left-width) var(--tw-cbx-bd-left-width) 0px 0px;
-    box-shadow: 4px -4px 8px -4px rgb(0, 0, 0, 0.4);
+    box-shadow: var(--tw-arw-shadow-left, 4px -4px 8px -4px rgba(0, 0, 0, 0.4));
 }
 
 .twae-vertical.twae-wrapper.twae-bg-multicolor .twae-story:nth-child(4n - 2).twae-story-left .twae-arrow {
@@ -615,7 +615,7 @@
         left: calc(var(--tw-ibx-size) / 7 - var(--tw-ibx-size) / 3.5 + var(--tw-cbx-bd-left-width) / 3);
         top: calc(var(--tw-ibx-position) * 1% - var(--tw-ibx-size) * var(--tw-ibx-position) / 100 + var(--tw-ibx-size) / 2 - var(--tw-ibx-size) / 7 + (var(--tw-lbl-big-size) + var(--tw-lbl-small-size) + var(--tw-lbl-gap) + 12px) - ((var(--tw-lbl-big-size) + var(--tw-lbl-small-size) + var(--tw-lbl-gap) + 12px) * var(--tw-ibx-position) / 100));
         background: linear-gradient(to top right, var(--tw-arw-bg) 52%, transparent 48%);
-        box-shadow: -4px 4px 8px -4px rgb(0, 0, 0, 0.4);
+        box-shadow: var(--tw-arw-shadow, -4px 4px 8px -4px rgba(0, 0, 0, 0.4));
     }
 
     .twae-vertical.twae-wrapper .twae-arrow-line,
@@ -777,7 +777,7 @@
         border-width: 0 0 var(--tw-cbx-bd-left-width) var(--tw-cbx-bd-left-width);
         right: auto;
         left: calc(var(--tw-ibx-size) / 7 - var(--tw-ibx-size) / 3.5 + var(--tw-cbx-bd-left-width) / 3);
-        box-shadow: -4px 4px 8px -4px rgb(0, 0, 0, 0.4);
+        box-shadow: var(--tw-arw-shadow, -4px 4px 8px -4px rgba(0, 0, 0, 0.4));
     }
 
     .twae-vertical-right.twae-wrapper .twae-arrow-line {

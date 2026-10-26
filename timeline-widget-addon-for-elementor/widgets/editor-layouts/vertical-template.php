@@ -52,8 +52,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				}
 			}
 			var iconCls='';
-			if (iconType=="dot" ) {
-				iconCls='twae-story-no-icon';
+			if ( settings.twae_show_icon === 'no' ) {
+				iconCls = 'twae-story-no-icon';
+			} else if (iconType=="dot" ) {
+				iconCls='twae-story-no-dot';
 			}else{
 				iconCls='twae-story-icon';
 			}
@@ -71,18 +73,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div {{{ view.getRenderAttributeString( date_label_key ) }}} >{{ item.twae_date_label }}</div>
 						<div {{{ view.getRenderAttributeString( extra_label_key ) }}} >{{ item.twae_extra_label }}</div>
 					</div>
-					<# if (iconType =='dot' ) { #>
-						<div class="twae-icondot"></div>
-					<# }else{ #>
-						<div class="twae-icon">
-						<# 
-						twae_iconHTML = elementor.helpers.renderIcon( view, item.twae_story_icon, { 'aria-hidden': true }, 'i' , 'object' );
-							if (twae_iconHTML.rendered ) { #>
-								{{{ twae_iconHTML.value }}}
-							<# } else { #>
-								<i aria-hidden="true" class="far fa-clock"></i>
-							 <# } #> 
-					  </div>
+					<# if ( settings.twae_show_icon !== 'no' ) { #>
+						<# if (iconType =='dot' ) { #>
+							<div class="twae-icondot"></div>
+						<# }else{ #>
+							<div class="twae-icon">
+							<# 
+							twae_iconHTML = elementor.helpers.renderIcon( view, item.twae_story_icon, { 'aria-hidden': true }, 'i' , 'object' );
+								if (twae_iconHTML.rendered ) { #>
+									{{{ twae_iconHTML.value }}}
+								<# } else { #>
+									<i aria-hidden="true" class="far fa-clock"></i>
+								 <# } #> 
+						  </div>
+						<# } #>
 					<# } #>
 
 					<div class="twae-arrow"></div>

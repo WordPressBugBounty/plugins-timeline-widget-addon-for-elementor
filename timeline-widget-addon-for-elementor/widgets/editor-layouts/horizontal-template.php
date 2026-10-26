@@ -35,9 +35,15 @@ var autoHeight=slideHeight === 'no-height' ? 'true' : 'false';
 			description_key = view.getRepeaterSettingKey( 'twae_description', 'twae_list',index );
 
 			var iconType = item.twae_icon_type!=="undefined"?item.twae_icon_type:'icon';
+			var story_icon_cls = '';
+			if ( settings.twae_show_icon === 'no' ) {
+				story_icon_cls = 'twae-story-no-icon';
+			} else if ( iconType === 'dot' ) {
+				story_icon_cls = 'twae-story-no-dot';
+			}
 			#>
 			
-			<div class="swiper-slide twae-repeater-item twae-story">	
+			<div class="swiper-slide twae-repeater-item twae-story {{ story_icon_cls }}">	
 			<div class="twae-story-line"></div>
 			<#
 			 if(item.twae_show_year_label == 'yes'){
@@ -57,19 +63,21 @@ var autoHeight=slideHeight === 'no-height' ? 'true' : 'false';
 
 					</div>	
 					<div class="twae-arrow"></div>	
-					<# if (iconType =='icon' ) { #>
-					<div class="twae-icon">
-					  <# 
-					  twae_iconHTML = elementor.helpers.renderIcon( view, item.twae_story_icon, { 'aria-hidden': true }, 'i' , 'object' );
-						if (twae_iconHTML.rendered ) { #>
-							{{{ twae_iconHTML.value }}}
-						<# } else { #>
-							<i aria-hidden="true" class="far fa-clock"></i>
-						<# } #> 
-					  </div>
-					<# }else{ #>
-						 <div class="twae-icondot"></div>
-						<# } #>
+					<# if ( settings.twae_show_icon !== 'no' ) { #>
+						<# if (iconType =='icon' ) { #>
+						<div class="twae-icon">
+						  <# 
+						  twae_iconHTML = elementor.helpers.renderIcon( view, item.twae_story_icon, { 'aria-hidden': true }, 'i' , 'object' );
+							if (twae_iconHTML.rendered ) { #>
+								{{{ twae_iconHTML.value }}}
+							<# } else { #>
+								<i aria-hidden="true" class="far fa-clock"></i>
+							<# } #> 
+						  </div>
+						<# }else{ #>
+							 <div class="twae-icondot"></div>
+							<# } #>
+					<# } #>
 
 					<div class="twae-content">
 					<# if( item.twae_media == 'image' && image_url!=''){ #>          

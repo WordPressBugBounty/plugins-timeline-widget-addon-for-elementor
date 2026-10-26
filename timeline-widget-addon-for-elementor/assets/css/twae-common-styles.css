@@ -48,6 +48,8 @@
   --tw-arw-bd-color: var(--tw-cbx-bd-color);
   --tw-arw-line-background: var(--tw-cbx-title-bg, var(--tw-line-bg));
   --tw-arw-line-border-color: var(--tw-line-bd-color);
+  --tw-arw-shadow: -4px 4px 8px -4px rgba(0, 0, 0, 0.4);
+  --tw-arw-shadow-left: 4px -4px 8px -4px rgba(0, 0, 0, 0.4);
 
   /* Content Box */
   --tw-cbx-bg: #ffffff;
@@ -798,3 +800,10 @@ img.attachment-medium.size-medium.wp-post-image {
 }
 
 /*-------------------  mukul style in one sided vertical right - end------------------- */
+
+/* Accessibility: WCAG 2.2 keyboard navigation focus indicator */
+.twae-story:focus-visible {
+  outline: 2px solid var(--tw-primary-color, #047cb3);
+  outline-offset: 4px;
+  border-radius: var(--tw-cbx-radius, 6px);
+}
