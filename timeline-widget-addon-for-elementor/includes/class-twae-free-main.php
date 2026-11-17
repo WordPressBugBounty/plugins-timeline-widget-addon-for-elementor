@@ -145,11 +145,9 @@ final class TWAE_Free_Main {
 	public function init() {
 		add_action( 'elementor/widgets/register', array( $this, 'register_widgets' ) );
 
-		if ( function_exists( 'is_plugin_active' ) ) {
-			if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
-				require_once TWAE_PATH . 'includes/class-twae-wpml-translation.php';
-				add_filter( 'wpml_elementor_widgets_to_translate', array( $this, 'timeline_widgets_to_translate_filter' ) );
-			};
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			require_once TWAE_PATH . 'includes/class-twae-wpml-translation.php';
+			add_filter( 'wpml_elementor_widgets_to_translate', array( $this, 'timeline_widgets_to_translate_filter' ) );
 		}
 
 	}
